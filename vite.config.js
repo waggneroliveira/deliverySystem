@@ -33,6 +33,10 @@ export default defineConfig({
                     src: 'resources/assets/admin/js',
                     dest: 'admin'
                 },
+                {
+                    src: 'resources/assets/client/images',
+                    dest: 'client'
+                },
             ]
         })
     ],

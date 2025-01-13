@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>Meu projeto vue</title>
+        <title>Sushitan</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -21,13 +21,11 @@
         @endif
 
         @vite('resources/js/app.js')
-        @inertiaHead
+        {{-- @inertiaHead --}}
     </head>
     <body class="font-sans antialiased dark:bg-white dark:text-black/50">
-        <div id="app" class="w-10/12 h-4 block m-auto mt-6">
-
-            <App/>            
-            @inertia
-        </div>
+        <main id="app">
+            @yield('content')
+        </main>
     </body>
 </html>

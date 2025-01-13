@@ -9,6 +9,9 @@ require __DIR__ . '/dashboard.php';
 Route::get('/', function () {
     return redirect()->route('index.form');
 });
+// Route::get('/home', function () {
+//     return view('client.blades.app');
+// })->name('index.form');
 
 Route::get('/home', [FormIndexController::class, 'index'])->name('index.form');
 Route::post('/enviar-formulario', [FormIndexController::class, 'store']);

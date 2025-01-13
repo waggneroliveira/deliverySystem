@@ -2,6 +2,7 @@ import './bootstrap';
 import App from './components/App.vue';
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
+import Header from './components/Header.vue';
 
 if (typeof createInertiaApp !== 'undefined') {
   createInertiaApp({
@@ -19,4 +20,6 @@ if (typeof createInertiaApp !== 'undefined') {
 
 const app = createApp();
 app.component('app', App);
+app.component('header-component', Header);
+
 app.mount('#app');
