@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "@inertiajs/vue3": "^1.2.0",
+        "@splidejs/vue-splide": "^0.6.12",
         "vite-plugin-static-copy": "^2.0.0",
         "vue": "^3.5.12"
     }
