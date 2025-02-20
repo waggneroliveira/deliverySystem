@@ -10,6 +10,9 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montagu+Slab:opsz,wght@16..144,100..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Devanagari:wght@100..900&display=swap" rel="stylesheet">
 
         <!-- Styles / Scripts -->
         @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
@@ -20,7 +23,10 @@
             </style>
         @endif
 
-        @vite('resources/js/app.js')
+        @vite([
+            'resources/assets/client/css/main.css',
+            'resources/js/app.js'
+        ])
         {{-- @inertiaHead --}}
     </head>
     <body class="font-sans antialiased dark:bg-white dark:text-black/50">

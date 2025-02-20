@@ -2,19 +2,21 @@
     <div class="box-products grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
         <div class="box-product__content rounded-tl-[0rem] rounded-tr-[0rem] rounded-br-[1.25rem] rounded-bl-[1.25rem] w-100 max-w-[413.19px] relative pt-[0.5rem] pr-[1.5625rem] pb-[1.296rem] pl-[1.5625rem] border border-[#CF1E0C] border-solid" v-for="(item, index) in items" :key="index">
             <div class="box-product__image relative flex items-center justify-center w-full max-w-[362.89px] m-auto h-[215.68px] overflow-hidden">
-                <div class="tag z-10 absolute top-[1.125rem] h-[2.125rem] left-0 bg-[#CF1E0C] text-[#FFF] w-[5.063rem] flex justify-center items-center">{{ item.tag }}</div>
+                <div class="tag z-10 absolute top-[1.125rem] h-[2.125rem] left-0 bg-[#CF1E0C] text-[#FFF] w-[5.063rem] flex justify-center items-center">
+                   <i class="w-full h-100 flex items-center justify-center mt-[0.188rem] noto-sans-devanagari-regular">{{ item.tag }}</i> 
+                </div>
                 <img :src="item.image" alt="Product Image" class="w-full h-full object-cover transition-transform duration-700 ease-in-out transform hover:scale-110">
             </div>
             <div class="box-product__description flex flex-wrap text-left items-center gap-[1.514rem] max-w-[362.89px] m-auto">
                 <div class="box-product__description--content w-full flex flex-wrap justify-between mt-[1.363rem]">
-                    <h4 class="box-product__description--title text-[#4C3A36] w-100">{{ item.title }}</h4>
+                    <h4 class="box-product__description--title text-[1.25rem] text-[#4C3A36] w-100 noto-sans-devanagari-semibold">{{ item.title }}</h4>
                     <div class="box-product__description--content__price flex gap-2">
-                        <div class="box-product__description--content__price__old-price text-[#4C3A36] tex-[1.125rem] line-through">R$ {{ item.oldPrice }}</div>
-                        <div class="box-product__description--content__price__price text-[#CF1E0C] text-[1.25rem]">R$ {{ item.price }}</div>
+                        <div class="box-product__description--content__price__old-price text-[#4C3A36] tex-[1.125rem] line-through noto-sans-devanagari-light">R$ {{ item.oldPrice }}</div>
+                        <div class="box-product__description--content__price__price text-[#CF1E0C] text-[1.25rem] noto-sans-devanagari-semibold">R$ {{ item.price }}</div>
                     </div>
                 </div>
                 <div class="box-product__description--text w-100">
-                    <p class="text-[#4C3A36] text-[18px]">{{ item.text }}</p>
+                    <p class="text-[#4C3A36] text-[18px] noto-sans-devanagari-regular">{{ item.text }}</p>
                 </div>
             </div>
             <div class="actions flex items-center justify-between mt-[2.5rem] max-w-[362.89px] m-auto">
@@ -27,7 +29,7 @@
                     </button>
                     
                     <!-- Quantidade de itens -->
-                    <span class="mx-3 text-xl">{{ item.quantity }}</span>
+                    <span class="mx-3 text-xl noto-sans-devanagari-semibold">{{ item.quantity }}</span>
                     
                     <!-- Botão de incremento -->
                     <button 
@@ -38,7 +40,7 @@
                 </div>
                     
                 <div class="btn">
-                    <button class="btn__buy text-[#FFF] bg-[#987F2D] h-[2.188rem] w-[7.043rem] flex justify-center items-center gap-3 hover:bg-[#b8982c]">
+                    <button class="btn__buy text-[#FFF] bg-[#987F2D] h-[2.188rem] w-[7.043rem] flex justify-center items-center gap-3 hover:bg-[#b8982c] noto-sans-devanagari-regular">
                         <img :src="item.icon" alt="Product Image" class="w-[0.984rem] h-[0.833rem]">
                         Quero!
                     </button>
@@ -154,5 +156,8 @@ export default {
     .count-item button:disabled {
         background-color: #987F2D;
         cursor: not-allowed;
+    }
+    .tag i{
+        font-style: normal;
     }
 </style>
