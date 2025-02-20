@@ -1,8 +1,8 @@
 <template>
     <div class="box-product grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-0">
         <div class="box-product__content relative" v-for="(item, index) in items" :key="index">
-            <div class="box-product__image">
-                <img :src="item.image" alt="Product Image">
+            <div class="box-product__image overflow-hidden">
+                <img :src="item.image" alt="Product Image" class="w-full transition-transform duration-700 ease-in-out transform hover:scale-110">
             </div>
             <div class="box-product__description absolute left-0 bottom-0 bg-[#031D40] h-[2.651rem] w-[80%] max-w-[12.688rem] flex text-left items-center">
                 <h4 class="box-product__description--title text-[#FFF] w-[90%] m-auto">{{ item.title }}</h4>
