@@ -9,7 +9,7 @@
     </section>
     {{-- <App/> --}}
 
-    <section id="product__categories" class="flex flex-row flex-wrap content-start">
+    <section id="product__categories" class="flex flex-row flex-wrap content-start xl:justify-center bg-[#031D40]">
         <product-category></product-category>
     </section>        
     {{-- @inertia --}}
