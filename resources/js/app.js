@@ -5,6 +5,7 @@ import { createInertiaApp } from '@inertiajs/vue3'
 import VueSplide from '@splidejs/vue-splide';
 import Header from './components/Header.vue';
 import Splide from './components/SplideCarousel.vue';
+import ProductCategory from './components/ProductCategories.vue';
 
 if (typeof createInertiaApp !== 'undefined') {
   createInertiaApp({
@@ -24,6 +25,7 @@ const app = createApp();
 app.component('app', App);
 app.component('header-component', Header);
 app.component('splide-carousel', Splide);
+app.component('product-category', ProductCategory);
 app.use( VueSplide );
 
 app.mount('#app');
