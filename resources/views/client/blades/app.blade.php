@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="w-10/12 block m-auto">
-        <header-component></header-component> 
+        {{-- <header-component></header-component>  --}}
     </div>
     <section id="slide">
         <splide-carousel></splide-carousel> 
@@ -11,6 +11,10 @@
 
     <section id="product__categories" class="flex flex-row flex-wrap content-start xl:justify-center bg-[#031D40]">
         <product-category></product-category>
-    </section>        
+    </section>       
+    
+    <section id="products" class="flex justify-center items-center mt-[4.104rem] mb-[4.104rem] m-auto w-[95%] max-w[79.188rem]">
+        <products></products>
+    </section>
     {{-- @inertia --}}
 @endsection
