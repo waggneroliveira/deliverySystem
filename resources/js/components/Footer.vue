@@ -1,5 +1,5 @@
 <template>
-    <div class="footer__content flex flex-full flex-col items-center justify-between m-auto w-[90%] max-w[79.188rem]">
+    <div class="footer__content flex flex-full flex-col items-center justify-between m-auto w-[90%] max-w[79.188rem] h-full">
         <div class="grid grid-cols-1 sm:grid-cols-3 sm:items-center md:grid-cols-4 gap-4 w-full items-start">
             <div class="footer__content--image w-[90px]">
                 <img :src="logoPath" alt="Sushitan">

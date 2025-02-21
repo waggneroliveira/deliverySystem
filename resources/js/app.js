@@ -2,9 +2,8 @@ import './bootstrap';
 import App from './components/App.vue';
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
-import VueSplide from '@splidejs/vue-splide';
 import Header from './components/Header.vue';
-import Splide from './components/SplideCarousel.vue';
+import Slide from './components/SlideCarousel.vue';
 import ProductCategory from './components/ProductCategories.vue';
 import Products from './components/ProductBox.vue';
 import Newslleter from './components/Newslleter.vue';
@@ -28,12 +27,11 @@ if (typeof createInertiaApp !== 'undefined') {
 const app = createApp();
 app.component('app', App);
 app.component('header-component', Header);
-app.component('splide-carousel-component', Splide);
+app.component('slide-carousel-component', Slide);
 app.component('product-category-component', ProductCategory);
 app.component('products-component', Products);
 app.component('newslleter-component', Newslleter);
 app.component('button-component', Button);
 app.component('footer-component', Footer);
-app.use( VueSplide );
 
 app.mount('#app');

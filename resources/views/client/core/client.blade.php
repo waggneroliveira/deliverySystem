@@ -23,6 +23,20 @@
             </style>
         @endif
 
+        <style>
+            .pagination .carousel__pagination-button{
+                background-color: #FFF;
+                width: 30px;
+            }
+            .pagination .carousel__pagination-button--active{
+                background-color: #9E7B32;
+            }
+            .pagination .carousel__pagination-button:hover{
+                background-color: #9E7B32;
+            }
+            
+        </style>
+
         @vite([
             'resources/assets/client/css/main.css',
             'resources/js/app.js'
@@ -32,7 +46,7 @@
     <body class="font-sans antialiased dark:bg-white dark:text-black/50">
         <main id="app">
             <div class="w-10/12 block m-auto">
-                {{-- <header-component></header-component>  --}}
+                <header-component></header-component> 
             </div>
 
             @yield('content')

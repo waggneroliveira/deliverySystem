@@ -1,11 +1,11 @@
 <template>
-    <div class="flex flex-row justify-between relative z-10">
-        <header class="w-10/12 h-full fixed top-0 lef-0">
-            <div class="container mx-auto flex justify-between items-start content-center px-12 h-full py-3 mt-12">
+    <div class="flex flex-row justify-between relative z-20">
+        <header class="h-auto absolute top-0 left-0 w-full">
+            <div class="container mx-auto flex justify-between items-start content-center h-auto mt-12 p-0 m-auto w-full max-w[79.188rem]">
                 <!-- Logo -->
                 <div class="logo flex justify-between items-center content-center">
                     <a href="/">
-                        <img :src="logoPath" alt="Logo">
+                        <img :src="logoPath" alt="Logo" class="w-[121px]">
                     </a>
                 </div>
 
@@ -34,10 +34,6 @@ export default {
 </script>
 
 <style scoped>
-    header{
-        max-width: 1360px;
-    }
-
     .montagu-slab {
         font-family: "Montagu Slab", serif;
         font-optical-sizing: auto;

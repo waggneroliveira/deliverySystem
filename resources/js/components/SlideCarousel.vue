@@ -1,9 +1,9 @@
 <template>
-  <div class="relative w-full h-screen top-[-107px]">
-    <div class="slide relative z-0 w-full h-[100%] overflow-hidden">
+  <div class="relative w-full h-full top-0">
+    <div class="slide relative z-0 w-full">
       <carousel :wrap-around="true" :autoplay="false" class="rounded-xl h-full">
         <slide v-for="(banner, index) in banners" :key="index">
-          <img :src="banner.image" :alt="banner.alt" class="w-full h-full object-cover" />
+          <img :src="banner.image" :alt="banner.alt" class="w-full h-screen object-cover" />
           <div class="description absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 text-left w-[90%] max-w-[1140px] h-full max-h-[333px] flex flex-col items-start justify-start gap-[100px] leading-[52px]">
             <h1 class="montagu-slab text-white font-normal text-[52px]">
               {{ banner.title }}
@@ -38,22 +38,16 @@
       return {
         banners: [
           {
-            image: '/build/client/images/banner.png',
-            alt: 'Banner 1',
+            image: '/build/client/images/slide-1.png',
+            alt: '',
             title: '',
             text: '',
           },
           {
-            image: 'https://via.placeholder.com/1200x400/7fbfff/333333?text=Banner+2',
-            alt: 'Banner 2',
-            title: 'Descontos Incríveis!',
-            text: 'Pureza que cuida, natureza que transforma!',
-          },
-          {
-            image: 'https://via.placeholder.com/1200x400/ffb84d/333333?text=Banner+3',
-            alt: 'Banner 3',
-            title: 'Novo Lançamento!',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit ips.',
+            image: '/build/client/images/slide-2.png',
+            alt: '',
+            title: '',
+            text: '',
           },
         ],
       };
@@ -69,9 +63,9 @@
   }
   .pagination {
     position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 10%;
+    transform: rotate(90deg);
+    bottom: 100px;
   }
   .montagu-slab {
     font-family: "Montagu Slab", serif;

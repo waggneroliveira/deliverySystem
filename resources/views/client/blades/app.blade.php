@@ -2,7 +2,7 @@
 
 @section('content')
     <section id="slide">
-        <splide-carousel-component></splide-carousel-component> 
+        <slide-carousel-component></slide-carousel-component>         
     </section>
     {{-- <App/> --}}
 
