@@ -1,5 +1,5 @@
 <template>
-    <div class="box-products grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
+    <div class="box-products grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 m-auto w-[95%] max-w[79.188rem]">
         <div class="box-product__content rounded-tl-[0rem] rounded-tr-[0rem] rounded-br-[1.25rem] rounded-bl-[1.25rem] w-100 max-w-[413.19px] relative pt-[0.5rem] pr-[1.5625rem] pb-[1.296rem] pl-[1.5625rem] border border-[#CF1E0C] border-solid" v-for="(item, index) in items" :key="index">
             <div class="box-product__image relative flex items-center justify-center w-full max-w-[362.89px] m-auto h-[215.68px] overflow-hidden">
                 <div class="tag z-10 absolute top-[1.125rem] h-[2.125rem] left-0 bg-[#CF1E0C] text-[#FFF] w-[5.063rem] flex justify-center items-center">
@@ -38,19 +38,15 @@
                     +
                     </button>
                 </div>
-                    
-                <div class="btn">
-                    <button class="btn__buy text-[#FFF] bg-[#987F2D] h-[2.188rem] w-[7.043rem] flex justify-center items-center gap-3 hover:bg-[#b8982c] noto-sans-devanagari-regular">
-                        <img :src="item.icon" alt="Product Image" class="w-[0.984rem] h-[0.833rem]">
-                        Quero!
-                    </button>
-                </div>
+
+                <button-component :icon="'build/client/images/heart.png'" :label="'Quero!'"></button-component>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+
 export default {
     name: 'products',
     data(){
@@ -60,8 +56,7 @@ export default {
                 {
                     id: 1,
                     title: 'SUSHI TAMAKI',
-                    image: 'build/client/images/teste.jpg',
-                    icon: 'build/client/images/heart.png',
+                    image: 'build/client/images/teste.jpg',                    
                     text: 'Salmão, camarão panado, queijo creme, cebolinho, olho francês e molho tarê',
                     price: '59,90', 
                     oldPrice: '79,00', 
@@ -71,8 +66,7 @@ export default {
                 {
                     id: 2,
                     title: 'SUSHI TAMAKI 02',
-                    image: 'build/client/images/product.png',
-                    icon: 'build/client/images/heart.png',
+                    image: 'build/client/images/product.png',                    
                     text: 'Salmão, camarão panado, queijo creme, cebolinho, olho francês e molho tarê',
                     price: '59,90', 
                     oldPrice: '79,00', 
@@ -82,8 +76,7 @@ export default {
                 {
                     id: 3,
                     title: 'SUSHI TAMAKI 03',
-                    image: 'build/client/images/product.png',
-                    icon: 'build/client/images/heart.png',
+                    image: 'build/client/images/product.png',                    
                     text: 'Salmão, camarão panado, queijo creme, cebolinho, olho francês e molho tarê',
                     price: '59,90', 
                     oldPrice: '79,00', 
@@ -93,8 +86,7 @@ export default {
                 {
                     id: 4,
                     title: 'SUSHI TAMAKI 04',
-                    image: 'build/client/images/product.png',
-                    icon: 'build/client/images/heart.png',
+                    image: 'build/client/images/product.png',                    
                     text: 'Salmão, camarão panado, queijo creme, cebolinho, olho francês e molho tarê',
                     price: '59,90', 
                     oldPrice: '79,00', 
@@ -104,8 +96,7 @@ export default {
                 {
                     id: 5,
                     title: 'SUSHI TAMAKI 05',
-                    image: 'build/client/images/product.png',
-                    icon: 'build/client/images/heart.png',
+                    image: 'build/client/images/product.png',                    
                     text: 'Salmão, camarão panado, queijo creme, cebolinho, olho francês e molho tarê',
                     price: '59,90', 
                     oldPrice: '79,00', 
@@ -115,8 +106,7 @@ export default {
                 {
                     id: 6,
                     title: 'SUSHI TAMAKI 06',
-                    image: 'build/client/images/product.png',
-                    icon: 'build/client/images/heart.png',
+                    image: 'build/client/images/product.png',                    
                     text: 'Salmão, camarão panado, queijo creme, cebolinho, olho francês e molho tarê',
                     price: '59,90', 
                     oldPrice: '79,00', 

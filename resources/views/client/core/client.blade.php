@@ -31,7 +31,15 @@
     </head>
     <body class="font-sans antialiased dark:bg-white dark:text-black/50">
         <main id="app">
+            <div class="w-10/12 block m-auto">
+                {{-- <header-component></header-component>  --}}
+            </div>
+
             @yield('content')
+
+            <section id="footer" class="w-full h-full max-h-[390px] bg-[#031D40]">
+                <footer-component></footer-component>
+            </section>
         </main>
     </body>
 </html>

@@ -7,6 +7,9 @@ import Header from './components/Header.vue';
 import Splide from './components/SplideCarousel.vue';
 import ProductCategory from './components/ProductCategories.vue';
 import Products from './components/ProductBox.vue';
+import Newslleter from './components/Newslleter.vue';
+import Button from './components/Button.vue';
+import Footer from './components/Footer.vue';
 
 if (typeof createInertiaApp !== 'undefined') {
   createInertiaApp({
@@ -25,9 +28,12 @@ if (typeof createInertiaApp !== 'undefined') {
 const app = createApp();
 app.component('app', App);
 app.component('header-component', Header);
-app.component('splide-carousel', Splide);
-app.component('product-category', ProductCategory);
-app.component('products', Products);
+app.component('splide-carousel-component', Splide);
+app.component('product-category-component', ProductCategory);
+app.component('products-component', Products);
+app.component('newslleter-component', Newslleter);
+app.component('button-component', Button);
+app.component('footer-component', Footer);
 app.use( VueSplide );
 
 app.mount('#app');
