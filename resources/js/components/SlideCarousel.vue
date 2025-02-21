@@ -49,6 +49,12 @@
             title: '',
             text: '',
           },
+          {
+            image: '/build/client/images/slide-3.png',
+            alt: '',
+            title: '',
+            text: '',
+          },
         ],
       };
     },

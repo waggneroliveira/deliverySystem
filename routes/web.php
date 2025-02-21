@@ -14,4 +14,7 @@ Route::get('/', function () {
 // })->name('index.form');
 
 Route::get('/home', [FormIndexController::class, 'index'])->name('index.form');
+Route::get('/produtos', function () {
+    return view('client.blades.products');
+})->name('products');
 Route::post('/enviar-formulario', [FormIndexController::class, 'store']);
