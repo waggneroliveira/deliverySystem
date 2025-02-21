@@ -1,5 +1,5 @@
 <template>
-    <div class="box-products grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 m-auto w-[95%] max-w[79.188rem]">
+    <div class="box-products grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 m-auto w-[90%] max-w[79.188rem]">
         <div class="box-product__content rounded-tl-[0rem] rounded-tr-[0rem] rounded-br-[1.25rem] rounded-bl-[1.25rem] w-100 max-w-[413.19px] relative pt-[0.5rem] pr-[1.5625rem] pb-[1.296rem] pl-[1.5625rem] border border-[#CF1E0C] border-solid" v-for="(item, index) in items" :key="index">
             <div class="box-product__image relative flex items-center justify-center w-full max-w-[362.89px] m-auto h-[215.68px] overflow-hidden">
                 <div class="tag z-10 absolute top-[1.125rem] h-[2.125rem] left-0 bg-[#CF1E0C] text-[#FFF] w-[5.063rem] flex justify-center items-center">
