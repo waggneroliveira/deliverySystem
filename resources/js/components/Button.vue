@@ -18,7 +18,7 @@ export default {
 </script>
 
 <style>
-    img{
+    .btn button img{
         width: 0.984rem;
         height: 0.833rem;
     }
