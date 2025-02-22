@@ -12,7 +12,7 @@
     
     <section id="products" class="relative flex justify-center items-center">
         <img src="{{asset('build/client/images/firula-products.png')}}" alt="Firula" class="w-[45px] absolute right-0 top-0">
-        <div class="mt-[65.67px] mb-[65.67px]">
+        <div class="m-auto w-[90%] max-w[79.188rem] mt-[65.67px] mb-[65.67px]">
             <products-component></products-component>
         </div>
     </section>

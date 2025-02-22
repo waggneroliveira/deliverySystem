@@ -38,3 +38,31 @@
     font-variation-settings:
         "wdth" 100;
 }
+.noto-sans-devanagari-extrabold {
+    font-family: "Noto Sans Devanagari", serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+    font-variation-settings:
+        "wdth" 100;
+}
+
+#products-inner{
+    background-image: url('../images/bg-products.png');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+#products-inner::after{
+    content: "";
+    background-image: url('../images/firula-bg-products.png');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+}

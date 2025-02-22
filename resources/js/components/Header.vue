@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-row justify-between relative z-20">
-        <header class="h-auto absolute top-0 left-0 w-full">
-            <div class="container mx-auto flex justify-between items-start content-center h-auto mt-12 p-0 m-auto w-full max-w[79.188rem]">
+        <header class="h-auto absolute top-0 left-1/2 transform -translate-x-1/2 w-[90%]">
+            <div class="mx-auto flex justify-between items-start h-auto mt-12 p-0 m-auto w-full max-w[79.188rem]">
                 <!-- Logo -->
                 <div class="logo flex justify-between items-center content-center">
                     <a href="/">

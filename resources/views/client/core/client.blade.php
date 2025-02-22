@@ -45,7 +45,7 @@
     </head>
     <body class="font-sans antialiased dark:bg-white dark:text-black/50">
         <main id="app">
-            <div class="w-10/12 block m-auto">
+            <div class="w-full block m-auto">
                 <header-component></header-component> 
             </div>
 

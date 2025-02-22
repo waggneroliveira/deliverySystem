@@ -1,6 +1,6 @@
 <template>
-    <div class="footer__content flex flex-full flex-col items-center justify-between m-auto w-[90%] max-w[79.188rem] h-full">
-        <div class="grid grid-cols-1 sm:grid-cols-3 sm:items-center md:grid-cols-4 gap-4 w-full items-start">
+    <div class="footer__content flex flex-full flex-col items-center justify-between h-full">
+        <div class="grid grid-cols-1 sm:grid-cols-3 sm:items-center md:grid-cols-4 gap-4 items-start m-auto w-[90%] max-w[79.188rem]">
             <div class="footer__content--image w-[90px]">
                 <img :src="logoPath" alt="Sushitan">
             </div>
@@ -15,7 +15,7 @@
                     </ul>
                 </nav>
             </div>
-            <div class="footer__content--contact flex justify-end mt-[25px]">
+            <div class="footer__content--contact flex justify-end mt-[25px] m-auto w-[90%] max-w[79.188rem]">
                 <nav>
                     <h6 class="text-[#E2E3DE] text-[1.375rem] noto-sans-devanagari-regular">Contato</h6>
                     <ul class="flex flex-col gap-5 mt-5">
@@ -45,10 +45,12 @@
                 </nav>
             </div>
         </div>
-        <div class="copyright w-full flex flex-row justify-between items-center mt-[72px] mb-[53px]">
-            <p class="noto-sans-devanagari-thin text-[1rem] text-[#E2E3DE]">Sushitan &copy;{{ currentYear }}. all right reserved</p>
+        <div class="copyright mt-[50px] w-full border-t border-[#ffffff57]">
+            <div class="flex flex-row justify-between items-center mt-[40px] mb-[40px] m-auto w-[90%] max-w[79.188rem]">
+                <p class="noto-sans-devanagari-thin text-[1rem] text-[#E2E3DE]">Sushitan &copy;{{ currentYear }}. all right reserved</p>
 
-            <img :src="logoFooter" alt="WHI" title="WHI - Web de alta Inspiração" class="w-[88px]">
+                <img :src="logoFooter" alt="WHI" title="WHI - Web de alta Inspiração" class="w-[88px]">
+            </div>
         </div>
     </div>
 </template>
@@ -106,6 +108,7 @@
         .footer__content--sitemap{
             margin: 0 auto;
             margin-bottom: 15px;
+            justify-content: center;
         }
         .footer__content--image img{
             width: 50px;
