@@ -6,6 +6,7 @@ import Header from './components/Header.vue';
 import Slide from './components/SlideCarousel.vue';
 import ProductCategory from './components/ProductCategories.vue';
 import Products from './components/ProductBox.vue';
+import ProductFilter from './components/ProdutctFilter.vue';
 import Newslleter from './components/Newslleter.vue';
 import Button from './components/Button.vue';
 import Footer from './components/Footer.vue';
@@ -35,5 +36,6 @@ app.component('newslleter-component', Newslleter);
 app.component('button-component', Button);
 app.component('footer-component', Footer);
 app.component('banner-inner-component', BannerInner);
+app.component('product-filter-component', ProductFilter);
 
 app.mount('#app');
