@@ -1,10 +1,10 @@
 <template>
-    <div class="box-product grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-0">
+    <div class="box-product w-full grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-0">
         <div class="box-product__content relative" v-for="(item, index) in items" :key="index">
             <div class="box-product__image overflow-hidden">
-                <img :src="item.image" alt="Product Image" class="w-full transition-transform duration-700 ease-in-out transform hover:scale-110">
+                <img :src="item.image" alt="Product Image" class="w-full ">
             </div>
-            <div class="box-product__description rounded-lg absolute left-1/2 bottom-3 transform -translate-x-1/2 bg-[#031D40] h-[2.651rem] w-[80%] max-w-[12.688rem] flex text-center items-center">
+            <div class="box-product__description rounded-lg absolute left-1/2 bottom-3 z-10 transform -translate-x-1/2 bg-[#031D40] h-[2.651rem] w-[80%] max-w-[12.688rem] flex text-center items-center">
                 <h4 class="box-product__description--title text-[#FFF] w-[90%] m-auto">{{ item.title }}</h4>
             </div>
         </div>
@@ -73,6 +73,35 @@ export default {
 </script>
 
 <style>
+    .box-product__image {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .box-product__image::after {
+        content: '';
+        background: #0000004a;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        transition: transform 0.5s ease-in-out;
+        transform: translateY(0);
+    }
+
+    .box-product__image:hover::after {
+        transform: translateY(100%);
+    }
+
+    .box-product__image img {
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .box-product__image:hover img {
+        transform: scale(1.2);
+    }
     @media screen and (max-width: 376px) {
         .box-product {
             grid-template-columns: repeat(2, 1fr);
