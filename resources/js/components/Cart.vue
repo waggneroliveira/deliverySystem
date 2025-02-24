@@ -72,47 +72,7 @@ export default {
                     oldPrice: '79,00', 
                     tag: '50'+'%'+' off',
                     quantity: 1
-                },
-                {
-                    id: 3,
-                    title: 'SUSHI TAMAKI 03',
-                    image: 'build/client/images/product.png',                    
-                    text: 'Salmão, camarão panado, queijo creme, cebolinho, olho francês e molho tarê',
-                    price: '59,90', 
-                    oldPrice: '79,00', 
-                    tag: '50'+'%'+' off',
-                    quantity: 1
-                },
-                {
-                    id: 4,
-                    title: 'SUSHI TAMAKI 04',
-                    image: 'build/client/images/product.png',                    
-                    text: 'Salmão, camarão panado, queijo creme, cebolinho, olho francês e molho tarê',
-                    price: '59,90', 
-                    oldPrice: '79,00', 
-                    tag: '50'+'%'+' off',
-                    quantity: 1
-                },
-                {
-                    id: 5,
-                    title: 'SUSHI TAMAKI 05',
-                    image: 'build/client/images/product.png',                    
-                    text: 'Salmão, camarão panado, queijo creme, cebolinho, olho francês e molho tarê',
-                    price: '59,90', 
-                    oldPrice: '79,00', 
-                    tag: '50'+'%'+' off',
-                    quantity: 1
-                },
-                {
-                    id: 6,
-                    title: 'SUSHI TAMAKI 06',
-                    image: 'build/client/images/product.png',                    
-                    text: 'Salmão, camarão panado, queijo creme, cebolinho, olho francês e molho tarê',
-                    price: '59,90', 
-                    oldPrice: '79,00', 
-                    tag: '50'+'%'+' off',
-                    quantity: 1
-                },
+                }
             ],            
         };
     },
