@@ -17,4 +17,7 @@ Route::get('/home', [FormIndexController::class, 'index'])->name('index.form');
 Route::get('/produtos', function () {
     return view('client.blades.products');
 })->name('products');
+Route::get('/carrinho', function () {
+    return view('client.blades.cart');
+})->name('cart');
 Route::post('/enviar-formulario', [FormIndexController::class, 'store']);

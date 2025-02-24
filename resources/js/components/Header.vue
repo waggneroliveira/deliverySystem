@@ -5,14 +5,14 @@
                 <!-- Logo -->
                 <div class="logo flex justify-between items-center content-center">
                     <a href="/">
-                        <img :src="logoPath" alt="Logo" class="w-[121px]">
+                        <img :src="logoPath" alt="Logo" class="w-[80px]">
                     </a>
                 </div>
 
                 <div class="flex space-x-5 gap-[35px]">
                     <a href="/" class="w-[48px] h-auto relative">
-                        <span class="absolute flex justify-center items-center -top-2.5 -right-3 text-white bg-[#9F793A] w-[20px] h-auto rounded-full">0</span>
-                        <img :src="logoCart" alt="Carrinho" class="w-100">
+                        <span class="absolute flex justify-center items-center -top-2.5 right-[6px] text-white bg-[#9F793A] w-[20px] h-auto rounded-full">0</span>
+                        <img :src="logoCart" alt="Carrinho" class="w-[30px]">
                     </a>
                 </div>
             </div>
