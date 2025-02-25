@@ -23,6 +23,14 @@
             </style>
         @endif
 
+        @if(Route::currentRouteName() !== 'products')
+            <style>
+                .scrollToProducts{
+                    display:none;
+                }
+            </style>
+        @endif
+
         <style>
             .pagination .carousel__pagination-button{
                 background-color: #FFF;
