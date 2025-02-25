@@ -26,9 +26,9 @@
                 <span class="noto-sans-devanagari-semibold text-[#FFF] text-[1.375rem]">€ 87,00</span>
             </div>
             
-            <div class="mb-4">
-                <span class="inline-block noto-sans-devanagari-medium text-[1.125rem] text-[#FFF] me-3">Entrega:</span>
-                <span class="text-sm noto-sans-devanagari-light text-[#FFF]">Rua das Flores, 557</span>
+            <div class="mb-4 gap-7 flex justify-between items-baseline">
+                <span class="inline-block noto-sans-devanagari-medium text-[1.125rem] text-[#FFF]">Entrega:</span>
+                <span class="text-sm noto-sans-devanagari-light text-[#FFF]">Apartado 1, Freixo de Espada À Cinta 5181-909 FREIXO DE ESPADA À CINTA</span>
             </div>
             
             <div class="flex justify-center items-center mt-9">

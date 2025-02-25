@@ -66,3 +66,13 @@
     width: 100%;
     z-index: -1;
 }
+@media screen and (max-width: 871px) {
+    .cart-content {
+        flex-direction: column-reverse !important;
+    }
+    .cart-component-content,
+    .order-summary-content{
+        width: 100%;
+        max-width: inherit;
+    }
+}
