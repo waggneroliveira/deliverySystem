@@ -2,7 +2,7 @@
 
 @section('content')
     <section id="banner-inner">
-        <banner-inner-component></banner-inner-component>
+        <banner-inner-component image="{{ asset('/build/client/images/banner-inner-1.png') }}"></banner-inner-component>
     </section>
     <section id="cart">
         <div class="cart-content flex flex-row sm:flex-col md:flex-row xl:flex-row gap-[35px] justify-between items-start m-auto w-[90%] max-w[79.188rem] mt-[65.67px] mb-[65.67px]">
@@ -10,7 +10,7 @@
                 <order-summary-component></order-summary-component>
             </div>
             <div class="cart-component-content w-[66%]">
-                <cart-component></cart-component>
+                <cart-component redirect-back="{{ route('products') }}"></cart-component>
             </div>
         </div>
     </section>

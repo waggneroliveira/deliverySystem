@@ -1,7 +1,7 @@
 <template>
     <div class="remove-selected flex flex-row justify-between items-center mb-6 h-[35px]">
         <div class="flex flex-row justify-start gap-4 items-center">
-            <a href="" class="text-[#FFF] bg-[#987F2D] h-[35px] w-auto px-4 flex justify-center items-center gap-2 hover:bg-[#b8982c] noto-sans-devanagari-regular"><span><</span> Voltar</a>
+            <a :href="redirectBack" class="text-[#FFF] bg-[#987F2D] h-[35px] w-auto px-4 flex justify-center items-center gap-2 hover:bg-[#b8982c] noto-sans-devanagari-regular"><span><</span> Voltar</a>
             
             <form @submit.prevent="removeSelected">
                 <button-component v-if="selectedItems.length >= 2" type="submit" btnClass="!w-[auto] !h-[35px] px-5 bg-[#CF1E0C] hover:bg-red-700" imgClass="!w-[0.825rem]" :icon="'build/client/images/trash.png'" :label="'Remover'"></button-component>
@@ -52,6 +52,12 @@
 
 <script>
 export default {
+    props: {
+        redirectBack: {
+        type: String,
+        required: true
+        }
+    },
     data() {
         return {
             items: [

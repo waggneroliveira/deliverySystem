@@ -1,15 +1,26 @@
 <template>
-  <div class="banner-inner h-[300px] w-full relative z-10 flex items-center justify-center text-white text-4xl font-bold">
-    <div class="absolute bottom-[1.25rem] flex flex-col h-[60px] m-auto w-[90%] max-w[79.188rem] items-start justify-start">
-        <h1 class="text-[#FFF] text-[1.875rem] noto-sans-devanagari-semibold">Escolha seu Sushi abaixo</h1>
-        <span 
+  <div 
+    class="banner-inner h-[300px] w-full relative z-10 flex items-center justify-center text-white text-4xl font-bold"
+    :style="{ backgroundImage: `url(${image})`, backgroundSize: 'cover', backgroundPosition: 'center' }"
+  >
+    <div class="absolute bottom-[1.25rem] flex flex-col h-[60px] m-auto w-[90%] max-w-[79.188rem] items-start justify-start">
+      <h1 class="text-[#FFF] text-[1.875rem] noto-sans-devanagari-semibold">Escolha seu Sushi abaixo</h1>
+      <span 
         @click="scrollToProducts"
-        class="w-0 h-0 border-l-[12px] border-l-transparent cursor-pointer border-r-[12px] border-r-transparent border-t-[18px] border-t-[#CF1E0C] animate-smooth-bounce"></span>
+        class="w-0 h-0 border-l-[12px] border-l-transparent cursor-pointer border-r-[12px] border-r-transparent border-t-[18px] border-t-[#CF1E0C] animate-smooth-bounce">
+      </span>
     </div>
   </div>
 </template>
 
 <script setup>
+  defineProps({
+    image: {
+      type: String,
+      required: true
+    }
+  });
+
   const scrollToProducts = () => {
     setTimeout(() => {
       const targetSection = document.getElementById("products-inner");
@@ -18,9 +29,10 @@
       } else {
         console.error("Elemento #products-inner não encontrado.");
       }
-    }, 100); // Pequeno delay para garantir que o Vue montou o DOM
+    }, 100);
   };
 </script>
+
 
 <style>
     .banner-inner{
