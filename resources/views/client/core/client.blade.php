@@ -23,9 +23,10 @@
             </style>
         @endif
 
-        @if(Route::currentRouteName() !== 'products')
+        @if(Route::currentRouteName() !== 'products' || Route::currentRouteName() !== 'finalize-order')
             <style>
-                .scrollToProducts{
+                .scrollToProducts, 
+                .btn-go{
                     display:none;
                 }
             </style>

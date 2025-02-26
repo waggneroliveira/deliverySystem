@@ -31,7 +31,7 @@
                 <span class="text-sm noto-sans-devanagari-light text-[#FFF]">Apartado 1, Freixo de Espada À Cinta 5181-909 FREIXO DE ESPADA À CINTA</span>
             </div>
             
-            <div class="flex justify-center items-center mt-9">
+            <div class="flex justify-center items-center mt-9 btn-go">
                 <button class="w-full max-w-[141.1px] bg-[#CF1E0C] hover:bg-red-700 text-white py-2 rounded font-bold">Avançar</button>
             </div>
         </div>

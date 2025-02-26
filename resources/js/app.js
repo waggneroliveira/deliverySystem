@@ -13,6 +13,7 @@ import Newslleter from './components/Newslleter.vue';
 import Button from './components/Button.vue';
 import Footer from './components/Footer.vue';
 import BannerInner from './components/BannerInner.vue';
+import FinalizeOrder from './components/FinalizeOrder.vue';
 
 if (typeof createInertiaApp !== 'undefined') {
   createInertiaApp({
@@ -41,5 +42,6 @@ app.component('banner-inner-component', BannerInner);
 app.component('product-filter-component', ProductFilter);
 app.component('cart-component', Cart);
 app.component('order-summary-component', OrderSummary);
+app.component('finalize-order-component', FinalizeOrder);
 
 app.mount('#app');
