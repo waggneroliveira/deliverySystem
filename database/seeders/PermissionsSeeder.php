@@ -28,6 +28,12 @@ class PermissionsSeeder extends Seeder
                 'Visualizar',
                 'Remover'
             ],
+            'slides'=>[
+                'Criar',
+                'Editar',                
+                'Visualizar',
+                'Remover'
+            ],
             'notificacao'=>[               
                 'Visualizar',
                 'Notificacao de auditoria',

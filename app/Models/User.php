@@ -18,13 +18,16 @@ class User extends Authenticatable implements CanResetPassword
 {
     use Notifiable, HasFactory, HasRoles, LogsActivity;
     
+    protected $guard_name = 'web';
+    
     protected $fillable = [
         'name',
         'email',
         'password',
         'active',
         'path_image',
-        'sorting'
+        'sorting',
+        'is_super',
     ];
 
     protected $hidden = [

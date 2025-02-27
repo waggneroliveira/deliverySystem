@@ -20,6 +20,7 @@ use App\Http\Controllers\SettingThemeController;
 use App\Http\Controllers\AuditActivityController;
 use App\Http\Controllers\Auth\PasswordEmailController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\SlideController;
 
 Route::get('painel/', function () {
     return redirect()->route('admin.dashboard.painel');
@@ -75,6 +76,15 @@ Route::prefix('painel/')->group(function () {
         })->name('loading');
 
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+
+        //SLIDE
+        Route::resource('slides', SlideController::class)
+        ->names('admin.dashboard.slide')
+        ->parameters(['slides'=>'slide']);
+        Route::post('slide/delete', [SlideController::class, 'destroySelected'])
+            ->name('admin.dashboard.slide.destroySelected');
+        Route::post('slide/sorting', [SlideController::class, 'sorting'])
+            ->name('admin.dashboard.slide.sorting');   
 
         //AUDITORIA
         Route::resource('auditorias', AuditActivityController::class)

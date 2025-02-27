@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('path_image')->nullable();
             $table->integer('sorting')->default(0);
+            $table->integer('is_super')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });
