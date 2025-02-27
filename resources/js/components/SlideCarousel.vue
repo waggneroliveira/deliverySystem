@@ -50,7 +50,7 @@ export default {
   methods: {
     async getBanners() {
       try {
-        const response = await axios.get('/slides'); // Requisição para Laravel
+        const response = await axios.get('/api/slides'); // Requisição para Laravel
         this.banners = response.data; // Atualiza o array com os dados da API
         console.log('Dados da API:', response.data);
       } catch (error) {
