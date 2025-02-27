@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Response;
+use RealRashid\SweetAlert\Facades\Alert;
 use App\Http\Controllers\Helpers\HelperArchive;
 
 class SlideController extends Controller
@@ -14,17 +15,19 @@ class SlideController extends Controller
     protected $pathUpload = 'admin/uploads/images/slide/';
     public function index()
     {
-        $slides = Slide::paginate(10);
+        $slides = Slide::get();
+        // dd($slides);
         return view('admin.blades.slide.index', compact('slides'));
     }
 
     public function store(Request $request)
     {
-        $data = $request->except('path_image');
+        $data = $request->except(['path_image', 'path_image_mobile']);
         $helper = new HelperArchive();
 
         $request->validate([
             'path_image' => ['nullable', 'file', 'image', 'max:2048', 'mimes:jpg,jpeg,png,gif'],
+            'path_image_mobile' => ['nullable', 'file', 'image', 'max:2048', 'mimes:jpg,jpeg,png,gif'],
         ]);
     
         //Slide desktop
@@ -51,10 +54,12 @@ class SlideController extends Controller
             DB::beginTransaction();
                 Slide::create($data);
             DB::commit();
-            return redirect()->back()->with('sucess', 'Slide criado com sucesso!');
+            session()->flash('success', __('dashboard.response_item_create'));
+            return redirect()->back();
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->back()->with('error', 'Erro ao criar slide!');
+            Alert::success('error', __('dashboard.response_item_error_create'));
+            return redirect()->back();
         }
     }
 
@@ -112,10 +117,12 @@ class SlideController extends Controller
                     $request->file('path_image_mobile')->storeAs($this->pathUpload, $path_image_mobile);
                 }
             DB::commit();
-            return redirect()->back()->with('sucess', 'Slide atualizado com sucesso!');
+            session()->flash('success', __('dashboard.response_item_update'));
+            return redirect()->back();
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'Erro ao atualizar slide!');
+            Alert::error('Erro', __('dashboard.response_item_error_update'));
+            return redirect()->back();
         }
     }
 

@@ -24,19 +24,42 @@
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-body">
-                                <div class="row mb-3">
-                                    <div class="col-6">
-                                        @can('slides.remover')
-                                            <button id="btSubmitDelete" data-route="{{route('admin.dashboard.slide.destroySelected')}}" type="button" class="btn btn-danger" style="display: none;">Deletar selecionados</button>             
-                                        @endcan
-                                    </div>
-                                    <div class="col-6">
-                                        @can('slides.criar')
-                                            <a href="{{route('admin.dashboard.slide.create')}}" class="btn btn-success float-end">Adicionar novo <i class="mdi mdi-plus"></i></a>
-                                        @endcan
+                                <div class="row mb-2">
+                                    <div class="col-12 d-flex justify-between">
+                                        <div class="col-6">
+                                            @can('slides.remover')
+                                                <button id="btSubmitDelete" data-route="{{route('admin.dashboard.slide.destroySelected')}}" type="button" class="btSubmitDelete btn btn-danger" style="display: none;">{{__('dashboard.btn_delete_all')}}</button>
+                                            @endcan
+                                        </div>
+                                        <div class="col-6 d-flex justify-content-end">
+                                            @can('slides.criar')
+                                                <button type="button" class="btn btn-success waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#slide-create"><i class="mdi mdi-plus-circle me-1"></i> {{__('dashboard.btn_create')}}</button>
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="slide-create" tabindex="-1" role="dialog" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header bg-light">
+                                                                <h4 class="modal-title" id="myCenterModalLabel">{{__('dashboard.btn_create')}}</h4>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                                                            </div>
+                                                            <div class="modal-body p-4">
+                                                                <form action="{{route('admin.dashboard.slide.store')}}" method="POST" enctype="multipart/form-data">
+                                                                    @csrf
+                                                                    @include('admin.blades.slide.form')  
+                                                                    <div class="d-flex justify-content-end gap-2">
+                                                                        <button type="button" class="btn btn-danger waves-effect waves-light" data-bs-dismiss="modal">{{__('dashboard.btn_cancel')}}</button>
+                                                                        <button type="submit" class="btn btn-success waves-effect waves-light">{{__('dashboard.btn_create')}}</button>
+                                                                    </div>                                                 
+                                                                </form>
+                                                            </div>
+                                                        </div><!-- /.modal-content -->
+                                                    </div><!-- /.modal-dialog -->
+                                                </div><!-- /.modal -->
+                                            @endcan
+                                        </div>
                                     </div>
                                 </div>
-                                <table data-toggle="table" data-page-size="5" data-pagination="false" class="table-bordered table-sortable">
+                                <table class="table-sortable table table-centered table-nowrap table-striped">
                                     <thead class="table-light">
                                         <tr>
                                             <th></th>
@@ -60,8 +83,7 @@
                                                     <label><input data-index="{{$key}}" name="btnSelectItem" class="btnSelectItem" type="checkbox" value="{{$slide->id}}"></label>
                                                 </td>
                                                 {{-- <td><a href="{{$slide->link}}" target="_blank" class="mdi mdi-link-box-variant font-28 text-secondary"></a></td> --}}
-                                                <td>{{$title}}</td>
-                                                <td>{{$subtitle}}</td>
+                                                <td>{{$slide->title}}</td>
                                                 <td class="table-user text-center">
                                                     @if ($slide->path_image)
                                                         <img src="{{ asset('storage/'.$slide->path_image) }}" name="path_image" alt="table-user" class="me-2 rounded-circle">
@@ -75,10 +97,26 @@
                                                 </td>
                                                 <td>
                                                     <div class="row">
-                                                        @can('slides.editar')
-                                                        <div class="col-4">
-                                                           <a href="{{route('admin.dashboard.slide.edit',['slide' => $slide->id])}}" class="btn-icon mdi mdi-square-edit-outline"></a>
-                                                        </div>
+                                                        @can(['slides.editar', 'slides.visualizar', 'usuario.tornar usuario master'])
+                                                            <button class="table-edit-button btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-group-edit-{{$slide->id}}" style="padding: 2px 8px;width: 30px"><span class="mdi mdi-pencil"></span></button>
+                                                            <div class="modal fade" id="modal-group-edit-{{$slide->id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                                                                <div class="modal-dialog modal-dialog-centered">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header bg-light">
+                                                                            <h4 class="modal-title" id="myCenterModalLabel">{{__('dashboard.group_and_permission')}}</h4>
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                                                                        </div>
+                                                                        <div class="modal-body p-4">
+                                                                            <form action="{{ route('admin.dashboard.slide.update', ['slide' => $slide->id]) }}" method="POST" enctype="multipart/form-data">
+                                                                                @csrf
+                                                                                @method('PUT')
+                                                                                @include('admin.blades.slide.form')                                                                                                                                                                                               
+                                                                            </form>                                                                    
+                                                                        </div>
+                                                                    </div><!-- /.modal-content -->
+                                                                </div><!-- /.modal-dialog -->
+                                                            </div><!-- /.modal -->
+                                                        
                                                         @endcan
                                                         @can('slides.remover')
                                                         <form action="{{route('admin.dashboard.slide.destroy',['slide' => $slide->id])}}" class="col-4" method="POST">
@@ -95,7 +133,7 @@
 
                                 {{-- PAGINATION --}}
                                 <div class="mt-3 float-end">
-                                   {{$slides->links()}}
+                                   {{-- {{$slides->links()}} --}}
                                 </div>
                             </div>
                         </div> <!-- end card-->

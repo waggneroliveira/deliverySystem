@@ -52,7 +52,7 @@ class UserController extends Controller
 
     public function store(RequestStoreUser $request)
     {   
-        $data = $request->except('path_image');
+        $data = $request->except(['path_image', 'is_super']);
         $helper = new HelperArchive();
 
         $request->validate([
@@ -131,7 +131,7 @@ class UserController extends Controller
 
     public function update(UserUpdateRequest $request, User $user)
     {
-        $data = $request->except('password','path_image');
+        $data = $request->except('password','path_image','is_super');
         $helper = new HelperArchive();
         $roles = $request->input('roles', []);
 
