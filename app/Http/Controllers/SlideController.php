@@ -75,7 +75,7 @@ class SlideController extends Controller
         }
         if ($path_image) {
             $request->file('path_image')->storeAs($this->pathUpload, $path_image);
-            Storage::delete($slide->path_image);
+            Storage::delete(isset($slide->path_image));
         }
         if(isset($request->delete_path_image) && !$path_image){
             $inputFile = $request->delete_path_image;
@@ -90,7 +90,7 @@ class SlideController extends Controller
         }
         if ($path_image_mobile) {
             $request->file('path_image_mobile')->storeAs($this->pathUpload, $path_image_mobile);
-            Storage::delete($slide->path_image_mobile);
+            Storage::delete(isset($slide->path_image_mobile));
         }
         if(isset($request->delete_path_image_mobile) && !$path_image_mobile){
             $inputFile = $request->delete_path_image_mobile;
@@ -101,7 +101,7 @@ class SlideController extends Controller
         try {
             DB::beginTransaction();
                 $data['active'] = $request->active ? 1 : 0;
-
+                
                 $slide->fill($data)->save();
 
                 //slide desktop 
