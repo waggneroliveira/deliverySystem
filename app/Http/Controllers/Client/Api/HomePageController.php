@@ -10,8 +10,6 @@ class HomePageController extends Controller
     public function slides() {
         try {
             $slides = Slide::active()->sorting()->get();
-            
-            \Log::info('Slides encontrados:', $slides->toArray()); // Log para verificar os dados
     
             return response()->json($slides->map(function ($slide) {
                 return [
@@ -24,7 +22,6 @@ class HomePageController extends Controller
                 ];
             }));
         } catch (\Exception $e) {
-            \Log::error('Erro ao buscar slides:', ['error' => $e->getMessage()]);
             return response()->json(['error' => 'Erro ao buscar os slides'], 500);
         }
     }
