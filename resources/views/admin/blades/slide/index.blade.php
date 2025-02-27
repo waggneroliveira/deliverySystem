@@ -21,7 +21,7 @@
                 <!-- end row -->
 
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-12">
                         <div class="card">
                             <div class="card-body">
                                 <div class="row mb-2">
@@ -59,44 +59,42 @@
                                         </div>
                                     </div>
                                 </div>
-                                <table class="table-sortable table table-centered table-nowrap table-striped">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th></th>
-                                            <th class="bs-checkbox">
-                                                <label><input name="btnSelectAll" type="checkbox"></label>
-                                            </th>
-                                            {{-- <th>Link</th> --}}
-                                            <th>Título</th>
-                                            <th>Subtitulo</th>
-                                            <th>Imagem</th>
-                                            <th>Status</th>
-                                            <th>Ações</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody data-route="{{route('admin.dashboard.slide.sorting')}}">
-                                        @foreach ($slides as $key => $slide)
-                                            <tr data-code="{{$slide->id}}">
-                                                <td><span class="btnDrag mdi mdi-drag-horizontal font-22"></span></td>
-                                                <td class="bs-checkbox">
-                                                    <label><input data-index="{{$key}}" name="btnSelectItem" class="btnSelectItem" type="checkbox" value="{{$slide->id}}"></label>
-                                                </td>
-                                                {{-- <td><a href="{{$slide->link}}" target="_blank" class="mdi mdi-link-box-variant font-28 text-secondary"></a></td> --}}
-                                                <td>{{$slide->title}}</td>
-                                                <td class="table-user text-center">
-                                                    @if ($slide->path_image)
-                                                        <img src="{{ asset('storage/'.$slide->path_image) }}" name="path_image" alt="table-user" class="me-2 rounded-circle">
-                                                    @endif
-                                                </td>
-                                                <td class="text-center">
-                                                    @switch($slide->active)
-                                                        @case(0) <span class="badge bg-danger">Inativo</span> @break
-                                                        @case(1) <span class="badge bg-success">Ativo</span> @break
-                                                    @endswitch
-                                                </td>
-                                                <td>
-                                                    <div class="row">
+                                <div class="table-responsive">
+                                    <table class="table-sortable table table-centered table-nowrap table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th class="bs-checkbox">
+                                                    <label><input name="btnSelectAll" type="checkbox"></label>
+                                                </th>
+                                                {{-- <th>Link</th> --}}
+                                                <th>Título</th>
+                                                <th>Imagem</th>
+                                                <th>Status</th>
+                                                <th style="width: 85px;">Ações</th>
+                                            </tr>
+                                        </thead>
+    
+                                        <tbody data-route="{{route('admin.dashboard.slide.sorting')}}">
+                                            @foreach ($slides as $key => $slide)
+                                                <tr data-code="{{$slide->id}}">
+                                                    <td><span class="btnDrag mdi mdi-drag-horizontal font-22"></span></td>
+                                                    <td class="bs-checkbox">
+                                                        <label><input data-index="{{$key}}" name="btnSelectItem" class="btnSelectItem" type="checkbox" value="{{$slide->id}}"></label>
+                                                    </td>
+                                                    <td>{{$slide->title}}</td>
+                                                    <td class="table-user">
+                                                        @if ($slide->path_image)
+                                                            <img src="{{ asset('storage/'.$slide->path_image) }}" name="path_image" alt="table-user" class="me-2 rounded-circle">
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        @switch($slide->active)
+                                                            @case(0) <span class="badge bg-danger">Inativo</span> @break
+                                                            @case(1) <span class="badge bg-success">Ativo</span> @break
+                                                        @endswitch
+                                                    </td>
+                                                    <td class="d-flex gap-lg-1 justify-center">
                                                         @can(['slides.editar', 'slides.visualizar', 'usuario.tornar usuario master'])
                                                             <button class="table-edit-button btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-group-edit-{{$slide->id}}" style="padding: 2px 8px;width: 30px"><span class="mdi mdi-pencil"></span></button>
                                                             <div class="modal fade" id="modal-group-edit-{{$slide->id}}" tabindex="-1" role="dialog" aria-hidden="true">
@@ -110,26 +108,31 @@
                                                                             <form action="{{ route('admin.dashboard.slide.update', ['slide' => $slide->id]) }}" method="POST" enctype="multipart/form-data">
                                                                                 @csrf
                                                                                 @method('PUT')
-                                                                                @include('admin.blades.slide.form')                                                                                                                                                                                               
+                                                                                @include('admin.blades.slide.form')    
+                                                                                <div class="d-flex justify-content-end gap-2">
+                                                                                    <button type="button" class="btn btn-danger waves-effect waves-light" data-bs-dismiss="modal">{{__('dashboard.btn_cancel')}}</button>
+                                                                                    <button type="submit" class="btn btn-success waves-effect waves-light">{{__('dashboard.btn_save')}}</button>
+                                                                                </div>                                                                                                                                                                                            
                                                                             </form>                                                                    
                                                                         </div>
                                                                     </div><!-- /.modal-content -->
                                                                 </div><!-- /.modal-dialog -->
-                                                            </div><!-- /.modal -->
+                                                            </div><!-- /.modal -->                                                        
+                                                        @endcan
                                                         
+                                                        @can(['slides.visualizar', 'slides.remover', 'usuario.tornar usuario master'])
+                                                            <form action="{{route('admin.dashboard.slide.destroy',['slide' => $slide->id])}}" style="width: 30px" method="POST">
+                                                                @method('DELETE') @csrf        
+                                                                
+                                                                <button type="button" style="width: 30px"class="demo-delete-row btn btn-danger btn-xs btn-icon btSubmitDeleteItem"><i class="fa fa-times"></i></button>
+                                                            </form>                                                    
                                                         @endcan
-                                                        @can('slides.remover')
-                                                        <form action="{{route('admin.dashboard.slide.destroy',['slide' => $slide->id])}}" class="col-4" method="POST">
-                                                            @method('DELETE') @csrf
-                                                            <button type="button" class="btn-icon btSubmitDeleteItem"><i class="mdi mdi-trash-can"></i></button>
-                                                        </form>
-                                                        @endcan
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
 
                                 {{-- PAGINATION --}}
                                 <div class="mt-3 float-end">

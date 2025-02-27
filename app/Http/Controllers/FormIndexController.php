@@ -12,7 +12,7 @@ class FormIndexController extends Controller
 
     public function index()
     {
-        return view('client.blades.app');
+        // return view('client.blades.app');
         // return Inertia::render('App', [
         //     'sessionMessage' => session('message')
         // ]);

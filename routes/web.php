@@ -4,6 +4,7 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FormIndexController;
+use App\Http\Controllers\Client\HomePageController;
 use App\Http\Controllers\Client\FinalizeOrderController;
 
 require __DIR__ . '/dashboard.php';
@@ -15,7 +16,7 @@ Route::get('/', function () {
 //     return view('client.blades.app');
 // })->name('index.form');
 
-Route::get('/home', [FormIndexController::class, 'index'])->name('index.form');
+Route::get('/home', [HomePageController::class, 'index'])->name('index');
 
 Route::get('/produtos', function () {
     return view('client.blades.products');

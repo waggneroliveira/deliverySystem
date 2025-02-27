@@ -15,8 +15,8 @@ class SlideController extends Controller
     protected $pathUpload = 'admin/uploads/images/slide/';
     public function index()
     {
-        $slides = Slide::get();
-        // dd($slides);
+        $slides = Slide::sorting()->get();
+
         return view('admin.blades.slide.index', compact('slides'));
     }
 
@@ -100,6 +100,8 @@ class SlideController extends Controller
 
         try {
             DB::beginTransaction();
+                $data['active'] = $request->active ? 1 : 0;
+
                 $slide->fill($data)->save();
 
                 //slide desktop 
