@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="submitForm">
+    <form @submit.prevent="submitForm" class="w-full">
         <div class="row">
             <div class="pick-up-location">
                 <label for="pick_up_location">Local de Retirada</label>
@@ -38,14 +38,14 @@
             </div>
             <div class="phone">
                 <label for="phone">Telefone</label>
-                <input id="phone" type="number" v-model="phone" placeholder="Telefone">
+                <input id="phone" type="text" v-model="phone" placeholder="Telefone">
             </div>
             <div class="ref">
                 <label for="ref">Referência</label>
                 <input id="ref" type="text" v-model="reference" placeholder="Referência">
             </div>
         </div>
-
+        
         <div v-if="showAddressFields" class="row">
             <label>Forma de Pagamento</label>
             <div class="payments">
@@ -93,11 +93,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
+// Lista de locais de retirada
 const locations = ref([
     { value: 'delivery', label: 'Entrega ao domicílio', disabled: false },
-    //Adiciona lojas futuramente
 ]);
 
 const pickUpLocation = ref('delivery');
@@ -111,47 +111,62 @@ const trocoPara = ref('');
 const change = ref('');
 const showAddressFields = ref(false);
 
-const handlePostalCode = async () => {
-    if (postalCode.value.length >= 7) {
-        try {
-            const response = await axios.post('/verify-postal-code', {
-                postal_code: postalCode.value
-            });
-
-            console.log("Resposta da API:", response.data); // Verifique a saída
-
-            if (response.data && response.data.concelho) {
-                address.value = `${response.data.concelho}, ${response.data.distrito}`;
-                showAddressFields.value = true;
-            } else {
-                address.value = 'Endereço não encontrado';
-                showAddressFields.value = false;
-            }
-        } catch (error) {
-            console.error("Erro ao buscar o CEP:", error);
-            showAddressFields.value = false;
-        }
-    } else {
-        showAddressFields.value = false;
-    }
-};
-
-
-// const handlePostalCode = () => {
-//     if (postalCode.value.length >= 7) {
-//         showAddressFields.value = true;
-//         address.value = 'Rua Exemplo, 123'; // Aqui pode ser substituído por uma API de CEP
-//     } else {
-//         showAddressFields.value = false;
-//     }
-// };
-
 const paymentMethods = ref([
     { value: 'mbway', label: 'Mbway', image: 'build/client/images/mbway.png' },
     { value: 'credit', label: 'Crédito', image: 'build/client/images/credit-debit.svg' },
     { value: 'debit', label: 'Débito', image: 'build/client/images/credit-debit.svg' },
     { value: 'money', label: 'Dinheiro', image: 'build/client/images/money.svg' },
 ]);
+
+// Função para buscar o endereço pelo código postal
+const fetchAddressByPostalCode = async () => {
+    if (!/^\d{4}-\d{3}$/.test(postalCode.value)) {
+        showAddressFields.value = false;
+        return;
+    }
+
+    console.log('Buscando endereço para o código postal:', postalCode.value);
+
+    try {
+        const response = await fetch(`https://api.allorigins.win/raw?url=https://json.geoapi.pt/cp/${postalCode.value}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        console.log('Resposta da API:', response);
+
+        if (!response.ok) throw new Error('Erro ao buscar endereço');
+
+        const data = await response.json();
+
+        console.log('Dados da API:', data);
+
+        // Verificando se a API retornou os dados corretamente
+        if (data && data.localidade) {
+            // Se a localidade e o distrito forem encontrados
+            address.value = `${data.localidade}, ${data.distrito}`;
+            phone.value = data.telefone || ''; // Adicionando telefone se disponível
+            reference.value = data.referencia || ''; // Adicionando referência se disponível
+            showAddressFields.value = true;
+        } else {
+            address.value = 'Endereço não encontrado';
+            phone.value = '';
+            reference.value = '';
+            showAddressFields.value = false;
+        }
+    } catch (error) {
+        console.error('Erro ao buscar código postal:', error);
+        address.value = 'Erro ao obter endereço';
+        phone.value = '';
+        reference.value = '';
+        showAddressFields.value = false;
+    }
+};
+
+// Monitorar mudanças no código postal e buscar endereço automaticamente
+watch(postalCode, fetchAddressByPostalCode);
 
 const submitForm = () => {
     alert('Pedido confirmado!');
@@ -250,4 +265,3 @@ button:hover {
     }
 }
 </style>
-

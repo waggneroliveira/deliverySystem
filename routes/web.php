@@ -31,5 +31,6 @@ Route::get('/carrinho', function () {
 
 Route::get('/finalizar-pedido', [FinalizeOrderController::class, 'index'])->name('finalize-order');
 Route::post('/enderecos', [FinalizeOrderController::class, 'store']);
+Route::post('/verify-postal-code', [FinalizeOrderController::class, 'verifyPostalCode']);
 
 Route::post('/enviar-formulario', [FormIndexController::class, 'store']);
