@@ -4,10 +4,15 @@ namespace App\Models;
 
 use Spatie\Activitylog\LogOptions;
 use App\Services\ActivityLogService;
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ProductCategory extends Model
 {
+    use HasRoles, HasFactory, LogsActivity;
+
     protected $fillable = [
         'title',
         'slug',

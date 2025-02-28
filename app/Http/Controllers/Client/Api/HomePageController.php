@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client\Api;
 
 use App\Models\Slide;
 use App\Http\Controllers\Controller;
+use App\Models\ProductCategory;
 
 class HomePageController extends Controller
 {
@@ -26,4 +27,21 @@ class HomePageController extends Controller
         }
     }
     
+    public function productCategories(){
+        try {
+            $productCategories = ProductCategory::active()->sorting()->get();
+
+            return response()->json($productCategories->map(function ($category) {
+                return [
+                    'id' => $category->id,
+                    'title' => $category->title,
+                    'slug' => $category->slug,
+                    'active' => $category->active,
+                    'image' => $category->path_image ? asset('storage/' . $category->path_image) : null, 
+                ];
+            }));
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Erro ao buscar os slides'], 500);
+        }
+    }
 }

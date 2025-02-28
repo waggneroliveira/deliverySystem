@@ -3,6 +3,7 @@
 use App\Models\User;
 use App\Models\SettingTheme;
 use App\Models\AuditActivity;
+use App\Models\ProductCategory;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 use Spatie\Activitylog\Models\Activity;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SlideController;
 use App\Repositories\AuditCountRepository;
 use App\Repositories\SettingThemeRepository;
 use App\Http\Controllers\Auth\AuthController;
@@ -18,9 +20,9 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SettingEmailController;
 use App\Http\Controllers\SettingThemeController;
 use App\Http\Controllers\AuditActivityController;
+use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\Auth\PasswordEmailController;
 use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Controllers\SlideController;
 
 Route::get('painel/', function () {
     return redirect()->route('admin.dashboard.painel');
@@ -77,6 +79,15 @@ Route::prefix('painel/')->group(function () {
 
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
+        //PRODUCT-CATEGORY
+        Route::resource('categorias-dos-produtos', ProductCategoryController::class)
+        ->names('admin.dashboard.productCategory')
+        ->parameters(['categorias-dos-produtos'=>'productCategory']);
+        Route::post('categorias-dos-produtos/delete', [ProductCategoryController::class, 'destroySelected'])
+            ->name('admin.dashboard.productCategory.destroySelected');
+        Route::post('categorias-dos-produtos/sorting', [ProductCategoryController::class, 'sorting'])
+            ->name('admin.dashboard.productCategory.sorting');   
+        
         //SLIDE
         Route::resource('slides', SlideController::class)
         ->names('admin.dashboard.slide')

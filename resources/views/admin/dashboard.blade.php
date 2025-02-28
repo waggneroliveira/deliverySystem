@@ -19,34 +19,59 @@
     </div>
     <!-- end page title -->
     <div class="row">
-        <div class="col-12">
-            <div class="page-title-box">
-                <h4 class="page-title "><i class="mdi mdi-email-edit"></i> Cadastro de conteúdo</h4>
+        @if (Auth::user()->hasPermissionTo('categorias dos produtos.visualizar')||
+        Auth::user()->hasPermissionTo('usuario.tornar usuario master') || 
+        Auth::user()->hasRole('Super'))
+            <div class="col-12">
+                <div class="page-title-box">
+                    <h4 class="page-title "><i class="mdi mdi-email-edit"></i> Cadastro de conteúdo</h4>
+                </div>
             </div>
-        </div>
-        <div class="col-md-5 col-xl-3">
-            <div class="card borda-cx ratio ratio-4x3">
-                <div class="d-flex align-items-center justify-content-center">
-                    <a href="{{route('admin.dashboard.slide.index')}}">
-                        <div class="row">
-                            <div class="col-12 d-flex align-items-center justify-content-center">
-                                <div class="avatar-xl bg-hoom rounded-circle text-center">
-                                    <i class="avatar-md mdi mdi-email font-48 text-muted"></i>
+            @canany(['usuario.tornar usuario master', 'categorias dos produtos.visualizar'])
+                <div class="col-md-5 col-xl-3">
+                    <div class="card borda-cx ratio ratio-4x3">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <a href="{{route('admin.dashboard.productCategory.index')}}">
+                                <div class="row">
+                                    <div class="col-12 d-flex align-items-center justify-content-center">
+                                        <div class="avatar-xl bg-hoom rounded-circle text-center">
+                                            <i class="avatar-md mdi mdi-format-list-bulleted-square font-48 text-muted"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-3 col-12 text-center">
+                                    <h5 class="text-uppercase text-muted">Categorias dos produtos</h5>
+                                </div>
+                            </a>
+                        </div>
+                    </div> <!-- end card-->
+                </div> <!-- end col -->
+            @endcanany
+        @endif
+
+        @canany(['usuario.tornar usuario master', 'slides.visualizar'])
+            <div class="col-md-5 col-xl-3">
+                <div class="card borda-cx ratio ratio-4x3">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <a href="{{route('admin.dashboard.slide.index')}}">
+                            <div class="row">
+                                <div class="col-12 d-flex align-items-center justify-content-center">
+                                    <div class="avatar-xl bg-hoom rounded-circle text-center">
+                                        <i class="avatar-md mdi mdi-image-size-select-actual font-48 text-muted"></i>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="mt-3 col-12 text-center">
-                            <h5 class="text-uppercase text-muted">Slides</h5>
-                        </div>
-                    </a>
-                </div>
-            </div> <!-- end card-->
-        </div> <!-- end col -->
+                            <div class="mt-3 col-12 text-center">
+                                <h5 class="text-uppercase text-muted">Slides</h5>
+                            </div>
+                        </a>
+                    </div>
+                </div> <!-- end card-->
+            </div> <!-- end col -->
+        @endcanany
     </div>
     <div class="row">
-        @if (Auth::user()->hasRole('Super') || 
-        Auth::user()->can('usuario.tornar usuario master') || 
-        Auth::user()->can('email.visualizar'))
+        @canany(['usuario.tornar usuario master', 'email.visualizar'])
             <div class="col-12">
                 <div class="page-title-box">
                     <h4 class="page-title "><i class="mdi mdi-email-edit"></i> {{__('dashboard.setting_smtp')}}</h4>
@@ -70,20 +95,17 @@
                     </div>
                 </div> <!-- end card-->
             </div> <!-- end col -->
-        @endif
+        @endcanany
     </div>
     <div class="row">
-        @if (Auth::user()->hasRole('Super') || 
-        Auth::user()->can('usuario.tornar usuario master') || 
-        Auth::user()->can('auditoria.visualizar') || 
-        Auth::user()->can('usuario.visualizar')|| 
-        Auth::user()->can('grupo.visualizar'))
+        @canany(['usuario.tornar usuario master', 'auditoria.visualizar', 'grupo.visualizar', 'usuario.visualizar'])
             <div class="col-12">
                 <div class="page-title-box">
                     <h4 class="page-title "><i class="mdi mdi-security"></i> {{__('dashboard.security_and_access_control')}}</h4>
                 </div>
             </div>
-            @if (Auth::user()->hasRole('Super') || Auth::user()->can('usuario.tornar usuario master') || Auth::user()->can('auditoria.visualizar'))
+
+            @canany(['usuario.tornar usuario master', 'auditoria.visualizar'])
                 <div class="col-md-5 col-xl-3">
                     <div class="card borda-cx ratio ratio-4x3">
                         <div class="d-flex align-items-center justify-content-center">
@@ -102,9 +124,9 @@
                         </div>
                     </div> <!-- end card-->
                 </div> <!-- end col -->
-            @endif
+            @endcanany
             
-            @if (Auth::user()->hasRole('Super') || Auth::user()->can('usuario.tornar usuario master') || Auth::user()->can('grupo.visualizar'))
+            @canany(['usuario.tornar usuario master', 'grupo.visualizar'])
                 <div class="col-md-5 col-xl-3">
                     <div class="card borda-cx ratio ratio-4x3">
                         <div class="d-flex align-items-center justify-content-center">
@@ -123,9 +145,9 @@
                         </div>
                     </div> <!-- end card-->
                 </div> <!-- end col -->
-            @endif
-    
-            @if (Auth::user()->hasRole('Super') || Auth::user()->can('usuario.tornar usuario master') || Auth::user()->can('usuario.visualizar'))
+            @endcanany
+                
+            @canany(['usuario.tornar usuario master', 'usuario.visualizar'])
                 <div class="col-md-5 col-xl-3">
                     <div class="card borda-cx ratio ratio-4x3">
                         <div class="d-flex align-items-center justify-content-center">
@@ -144,8 +166,8 @@
                         </div>
                     </div> <!-- end card-->
                 </div> <!-- end col -->
-            @endif
-        @endif
+            @endcanany
+        @endcanany
     </div>
     <!-- end row -->
 

@@ -91,9 +91,10 @@
                             </div>
             
                         </div>
-                        @if (Auth::user()->hasRole('Super') || 
-                        Auth::user()->can('usuario.tornar usuario master') || 
-                        Auth::user()->can('email.visualizar') && Auth::user()->can('email.testar conexao smtp'))
+                        @if (Auth::user()->hasPermissionTo('email.visualizar') && 
+                        Auth::user()->hasPermissionTo('email.testar conexao smtp') ||
+                        Auth::user()->hasPermissionTo('usuario.tornar usuario master') || 
+                        Auth::user()->hasRole('Super'))
                             <div class="col-2">
                                 <a href="{{route('admin.dashboard.settingEmail.smtpVerify')}}" id="testSmtp" class="btn btn-warning">{{__('blades/configEmail.btn_conection_test')}}</a>
                             </div>
@@ -153,14 +154,12 @@
                                         <input type="text" name="mail_from_name" {{ (Auth::user()->can('email.visualizar') && !Auth::user()->can('email.configurar smtp')) ? 'readonly' : '' }} value="{{isset($settingEmail)?$settingEmail->mail_from_name:''}}" class="form-control" id="mail_from_name{{isset($settingEmail->id)?$settingEmail->id:''}}">
                                     </div>                              
                                 </div>
-                                @if (Auth::user()->hasRole('Super') || 
-                                Auth::user()->can('usuario.tornar usuario master') || 
-                                Auth::user()->can('email.visualizar') && Auth::user()->can('email.configurar smtp'))
+                                @can(['usuario.tornar usuario master', 'email.visualizar', 'email.configurar smtp'])
                                     <div class="d-flex justify-content-end gap-2">
                                         <a href="{{route('admin.dashboard')}}" class="btn btn-danger waves-effect waves-light">{{__('dashboard.btn_cancel')}}</a>
                                         <button type="submit" class="btn btn-success waves-effect waves-light">{{__('dashboard.btn_save')}}</button>
-                                    </div> 
-                                @endif
+                                    </div>                                    
+                                @endcan
                             </form>
                         </div> <!-- end card-body-->
                     </div> <!-- end card-->

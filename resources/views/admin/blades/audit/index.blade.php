@@ -161,11 +161,15 @@
                                                 @endphp
                                                 <td>{{isset($locale) && isset($locales)?$locales[$locale]:'Sistema'}}</td>
                                             @endif
-                                            @if(Auth::user()->hasRole('Super') || Auth::user()->can('usuario.tornar usuario master') || Auth::user()->can('auditoria.visualizar'))
+                                            @can(['usuario.tornar usuario master', 'auditoria.visualizar'])
+                                            @endcan
+                                            @if (Auth::user()->hasPermissionTo('auditoria.visualizar') ||
+                                            Auth::user()->hasPermissionTo('usuario.tornar usuario master') || 
+                                            Auth::user()->hasRole('Super'))
                                                 <td>
                                                     <a href="{{route('admin.dashboard.audit.show',['activitie' => $activitie->id])}}"
                                                     class="btn-icon mdi mdi-eye-outline"></a>
-                                                </td>
+                                                </td>                                                
                                             @endif
                                         </tr>
                                     @endforeach

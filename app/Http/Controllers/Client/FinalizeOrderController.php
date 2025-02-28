@@ -44,24 +44,44 @@ class FinalizeOrderController extends Controller
         $request->validate([
             'postal_code' => 'required|string|min:7'
         ]);
-
         $postalCode = $request->postal_code;
-        $url = "https://api.allorigins.win/raw?url=https://json.geoapi.pt/cp/{$postalCode}";
 
+        $url = "https://api.allorigins.win/raw?url=https://json.geoapi.pt/cp/{$postalCode}";
+    
         try {
             $response = Http::get($url);
-
-            // Verifica se o corpo da resposta é JSON antes de retornar
-            $data = json_decode($response->body(), true);
-
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                return response()->json(['error' => 'Resposta inválida da API'], 500);
+    
+            // Verifica se a resposta é válida
+            if (!$response->successful()) {
+                return response()->json(['error' => 'Erro na requisição externa'], $response->status());
             }
-
-            return response()->json($data);
+    
+            // Verifica se a resposta contém JSON válido
+            $data = json_decode($response->body(), true);
+    
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                return response()->json([
+                    'error' => 'Resposta inválida da API',
+                    'raw_response' => $response->body() // Exibe o conteúdo recebido
+                ], 500);
+            }
+    
+            // Retorna os dados verificados
+            return response()->json([
+                'codigo_postal' => $data['CP'] ?? 'Não encontrado',
+                'designacao_postal' => $data['Designação Postal'] ?? 'Não encontrado',
+                'concelho' => $data['Concelho'] ?? 'Não encontrado',
+                'distrito' => $data['Distrito'] ?? 'Não encontrado',
+                'localidade' => $data['Localidade'] ?? 'Não encontrado',
+            ]);
+    
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Erro ao buscar CEP'], 500);
+            return response()->json([
+                'error' => 'Erro ao buscar CEP',
+                'exception' => $e->getMessage()
+            ], 500);
         }
     }
+    
 
 }

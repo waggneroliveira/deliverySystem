@@ -2,21 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Slide;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Response;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Repositories\SettingThemeRepository;
+use App\Repositories\UserPermissionRepository;
 use App\Http\Controllers\Helpers\HelperArchive;
 
 class SlideController extends Controller
 {
     protected $pathUpload = 'admin/uploads/images/slide/';
-    public function index()
+    public function index(UserPermissionRepository $userPermissionRepository)
     {
         $slides = Slide::sorting()->get();
+        $settingTheme = (new SettingThemeRepository())->settingTheme();
+        $users = User::excludeSuper()->with('roles');
+        $filteredUsers = $userPermissionRepository->filterUsersByPermissions($users);
 
+        if ($filteredUsers === 'forbidden') {
+            return view('admin.error.403', compact('settingTheme'));
+        }
+        
         return view('admin.blades.slide.index', compact('slides'));
     }
 
@@ -128,28 +140,80 @@ class SlideController extends Controller
         }
     }
 
-
     public function destroy(Slide $slide)
     {
-        Storage::delete($slide->path_image);
-        Storage::delete($slide->path_image_mobile);
+        Storage::delete(isset($slide->path_image)??$slide->path_image);
+        Storage::delete(isset($slide->path_image_mobile)??$slide->path_image_mobile);
         $slide->delete();
-        return redirect()->back()->with('sucess', 'Slide deletado com sucesso!');
+        Session::flash('success',__('dashboard.response_item_delete'));
+        return redirect()->back();
     }
 
     public function destroySelected(Request $request)
-    {
-
-        if($deleted = Slide::whereIn('id', $request->deleteAll)->delete()){
-            return Response::json(['status' => 'success', 'message' => $deleted.' itens deletados com sucessso!']);
+    {    
+        foreach ($request->deleteAll as $slideId) {
+            $slide = Slide::find($slideId);
+    
+            if ($slide) {
+                activity()
+                    ->causedBy(Auth::user())
+                    ->performedOn($slide)
+                    ->event('multiple_deleted')
+                    ->withProperties([
+                        'attributes' => [
+                            'id' => $slideId,
+                            'path_image' => $slide->path_image,
+                            'path_image_mobile' => $slide->path_image_mobile,
+                            'title' => $slide->title,
+                            'description' => $slide->description,
+                            'sorting' => $slide->sorting,
+                            'active' => $slide->active,
+                            'event' => 'multiple_deleted',
+                        ]
+                    ])
+                    ->log('multiple_deleted');
+            } else {
+                \Log::warning("Item com ID $slideId não encontrado.");
+            }
         }
+    
+        $deleted = Slide::whereIn('id', $request->deleteAll)->delete();
+    
+        if ($deleted) {
+            return Response::json(['status' => 'success', 'message' => $deleted . ' '.__('dashboard.response_item_delete')]);
+        }
+    
+        return Response::json(['status' => 'error', 'message' => 'Nenhum item foi deletado.'], 500);
     }
 
     public function sorting(Request $request)
     {
-        foreach($request->arrId as $sorting => $id){
-            Slide::where('id', $id)->update(['sorting' => $sorting]);
+        foreach($request->arrId as $sorting => $id) {
+            $slide = Slide::find($id);
+    
+            if($slide) {
+                activity()
+                    ->causedBy(Auth::user())
+                    ->performedOn($slide)
+                    ->event('order_updated')
+                    ->withProperties([
+                        'attributes' => [
+                            'id' => $id,
+                            'path_image' => $slide->path_image,
+                            'path_image_mobile' => $slide->path_image_mobile,
+                            'title' => $slide->title,
+                            'description' => $slide->description,
+                            'sorting' => $slide->sorting,
+                            'active' => $slide->active,
+                            'event' => 'order_updated',
+                        ]
+                    ])
+                    ->log('order_updated');
+            } else {
+                \Log::warning("Item com ID $id não encontrado.");
+            }
         }
+    
         return Response::json(['status' => 'success']);
     }
 }

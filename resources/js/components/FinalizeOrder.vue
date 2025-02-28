@@ -25,9 +25,11 @@
                     type="text" 
                     v-model="postalCode" 
                     placeholder="Ex: 1000-001" 
-                    @input="handlePostalCode"
+                    @input="formatPostalCode"
+                    maxlength="8"
                     required
                 >
+
             </div>
         </div>
 
@@ -36,13 +38,31 @@
                 <label for="address">Endereço</label>
                 <input id="address" type="text" v-model="address" placeholder="Endereço" readonly>
             </div>
-            <div class="phone">
-                <label for="phone">Telefone</label>
-                <input id="phone" type="number" v-model="phone" placeholder="Telefone">
+            <div class="localidade">
+                <label for="localidade">Localidade</label>
+                <input id="localidade" type="text" v-model="localidade" placeholder="Localidade" readonly>
             </div>
-            <div class="ref">
-                <label for="ref">Referência</label>
-                <input id="ref" type="text" v-model="reference" placeholder="Referência">
+            <div class="distrito">
+                <label for="distrito">Distrito</label>
+                <input id="distrito" type="text" v-model="distrito" placeholder="Distrito" readonly>
+            </div>
+            <div class="concelho">
+                <label for="concelho">Concelho</label>
+                <input id="concelho" type="text" v-model="concelho" placeholder="Concelho" readonly>
+            </div>
+            <div class="designacao-postal">
+                <label for="designacao_postal">Designação Postal</label>
+                <input id="designacao_postal" type="text" v-model="designacaoPostal" placeholder="Designação Postal" readonly>
+            </div>
+            <div class="row mt-1">
+                <div class="phone">
+                    <label for="phone">Telefone</label>
+                    <input id="phone" type="number" v-model="phone" placeholder="Telefone">
+                </div>
+                <div class="ref">
+                    <label for="ref">Referência</label>
+                    <input id="ref" type="text" v-model="reference" placeholder="Referência">
+                </div>
             </div>
         </div>
 
@@ -74,7 +94,6 @@
             </div>
         </div>
 
-        <!-- Campos para troco aparecem se "Sim" for selecionado -->
         <div v-if="paymentMethod === 'money' && change === 'yes'" class="row">
             <div class="troco">
                 <label for="trocoDe">Troco de</label>
@@ -94,15 +113,38 @@
 
 <script setup>
 import { ref } from 'vue';
+import axios from 'axios';
 
 const locations = ref([
     { value: 'delivery', label: 'Entrega ao domicílio', disabled: false },
-    //Adiciona lojas futuramente
+    // Adicionar lojas no futuro
 ]);
+
+const formatPostalCode = () => {
+    let value = postalCode.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+
+    if (value.length > 4) {
+        value = value.slice(0, 4) + '-' + value.slice(4, 7);
+    }
+
+    postalCode.value = value;
+
+    // Chama a API automaticamente ao atingir 8 caracteres válidos
+    if (postalCode.value.length === 8) {
+        handlePostalCode();
+    } else {
+        limparCampos(); // Limpa os campos se não for um CEP válido
+    }
+};
+
 
 const pickUpLocation = ref('delivery');
 const postalCode = ref('');
 const address = ref('');
+const localidade = ref('');
+const distrito = ref('');
+const concelho = ref('');
+const designacaoPostal = ref('');
 const phone = ref('');
 const reference = ref('');
 const paymentMethod = ref('');
@@ -118,33 +160,38 @@ const handlePostalCode = async () => {
                 postal_code: postalCode.value
             });
 
-            console.log("Resposta da API:", response.data); // Verifique a saída
+            console.log("Resposta da API:", response.data);
 
-            if (response.data && response.data.concelho) {
-                address.value = `${response.data.concelho}, ${response.data.distrito}`;
+            if (response.data) {
+                // Atualiza os campos com os dados retornados pela API
+                address.value = `${response.data.designacao_postal}`;
+                localidade.value = response.data.localidade;
+                distrito.value = response.data.distrito;
+                concelho.value = response.data.concelho;
+                designacaoPostal.value = response.data.designacao_postal;
+
                 showAddressFields.value = true;
             } else {
-                address.value = 'Endereço não encontrado';
-                showAddressFields.value = false;
+                limparCampos();
             }
         } catch (error) {
             console.error("Erro ao buscar o CEP:", error);
-            showAddressFields.value = false;
+            limparCampos();
         }
     } else {
-        showAddressFields.value = false;
+        limparCampos();
     }
 };
 
-
-// const handlePostalCode = () => {
-//     if (postalCode.value.length >= 7) {
-//         showAddressFields.value = true;
-//         address.value = 'Rua Exemplo, 123'; // Aqui pode ser substituído por uma API de CEP
-//     } else {
-//         showAddressFields.value = false;
-//     }
-// };
+// Função para limpar os campos ao digitar um CEP inválido
+const limparCampos = () => {
+    address.value = '';
+    localidade.value = '';
+    distrito.value = '';
+    concelho.value = '';
+    designacaoPostal.value = '';
+    showAddressFields.value = false;
+};
 
 const paymentMethods = ref([
     { value: 'mbway', label: 'Mbway', image: 'build/client/images/mbway.png' },
@@ -157,6 +204,7 @@ const submitForm = () => {
     alert('Pedido confirmado!');
 };
 </script>
+
 
 <style scoped>
 /* Estilos gerais */

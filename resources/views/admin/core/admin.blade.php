@@ -91,9 +91,31 @@
                     <ul class="menu">
 
                         <li class="menu-title">Listagem</li>
-                        @if (Auth::user()->hasRole('Super') || 
-                        Auth::user()->can('usuario.tornar usuario master') || 
-                        Auth::user()->can('auditoria.visualizar'))
+                        @if (Auth::user()->hasPermissionTo('categorias dos produtos.visualizar') ||
+                        Auth::user()->hasPermissionTo('usuario.tornar usuario master') || 
+                        Auth::user()->hasRole('Super'))
+                            <li class="menu-item">
+                                <a href="{{route('admin.dashboard.productCategory.index')}}" class="menu-link">
+                                    <span class="menu-icon"><i class="mdi mdi-format-list-bulleted-square"></i></span>
+                                    <span class="menu-text"> Categorias dos produtos </span>
+                                </a>
+                            </li>
+                        @endif
+
+                        @if (Auth::user()->hasPermissionTo('slides.visualizar') ||
+                        Auth::user()->hasPermissionTo('usuario.tornar usuario master') || 
+                        Auth::user()->hasRole('Super'))
+                            <li class="menu-item">
+                                <a href="{{route('admin.dashboard.productCategory.index')}}" class="menu-link">
+                                    <span class="menu-icon"><i class="mdi mdi-image-size-select-actual"></i></span>
+                                    <span class="menu-text"> Slides </span>
+                                </a>
+                            </li>
+                        @endif
+
+                        @if (Auth::user()->hasPermissionTo('auditoria.visualizar') ||
+                        Auth::user()->hasPermissionTo('usuario.tornar usuario master') || 
+                        Auth::user()->hasRole('Super'))
                             <li class="menu-item">
                                 <a href="{{route('admin.dashboard.audit.index')}}" class="menu-link">
                                     <span class="menu-icon"><i class="mdi mdi-clipboard-text"></i></span>
@@ -101,9 +123,10 @@
                                 </a>
                             </li>
                         @endif
-                        @if (Auth::user()->hasRole('Super') || 
-                        Auth::user()->can('usuario.tornar usuario master') || 
-                        Auth::user()->can('email.visualizar'))                            
+
+                        @if (Auth::user()->hasPermissionTo('email.visualizar') ||
+                        Auth::user()->hasPermissionTo('usuario.tornar usuario master') || 
+                        Auth::user()->hasRole('Super'))
                             <li class="menu-item">
                                 <a href="{{route('admin.dashboard.settingEmail.index')}}" class="menu-link">
                                     <span class="menu-icon"><i class="mdi mdi-email"></i></span>
@@ -111,9 +134,10 @@
                                 </a>
                             </li>
                         @endif
-                        @if (Auth::user()->hasRole('Super') || 
-                        Auth::user()->can('usuario.tornar usuario master') || 
-                        Auth::user()->can('grupo.visualizar'))                            
+
+                        @if (Auth::user()->hasPermissionTo('grupo.visualizar') ||
+                        Auth::user()->hasPermissionTo('usuario.tornar usuario master') || 
+                        Auth::user()->hasRole('Super'))
                             <li class="menu-item">
                                 <a href="{{route('admin.dashboard.group.index')}}" class="menu-link">
                                     <span class="menu-icon"><i class="mdi mdi-account-group"></i></span>
@@ -121,9 +145,10 @@
                                 </a>
                             </li>
                         @endif
-                        @if (Auth::user()->hasRole('Super') || 
-                        Auth::user()->can('usuario.tornar usuario master') || 
-                        Auth::user()->can('usuario.visualizar'))                            
+
+                        @if (Auth::user()->hasPermissionTo('usuario.visualizar') ||
+                        Auth::user()->hasPermissionTo('usuario.tornar usuario master') || 
+                        Auth::user()->hasRole('Super'))
                             <li class="menu-item">
                                 <a href="{{route('admin.dashboard.user.index')}}" class="menu-link">
                                     <span class="menu-icon"><i class="mdi mdi-account-multiple"></i></span>
@@ -315,7 +340,7 @@
                                         </div>
 
                                         <div class="px-1" style="max-height: 300px;" data-simplebar>
-                                            @if (Auth::user()->hasRole('Super') || Auth::user()->can('notificacao.notificacao de auditoria'))
+                                            @if (Auth::user()->hasRole('Super') || Auth::user()->can('usuario.tornar usuario master') || Auth::user()->can('notificacao.notificacao de auditoria'))
                                                 @if (isset($auditorias) && $auditorias->count() > 0)
                                                     <h5 class="text-muted font-13 fw-normal mt-2">{{__('dashboard.day_notification')}}</h5>
                                                     <!-- item-->
