@@ -6,7 +6,7 @@
             </div>
             <a :href="`/produtos/${category.slug}`">
                 <div class="box-product-category__description rounded-lg absolute left-1/2 bottom-3 z-10 transform -translate-x-1/2 bg-[#031D40] h-[2.651rem] w-[80%] max-w-[12.688rem] flex text-center items-center">
-                        <h4 class="box-product-category__description--title text-[#FFF] w-[90%] m-auto">{{ category.title }}</h4>
+                    <h4 class="box-product-category__description--title text-[#FFF] w-[90%] m-auto">{{ category.title }}</h4>
                 </div>
             </a>
         </div>
