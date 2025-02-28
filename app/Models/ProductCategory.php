@@ -5,23 +5,15 @@ namespace App\Models;
 use Spatie\Activitylog\LogOptions;
 use App\Services\ActivityLogService;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Slide extends Model
+class ProductCategory extends Model
 {
-    use Notifiable, HasFactory,  LogsActivity;
-    
-    protected $table = 'slides';
-
     protected $fillable = [
-        'path_image',
-        'path_image_mobile',
         'title',
-        'description',
-        'sorting',
+        'slug',
         'active',
+        'path_image',
+        'sorting',
     ];
 
     public function scopeActive(){
