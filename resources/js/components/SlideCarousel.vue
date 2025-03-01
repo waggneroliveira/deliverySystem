@@ -86,4 +86,9 @@ export default {
     font-weight: 400; 
     font-style: normal;
   }
+  @media screen and (max-width: 640px) {
+    .pagination{
+      left: 0;
+    }
+  }
 </style>

@@ -141,7 +141,7 @@ export default {
 
 
 <style>
-    @media screen and (max-width: 516px) {
+    @media screen and (max-width: 416px) {
         .box-products {
             grid-template-columns: repeat(1, 1fr);
         }

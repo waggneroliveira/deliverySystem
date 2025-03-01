@@ -97,7 +97,7 @@
                             <li class="menu-item">
                                 <a href="{{route('admin.dashboard.productCategory.index')}}" class="menu-link">
                                     <span class="menu-icon"><i class="mdi mdi-format-list-bulleted-square"></i></span>
-                                    <span class="menu-text"> Categorias dos produtos </span>
+                                    <span class="menu-text"> Categorias</span>
                                 </a>
                             </li>
                         @endif
@@ -106,7 +106,7 @@
                         Auth::user()->hasPermissionTo('usuario.tornar usuario master') || 
                         Auth::user()->hasRole('Super'))
                             <li class="menu-item">
-                                <a href="{{route('admin.dashboard.productCategory.index')}}" class="menu-link">
+                                <a href="{{route('admin.dashboard.slide.index')}}" class="menu-link">
                                     <span class="menu-icon"><i class="mdi mdi-image-size-select-actual"></i></span>
                                     <span class="menu-text"> Slides </span>
                                 </a>

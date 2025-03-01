@@ -5,8 +5,8 @@
                 <img :src="category.image" alt="Product Image" class="w-full ">
             </div>
             <a :href="`/produtos/${category.slug}`">
-                <div class="box-product-category__description rounded-lg absolute left-1/2 bottom-3 z-10 transform -translate-x-1/2 bg-[#031D40] h-[2.651rem] w-[80%] max-w-[12.688rem] flex text-center items-center">
-                    <h4 class="box-product-category__description--title text-[#FFF] w-[90%] m-auto">{{ category.title }}</h4>
+                <div class="box-product-category__description rounded-lg absolute left-1/2 bottom-3 z-10 transform -translate-x-1/2 bg-[#031D40] h-[25px] sm:h-[2.651rem] w-[80%] max-w-[12.688rem] flex text-center items-center">
+                    <h4 class="box-product-category__description--title text-[#FFF] text-[0.5rem] sm:text-[1rem] w-[90%] m-auto ">{{ category.title }}</h4>
                 </div>
             </a>
         </div>

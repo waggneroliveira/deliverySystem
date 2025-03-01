@@ -1,6 +1,6 @@
 <template>
     <div class="btn">
-        <button :class="[btnClass, 'btn__buy text-[#FFF] bg-[#987F2D] h-[35px] w-[7.043rem] flex justify-center items-center gap-3 hover:bg-[#b8982c] noto-sans-devanagari-regular']">
+        <button :class="[btnClass, 'btn__buy text-[#FFF] text-[0.75rem] sm:text-[1.125rem] bg-[#987F2D] h-[30px] sm:h-[35px] w-[5.625rem] sm:w-[7.043rem] flex justify-center items-center gap-2 sm:gap-3 hover:bg-[#b8982c] noto-sans-devanagari-regular']">
             <img v-if="icon" :src="icon" alt="Product Image" :class="[imgClass]">
             {{ label }}
         </button>

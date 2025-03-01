@@ -44,5 +44,13 @@ export default defineConfig({
         alias:{
             vue:'vue/dist/vue.esm-bundler.js'
         }
+    },
+    server: {
+        host: '0.0.0.0', // Permite acesso externo
+        port: 5173, 
+        strictPort: true, // Garante que o Vite não mude a porta
+        hmr: {
+            host: '192.168.100.14' 
+        }
     }
 });
