@@ -135,11 +135,7 @@ export default {
             grid-template-columns: repeat(1, 1fr);
         }
     }
-    @media screen and (max-width: 415px) {
-        /* .box-product__content {
-            max-width: 320px;
-        } */
-    }
+
     .count-item button, .btn__buy {
         transition: background-color 0.3s;
     }

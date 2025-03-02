@@ -33,36 +33,48 @@
             </div>
         </div>
 
-        <div v-if="showAddressFields" class="row">
-            <div class="address">
-                <label for="address">Endereço</label>
-                <input id="address" type="text" v-model="address" placeholder="Endereço" readonly>
+        <div v-if="showAddressFields" class="row mt-2 flex-col">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="address">
+                    <label for="address">Endereço</label>
+                    <input id="address" type="text" v-model="address" placeholder="Endereço" class="w-full p-2 border rounded-md bg-gray-100" readonly>
+                </div>
+                <div class="address">
+                    <label for="rua">Rua</label>
+                    <input id="rua" type="text" v-model="rua" placeholder="Rua" class="w-full p-2 border rounded-md bg-gray-100" readonly>
+                </div>
+                <div class="house">
+                    <label for="casa">Número</label>
+                    <input id="casa" type="text" v-model="casa" placeholder="Número" class="w-full p-2 border rounded-md bg-gray-100" readonly>
+                </div>
+                <div class="localidade">
+                    <label for="localidade">Localidade</label>
+                    <input id="localidade" type="text" v-model="localidade" placeholder="Localidade" class="w-full p-2 border rounded-md bg-gray-100" readonly>
+                </div>
             </div>
-            <div class="localidade">
-                <label for="localidade">Localidade</label>
-                <input id="localidade" type="text" v-model="localidade" placeholder="Localidade" readonly>
-            </div>
-            <div class="distrito">
-                <label for="distrito">Distrito</label>
-                <input id="distrito" type="text" v-model="distrito" placeholder="Distrito" readonly>
-            </div>
-            <div class="concelho">
-                <label for="concelho">Concelho</label>
-                <input id="concelho" type="text" v-model="concelho" placeholder="Concelho" readonly>
-            </div>
-            <div class="designacao-postal">
-                <label for="designacao_postal">Designação Postal</label>
-                <input id="designacao_postal" type="text" v-model="designacaoPostal" placeholder="Designação Postal" readonly>
-            </div>
-            <div class="row mt-1">
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
+                <div class="distrito">
+                    <label for="distrito">Distrito</label>
+                    <input id="distrito" type="text" v-model="distrito" placeholder="Distrito" class="w-full p-2 border rounded-md bg-gray-100" readonly>
+                </div>
+                <div class="concelho">
+                    <label for="concelho">Concelho</label>
+                    <input id="concelho" type="text" v-model="concelho" placeholder="Concelho" class="w-full p-2 border rounded-md bg-gray-100" readonly>
+                </div>
+                <div class="designacao-postal">
+                    <label for="designacao_postal">Designação Postal</label>
+                    <input id="designacao_postal" type="text" v-model="designacaoPostal" placeholder="Designação Postal" class="w-full p-2 border rounded-md bg-gray-100" readonly>
+                </div>
                 <div class="phone">
                     <label for="phone">Telefone</label>
-                    <input id="phone" type="number" v-model="phone" placeholder="Telefone">
+                    <input id="phone" type="number" v-model="phone" placeholder="Telefone" class="w-full p-2 border rounded-md">
                 </div>
-                <div class="ref">
-                    <label for="ref">Referência</label>
-                    <input id="ref" type="text" v-model="reference" placeholder="Referência">
-                </div>
+            </div>
+
+            <div class="mt-4">
+                <label for="ref">Referência</label>
+                <textarea id="ref" v-model="reference" placeholder="Referência" class="w-full p-2 border rounded-md h-24 resize-none"></textarea>
             </div>
         </div>
 
@@ -82,15 +94,15 @@
             </div>
         </div>
 
-        <div v-if="paymentMethod === 'money'" class="row">
+        <div v-if="paymentMethod === 'money'" class="row !flex-row">
             <h5>Precisa de troco?</h5>
             <div class="change">
-                <input id="change_yes" type="radio" v-model="change" value="yes">
-                <label for="change_yes">Sim</label>
+                <input id="change_yes" type="radio" v-model="change" value="yes" class="!h-[18px] sm:h-[35px]">
+                <label for="change_yes" class="text-[0.75rem] sm:text-[0.938rem]">Sim</label>
             </div>
             <div class="change">
-                <input id="change_no" type="radio" v-model="change" value="no">
-                <label for="change_no">Não</label>
+                <input id="change_no" type="radio" v-model="change" value="no" class="!h-[18px] sm:h-[35px]">
+                <label for="change_no" class="text-[0.75rem] sm:text-[0.938rem]">Não</label>
             </div>
         </div>
 
@@ -142,6 +154,8 @@ const pickUpLocation = ref('delivery');
 const postalCode = ref('');
 const address = ref('');
 const localidade = ref('');
+const rua = ref('');
+const casa = ref('');
 const distrito = ref('');
 const concelho = ref('');
 const designacaoPostal = ref('');
@@ -163,7 +177,11 @@ const handlePostalCode = async () => {
             console.log("Resposta da API:", response.data);
 
             if (response.data) {
-                // Atualiza os campos com os dados retornados pela API
+                // Se existirem pontos, pega o primeiro (ou modificar para selecionar)
+                const ponto = response.data.pontos?.[0] || {};
+
+                rua.value = ponto.rua || 'Não disponível';
+                casa.value = ponto.casa || 'Não disponível';
                 address.value = `${response.data.designacao_postal}`;
                 localidade.value = response.data.localidade;
                 distrito.value = response.data.distrito;
@@ -185,6 +203,8 @@ const handlePostalCode = async () => {
 
 // Função para limpar os campos ao digitar um CEP inválido
 const limparCampos = () => {
+    rua.value = '';
+    casa.value = '';
     address.value = '';
     localidade.value = '';
     distrito.value = '';
@@ -295,6 +315,16 @@ button:hover {
 @media screen and (max-width: 871px) {
     .row {
         flex-direction: column;
+    }
+}
+@media screen and (max-width: 422px) {
+    .payments{
+        justify-content: space-between;
+        gap: 0;
+    }
+    .payment-box{
+        width:48%;
+        margin-bottom: 10px;
     }
 }
 </style>
