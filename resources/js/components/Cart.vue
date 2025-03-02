@@ -4,7 +4,7 @@
             <a :href="redirectBack" class="text-[#FFF] text-[0.75rem] sm:text-[1.125rem] bg-[#987F2D] h-[25px] sm:h-[35px] w-auto px-4 flex justify-center items-center gap-2 hover:bg-[#b8982c] noto-sans-devanagari-regular"><span><</span> Voltar</a>
             
             <form @submit.prevent="removeSelected">
-                <button-component v-if="selectedItems.length >= 2" type="submit" btnClass="!w-[auto] !h-[25px] !sm:h-[35px] px-3 sm:px-5 bg-[#CF1E0C] hover:bg-red-700 text-[0.75rem] sm:text-[1.125rem]" imgClass="!w-[0.825rem]" :icon="'build/client/images/trash.png'" :label="'Remover'"></button-component>
+                <button-component v-if="selectedItems.length >= 2" type="submit" btnClass="w-auto h-[25px] sm:h-[35px] px-3 sm:px-8 bg-[#CF1E0C] hover:bg-red-700 text-[0.75rem] sm:text-[1.125rem]" imgClass="!w-[0.825rem]" :icon="'build/client/images/trash.png'" :label="'Remover'"></button-component>
             </form>
         </div>
 
