@@ -62,7 +62,7 @@ class HomePageController extends Controller
                     'active' => $product->active,
                     'promotion' => $product->promotion,
                     'image' => $product->path_image ? asset('storage/' . $product->path_image) : null,
-                    'price' => $stock && isset($stock->promotion_value) && $stock->promotion_value > 0 ? number_format($stock->promotion_value, 2, '.', '') : (isset($stock->amount) ? number_format($stock->amount, 2, '.', '') : '0.00'),
+                    'price' => $stock && isset($stock->promotion_value) && $stock->promotion_value > 0 ? number_format($stock->promotion_value, 2, '.', '') : (isset($stock->amount) ? number_format($stock->amount, 2, '.', '') : ''),
                     'oldPrice' => $stock && isset($stock->promotion_value) && $stock->promotion_value > 0 ? number_format($stock->amount, 2, '.', '') : null,
                     'tag' => $stock && $stock->promotion_value ? round(100 - ($stock->promotion_value * 100 / $stock->amount)) . '%' . ' off' : null,
                     'stock' => $stock ? $stock->quantity : 0,

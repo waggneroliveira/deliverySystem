@@ -17,7 +17,7 @@
                         <div v-if="item.oldPrice > 0" class="box-product__description--content__price__old-price text-[#4C3A36] text-[0.75rem] sm:text-[1.125rem] line-through noto-sans-devanagari-light">
                             R$ {{ item.oldPrice }}
                         </div>
-                        <div class="box-product__description--content__price__price text-[#CF1E0C] text-[0.938rem] sm:text-[1.25rem] noto-sans-devanagari-semibold">
+                        <div v-if="item.price" class="box-product__description--content__price__price text-[#CF1E0C] text-[0.938rem] sm:text-[1.25rem] noto-sans-devanagari-semibold">
                             R$ {{ item.price }}
                         </div>
                     </div>
