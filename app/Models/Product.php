@@ -9,21 +9,26 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class ProductCategory extends Model
+class Product extends Model
 {
-    use HasRoles, HasFactory, LogsActivity;
 
+    use HasRoles, HasFactory, LogsActivity;
+    
     protected $fillable = [
+        'produtc_category',
         'title',
         'slug',
         'active',
-        'path_image',
+        'promotion',
         'sorting',
+        'description',
+        'path_image',
     ];
 
-    public function products(){
-        return $this->hasMany(Product::class);
+    public function categories(){
+        return $this->belongsTo(ProductCategory::class);
     }
+
     public function scopeActive(){
         return $this->where('active', 1);
     }

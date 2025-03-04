@@ -13,6 +13,8 @@ class AuditActivity extends Model
     {
         switch ($subjectType) { 
            
+            case Product::class:
+                return 'Produtos';
             case ProductCategory::class:
                 return 'Categorias dos Produtos';
             case Slide::class:

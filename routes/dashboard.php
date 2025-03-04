@@ -14,6 +14,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SlideController;
 use App\Repositories\AuditCountRepository;
+use App\Http\Controllers\ProductController;
 use App\Repositories\SettingThemeRepository;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\DashboardController;
@@ -87,6 +88,15 @@ Route::prefix('painel/')->group(function () {
             ->name('admin.dashboard.productCategory.destroySelected');
         Route::post('categorias-dos-produtos/sorting', [ProductCategoryController::class, 'sorting'])
             ->name('admin.dashboard.productCategory.sorting');   
+        
+            //PRODUCT
+        Route::resource('produtos', ProductController::class)
+        ->names('admin.dashboard.product')
+        ->parameters(['produtos'=>'product']);
+        Route::post('produtos/delete', [ProductController::class, 'destroySelected'])
+            ->name('admin.dashboard.product.destroySelected');
+        Route::post('produtos/sorting', [ProductController::class, 'sorting'])
+            ->name('admin.dashboard.product.sorting');   
         
         //SLIDE
         Route::resource('slides', SlideController::class)

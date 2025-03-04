@@ -51,7 +51,7 @@
         <link href="{{ asset('build/admin/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
         
         <link href="{{ asset('build/admin/js/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
-
+        <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
         <!-- Theme Config Js -->
         <script src="{{ asset('build/admin/js/head.js') }}"></script>
 

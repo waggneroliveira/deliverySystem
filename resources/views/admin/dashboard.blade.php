@@ -20,6 +20,7 @@
     <!-- end page title -->
     <div class="row">
         @if (Auth::user()->hasPermissionTo('categorias dos produtos.visualizar')||
+        Auth::user()->hasPermissionTo('slides.visualizar') ||
         Auth::user()->hasPermissionTo('usuario.tornar usuario master') || 
         Auth::user()->hasRole('Super'))
             <div class="col-12">
@@ -47,28 +48,49 @@
                     </div> <!-- end card-->
                 </div> <!-- end col -->
             @endcanany
-        @endif
-
-        @canany(['usuario.tornar usuario master', 'slides.visualizar'])
-            <div class="col-md-5 col-xl-3">
-                <div class="card borda-cx ratio ratio-4x3">
-                    <div class="d-flex align-items-center justify-content-center">
-                        <a href="{{route('admin.dashboard.slide.index')}}">
-                            <div class="row">
-                                <div class="col-12 d-flex align-items-center justify-content-center">
-                                    <div class="avatar-xl bg-hoom rounded-circle text-center">
-                                        <i class="avatar-md mdi mdi-image-size-select-actual font-48 text-muted"></i>
+            
+            @canany(['usuario.tornar usuario master', 'produtos.visualizar'])
+                <div class="col-md-5 col-xl-3">
+                    <div class="card borda-cx ratio ratio-4x3">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <a href="{{route('admin.dashboard.product.index')}}">
+                                <div class="row">
+                                    <div class="col-12 d-flex align-items-center justify-content-center">
+                                        <div class="avatar-xl bg-hoom rounded-circle text-center">
+                                            <i class="avatar-md mdi mdi-format-list-bulleted-square font-48 text-muted"></i>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="mt-3 col-12 text-center">
-                                <h5 class="text-uppercase text-muted">Slides</h5>
-                            </div>
-                        </a>
-                    </div>
-                </div> <!-- end card-->
-            </div> <!-- end col -->
-        @endcanany
+                                <div class="mt-3 col-12 text-center">
+                                    <h5 class="text-uppercase text-muted">Produtos</h5>
+                                </div>
+                            </a>
+                        </div>
+                    </div> <!-- end card-->
+                </div> <!-- end col -->
+            @endcanany
+    
+            @canany(['usuario.tornar usuario master', 'slides.visualizar'])
+                <div class="col-md-5 col-xl-3">
+                    <div class="card borda-cx ratio ratio-4x3">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <a href="{{route('admin.dashboard.slide.index')}}">
+                                <div class="row">
+                                    <div class="col-12 d-flex align-items-center justify-content-center">
+                                        <div class="avatar-xl bg-hoom rounded-circle text-center">
+                                            <i class="avatar-md mdi mdi-image-size-select-actual font-48 text-muted"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-3 col-12 text-center">
+                                    <h5 class="text-uppercase text-muted">Slides</h5>
+                                </div>
+                            </a>
+                        </div>
+                    </div> <!-- end card-->
+                </div> <!-- end col -->
+            @endcanany
+        @endif
     </div>
     <div class="row">
         @canany(['usuario.tornar usuario master', 'email.visualizar'])
