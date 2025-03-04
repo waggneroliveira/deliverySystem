@@ -43,8 +43,8 @@
         </div>
     </div>
     <div class="form-check">
-        <input name="promotion" {{ isset($product->promotion) && $product->promotion == 1 ? 'checked' : '' }} type="checkbox" class="form-check-input" id="invalidCheck{{isset($product->id)?$product->id:''}}" />
-        <label class="form-check-label" for="invalidCheck">Produto Promocional?</label>
+        <input name="promotion" {{ isset($product->promotion) && $product->promotion == 1 ? 'checked' : '' }} type="checkbox" class="form-check-input" id="invalidCheck1{{isset($product->id)?$product->id:''}}" />
+        <label class="form-check-label" for="invalidCheck1">Produto Promocional?</label>
         <div class="invalid-feedback">
             You must agree before submitting.
         </div>

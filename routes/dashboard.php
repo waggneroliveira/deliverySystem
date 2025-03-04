@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use App\Models\ProductStock;
 use App\Models\SettingTheme;
 use App\Models\AuditActivity;
 use App\Models\ProductCategory;
@@ -18,6 +19,7 @@ use App\Http\Controllers\ProductController;
 use App\Repositories\SettingThemeRepository;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProductStockController;
 use App\Http\Controllers\SettingEmailController;
 use App\Http\Controllers\SettingThemeController;
 use App\Http\Controllers\AuditActivityController;
@@ -80,6 +82,10 @@ Route::prefix('painel/')->group(function () {
 
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
+        Route::resource('stock', ProductStockController::class)
+        ->names('admin.dashboard.productStock')
+        ->parameters(['stock'=>'productStock']);
+
         //PRODUCT-CATEGORY
         Route::resource('categorias-dos-produtos', ProductCategoryController::class)
         ->names('admin.dashboard.productCategory')
@@ -89,7 +95,7 @@ Route::prefix('painel/')->group(function () {
         Route::post('categorias-dos-produtos/sorting', [ProductCategoryController::class, 'sorting'])
             ->name('admin.dashboard.productCategory.sorting');   
         
-            //PRODUCT
+        //PRODUCT
         Route::resource('produtos', ProductController::class)
         ->names('admin.dashboard.product')
         ->parameters(['produtos'=>'product']);

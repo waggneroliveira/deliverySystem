@@ -22,7 +22,7 @@ class ProductController extends Controller
     protected $pathUpload = 'admin/uploads/images/products/';
     public function index(UserPermissionRepository $userPermissionRepository)
     {
-        $products = Product::get();
+        $products = Product::with('stocks')->get();
         $settingTheme = (new SettingThemeRepository())->settingTheme();
         $users = User::excludeSuper()->with('roles');
         $filteredUsers = $userPermissionRepository->filterUsersByPermissions($users);
@@ -59,6 +59,7 @@ class ProductController extends Controller
         }
 
         $data['active'] = $request->active ? 1 : 0;
+        $data['promotion'] = $request->promotion ? 1 : 0;
         $data['slug'] = Str::slug($request->title);
 
         try {
@@ -78,7 +79,7 @@ class ProductController extends Controller
     {
         $data = $request->all();
         $helper = new HelperArchive();
-
+        // dd($data);
         $path_image = $helper->renameArchiveUpload($request, 'path_image');
         if ($path_image) {
             $data['path_image'] = $this->pathUpload . $path_image;
@@ -96,6 +97,7 @@ class ProductController extends Controller
         try {
             DB::beginTransaction();
                 $data['active'] = $request->active ? 1 : 0;
+                $data['promotion'] = $request->promotion ? 1 : 0;
                 $data['slug'] = Str::slug($request->title);
                 $product->fill($data)->save();
             DB::commit();

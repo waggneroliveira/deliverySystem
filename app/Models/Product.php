@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\ProductStock;
 use Spatie\Activitylog\LogOptions;
 use App\Services\ActivityLogService;
 use Spatie\Permission\Traits\HasRoles;
@@ -27,6 +28,10 @@ class Product extends Model
 
     public function categories(){
         return $this->belongsTo(ProductCategory::class);
+    }
+
+    public function stocks(){
+        return $this->hasMany(ProductStock::class, 'product_id');
     }
 
     public function scopeActive(){
