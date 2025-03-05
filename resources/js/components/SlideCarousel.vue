@@ -1,7 +1,7 @@
 <template>
   <div class="relative w-full h-full top-0">
     <div class="slide relative z-0 w-full">
-      <carousel :wrap-around="true" :autoplay="false" class="rounded-xl h-full">
+      <carousel :wrap-around="true" :autoplay="0" class="rounded-xl h-full">
         <slide v-for="(banner, index) in banners" :key="index">
           <img :src="getImage(banner)" :alt="banner.title" class="w-full h-screen object-cover" />
           <div class="description absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 text-left w-[90%] max-w-[1140px] h-full max-h-[333px] flex flex-col items-start justify-center gap-[30px] leading-[52px]">
@@ -52,7 +52,6 @@ export default {
       try {
         const response = await axios.get('/api/slides'); // Requisição para Laravel
         this.banners = response.data; // Atualiza o array com os dados da API
-        console.log('Dados da API:', response.data);
       } catch (error) {
         console.error('Erro ao buscar os banners:', error);
       }

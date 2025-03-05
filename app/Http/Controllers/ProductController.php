@@ -60,6 +60,7 @@ class ProductController extends Controller
 
         $data['active'] = $request->active ? 1 : 0;
         $data['promotion'] = $request->promotion ? 1 : 0;
+        $data['highlight_home'] = $request->highlight_home ? 1 : 0;
         $data['slug'] = Str::slug($request->title);
 
         try {
@@ -98,6 +99,7 @@ class ProductController extends Controller
             DB::beginTransaction();
                 $data['active'] = $request->active ? 1 : 0;
                 $data['promotion'] = $request->promotion ? 1 : 0;
+                $data['highlight_home'] = $request->highlight_home ? 1 : 0;
                 $data['slug'] = Str::slug($request->title);
                 $product->fill($data)->save();
             DB::commit();
@@ -136,6 +138,8 @@ class ProductController extends Controller
                             'slug' => $product->slug,
                             'sorting' => $product->sorting,
                             'active' => $product->active,
+                            'promotion' => $product->promotion,
+                            'highlight_home' => $product->highlight_home,
                             'event' => 'multiple_deleted',
                         ]
                     ])
@@ -172,6 +176,8 @@ class ProductController extends Controller
                             'slug' => $product->slug,
                             'sorting' => $product->sorting,
                             'active' => $product->active,
+                            'promotion' => $product->promotion,
+                            'highlight_home' => $product->highlight_home,
                             'event' => 'order_updated',
                         ]
                     ])

@@ -51,7 +51,6 @@
                                                             <div class="modal-body p-4">
                                                                 <form action="{{route('admin.dashboard.product.store')}}" method="POST" enctype="multipart/form-data">
                                                                     @csrf
-                                                                    {{-- @include('admin.blades.product.form', ['textareaId' => 'textarea-create'])   --}}
                                                                     <div class="mb-3 col-12 d-flex align-items-start flex-column">
                                                                         <label for="category-select" class="form-label">Categoria(s) <span class="text-danger">*</span></label>
                                                                         @php
@@ -94,6 +93,20 @@
                                                                                 You must agree before submitting.
                                                                             </div>
                                                                         </div>
+                                                                        <div class="form-check">
+                                                                            <input name="promotion" {{ isset($product->promotion) && $product->promotion == 1 ? 'checked' : '' }} type="checkbox" class="form-check-input" id="invalidCheck1{{isset($product->id)?$product->id:''}}" />
+                                                                            <label class="form-check-label" for="invalidCheck1">Produto Promocional?</label>
+                                                                            <div class="invalid-feedback">
+                                                                                You must agree before submitting.
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-check">
+                                                                            <input name="highlight_home" {{ isset($product->highlight_home) && $product->highlight_home == 1 ? 'checked' : '' }} type="checkbox" class="form-check-input" id="invalidCheck2{{isset($product->id)?$product->id:''}}" />
+                                                                            <label class="form-check-label" for="invalidCheck2">Destacar na home?</label>
+                                                                            <div class="invalid-feedback">
+                                                                                You must agree before submitting.
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                     <div class="d-flex justify-content-end gap-2">
                                                                         <button type="button" class="btn btn-danger waves-effect waves-light" data-bs-dismiss="modal">{{__('dashboard.btn_cancel')}}</button>
@@ -120,6 +133,8 @@
                                                 <th>Título</th>
                                                 <th>Imagem</th>
                                                 <th>Status</th>
+                                                <th>Destaque</th>
+                                                <th>Promocional</th>
                                                 <th style="width: 85px;">Ações</th>
                                             </tr>
                                         </thead>
@@ -143,6 +158,18 @@
                                                             @case(1) <span class="badge bg-success">Ativo</span> @break
                                                         @endswitch
                                                     </td>
+                                                    <td>
+                                                        @switch($product->highlight_home)
+                                                            @case(0) <span class="badge bg-danger">Inativo</span> @break
+                                                            @case(1) <span class="badge bg-success">Ativo</span> @break
+                                                        @endswitch
+                                                    </td>
+                                                    <td>
+                                                        @switch($product->promotion)
+                                                            @case(0) <span class="badge bg-danger">Inativo</span> @break
+                                                            @case(1) <span class="badge bg-success">Ativo</span> @break
+                                                        @endswitch
+                                                    </td>
                                                     <td class="d-flex gap-lg-1 justify-center">
                                                         @if (Auth::user()->hasPermissionTo('produtos.visualizar') &&
                                                         Auth::user()->hasPermissionTo('produtos.editar') ||
@@ -157,41 +184,45 @@
                                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                                                                         </div>
                                                                         <div class="modal-body p-4">
-                                                                            <form action="{{ route('admin.dashboard.productStock.store') }}" method="POST">
-                                                                                @csrf
-                                                                                @method('POST')
-                                                                            
-                                                                                <div class="mb-3 col-12 d-flex align-items-start flex-column">
-                                                                                    <input type="hidden" name="product_id" value="{{ isset($product) ? $product->id : '' }}">
-                                                                                </div>
-                                                                            
-                                                                                <div class="row">
-                                                                                    <div class="mb-3 col-3">
-                                                                                        <label for="quantity" class="form-label">Estoque</label>
-                                                                                        <input type="number" required name="quantity" min="0" class="form-control" id="quantity"
-                                                                                        placeholder="Digite a quantidade de estoque">
-                                                                                    </div>
-                                                                            
-                                                                                    <div class="mb-3 col-5">
-                                                                                        <label for="promotion_value" class="form-label">Valor Promocional</label>
-                                                                                        <input type="number" required name="promotion_value" min="0" step="0.01" class="form-control"
-                                                                                            id="promotion_value" 
-                                                                                            placeholder="Digite o valor promocional">
-                                                                                    </div>
-                                                                            
-                                                                                    <div class="mb-3 col-4">
-                                                                                        <label for="amount" class="form-label">Valor</label>
-                                                                                        <input type="number" required name="amount" min="0" step="0.01" class="form-control"
-                                                                                            id="amount" 
-                                                                                            placeholder="Digite o valor do produto">
-                                                                                    </div>
-                                                                                </div>
-                                                                            
-                                                                                <div class="d-flex justify-content-end gap-2">
-                                                                                    <button type="button" class="btn btn-danger waves-effect waves-light" data-bs-dismiss="modal">{{__('dashboard.btn_cancel')}}</button>
-                                                                                    <button type="submit" class="btn btn-success waves-effect waves-light">{{__('dashboard.btn_save')}}</button>
-                                                                                </div>                                                                                                                                                                                            
-                                                                            </form>
+                                                                            @if (isset($product->stocks))
+                                                                                @if (!$product->stocks->contains('product_id', $product->id))                                                                                    
+                                                                                    <form action="{{ route('admin.dashboard.productStock.store') }}" method="POST">
+                                                                                        @csrf
+                                                                                        @method('POST')
+                                                                                    
+                                                                                        <div class="mb-3 col-12 d-flex align-items-start flex-column">
+                                                                                            <input type="hidden" name="product_id" value="{{ isset($product) ? $product->id : '' }}">
+                                                                                        </div>
+                                                                                    
+                                                                                        <div class="row">
+                                                                                            <div class="mb-3 col-3">
+                                                                                                <label for="quantity" class="form-label">Estoque</label>
+                                                                                                <input type="number" required name="quantity" min="0" class="form-control" id="quantity"
+                                                                                                placeholder="Digite a quantidade de estoque">
+                                                                                            </div>
+                                                                                    
+                                                                                            <div class="mb-3 col-5">
+                                                                                                <label for="promotion_value" class="form-label">Valor Promocional</label>
+                                                                                                <input type="number" required name="promotion_value" min="0" step="0.01" class="form-control"
+                                                                                                    id="promotion_value" 
+                                                                                                    placeholder="Digite o valor promocional">
+                                                                                            </div>
+                                                                                    
+                                                                                            <div class="mb-3 col-4">
+                                                                                                <label for="amount" class="form-label">Valor</label>
+                                                                                                <input type="number" required name="amount" min="0" step="0.01" class="form-control"
+                                                                                                    id="amount" 
+                                                                                                    placeholder="Digite o valor do produto">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    
+                                                                                        <div class="d-flex justify-content-end gap-2">
+                                                                                            <button type="button" class="btn btn-danger waves-effect waves-light" data-bs-dismiss="modal">{{__('dashboard.btn_cancel')}}</button>
+                                                                                            <button type="submit" class="btn btn-success waves-effect waves-light">{{__('dashboard.btn_save')}}</button>
+                                                                                        </div>                                                                                                                                                                                            
+                                                                                    </form>
+                                                                                @endif
+                                                                            @endif
                                                                             
                                                                             <div class="table-responsive">
                                                                                 <table class="table-sortable table table-centered table-nowrap table-striped">

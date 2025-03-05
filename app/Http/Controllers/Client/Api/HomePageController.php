@@ -42,14 +42,19 @@ class HomePageController extends Controller
                 ];
             }));
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Erro ao buscar os slides'], 500);
+            return response()->json(['error' => 'Erro ao buscar as categorias'], 500);
         }
     }
 
     public function products()
     {
         try {
-            $products = Product::with('stocks')->active()->sorting()->get();
+            $products = Product::with('stocks')
+            ->active()
+            ->where('highlight_home', '=', 1)
+            ->sorting()
+            ->limit(6)
+            ->get();
     
             return response()->json($products->map(function ($product) {
                 $stock = $product->stocks->first(); // Pegando o primeiro estoque (se houver)
@@ -61,10 +66,11 @@ class HomePageController extends Controller
                     'slug' => $product->slug,
                     'active' => $product->active,
                     'promotion' => $product->promotion,
+                    'highlight_home' => $product->highlight_home,
                     'image' => $product->path_image ? asset('storage/' . $product->path_image) : null,
                     'price' => $stock && isset($stock->promotion_value) && $stock->promotion_value > 0 ? number_format($stock->promotion_value, 2, '.', '') : (isset($stock->amount) ? number_format($stock->amount, 2, '.', '') : ''),
                     'oldPrice' => $stock && isset($stock->promotion_value) && $stock->promotion_value > 0 ? number_format($stock->amount, 2, '.', '') : null,
-                    'tag' => $stock && $stock->promotion_value ? round(100 - ($stock->promotion_value * 100 / $stock->amount)) . '%' . ' off' : null,
+                    'tag' => $stock && $stock->promotion_value > 0 && $stock->promotion_value ? round(100 - ($stock->promotion_value * 100 / $stock->amount)) . '%' . ' off' : null,
                     'stock' => $stock ? $stock->quantity : 0,
                     'outOfStock' => $stock && $stock->quantity <= 0,
                 ];

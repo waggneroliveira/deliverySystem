@@ -21,6 +21,7 @@ class Product extends Model
         'slug',
         'active',
         'promotion',
+        'highlight_home',
         'sorting',
         'description',
         'path_image',

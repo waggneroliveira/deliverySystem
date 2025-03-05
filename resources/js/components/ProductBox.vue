@@ -17,7 +17,7 @@
                         <div v-if="item.oldPrice > 0" class="box-product__description--content__price__old-price text-[#4C3A36] text-[0.75rem] sm:text-[1.125rem] line-through noto-sans-devanagari-light">
                             R$ {{ item.oldPrice }}
                         </div>
-                        <div v-if="item.price" class="box-product__description--content__price__price text-[#CF1E0C] text-[0.938rem] sm:text-[1.25rem] noto-sans-devanagari-semibold">
+                        <div v-if="item.price > 0" class="box-product__description--content__price__price text-[#CF1E0C] text-[0.938rem] sm:text-[1.25rem] noto-sans-devanagari-semibold">
                             R$ {{ item.price }}
                         </div>
                     </div>
@@ -28,10 +28,10 @@
             </div>
 
             <div class="actions flex items-center justify-between mt-[0.625rem] sm:mt-[2.5rem] max-w-[362.89px] m-auto">
-                <!-- Verifica se o produto está esgotado -->
-                <div v-if="item.outOfStock" class="bg-red-500 text-white w-full text-[0.813rem] sm:text-[1.25rem] text-center h-[35px] py-2 px-4 font-bold">Produto Esgotado</div>
+                <div v-if="item.stock === 0" class="bg-red-500 text-white w-full text-[0.813rem] sm:text-[1.25rem] text-center h-[35px] py-2 px-4 font-bold">Produto Esgotado</div>
                 
-                <!-- Controle de quantidade quando o produto não está esgotado -->
+                <div v-else-if="item.price == 0" class="bg-red-500 text-white w-full text-[0.813rem] sm:text-[1.25rem] text-center h-[35px] py-2 px-4 font-bold">Indisponível</div>
+                
                 <div v-else class="count-item flex items-center">
                     <button 
                         @click="decrement(item.id)" 
@@ -48,11 +48,12 @@
                     </button>
                 </div>
 
-                <button-component v-if="!item.outOfStock" class="none" :icon="'build/client/images/heart.png'" :label="'Quero!'"></button-component>
+                <button-component v-if="item.stock > 0 && item.price > 0" class="none" :icon="'build/client/images/heart.png'" :label="'Quero!'"></button-component>
             </div>
         </div>
     </div>
 </template>
+
 
 <script>
 import axios from 'axios';
@@ -104,7 +105,11 @@ export default {
             grid-template-columns: repeat(1, 1fr);
         }
     }
-
+    @media screen and (min-width: 1441px) {
+        .box-products{
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
     .count-item button, .btn__buy {
         transition: background-color 0.3s;
     }

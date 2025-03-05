@@ -49,5 +49,12 @@
             You must agree before submitting.
         </div>
     </div>
+    <div class="form-check">
+        <input name="highlight_home" {{ isset($product->highlight_home) && $product->highlight_home == 1 ? 'checked' : '' }} type="checkbox" class="form-check-input" id="invalidCheck2{{isset($product->id)?$product->id:''}}" />
+        <label class="form-check-label" for="invalidCheck2">Destacar na home?</label>
+        <div class="invalid-feedback">
+            You must agree before submitting.
+        </div>
+    </div>
 </div>
 
