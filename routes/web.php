@@ -27,7 +27,7 @@ Route::get('/carrinho', function () {
 // })->name('finalize-order');
 
 Route::get('/produtos', [ProductPageController::class, 'index'])->name('products');
-// Route::get('/produtos/{category}', [ProductPageController::class, 'products'])->name('product_categories');
+Route::get('/produtos/{category}', [ProductPageController::class, 'products'])->name('product_categories');
 
 Route::get('/finalizar-pedido', [FinalizeOrderController::class, 'index'])->name('finalize-order');
 Route::post('/enderecos', [FinalizeOrderController::class, 'store']);

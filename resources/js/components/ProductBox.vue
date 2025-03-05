@@ -62,13 +62,27 @@ export default {
     name: 'products',
     data() {
         return {
-            items: []
+            items: [],
+            category: null,
         };
     },
     methods: {
         async fetchProducts() {
+            // Verifica a URL atual para ver se contém uma categoria
+            const urlParams = new URLSearchParams(window.location.search);
+            const categoryId = window.location.pathname.split('/').pop();
+            
+            const url = categoryId ?? `/api/produtos/${categoryId}`;
+            const response = await axios.get('/api/produtos');
+
             try {
-                const response = await axios.get('/api/produtos');
+                if (url) {
+                    const response = await axios.get(url);
+                    
+                }else{
+                    const response = await axios.get('/api/produtos');
+                }
+                // const response = await axios.get(url);
                 this.items = response.data.map(item => ({
                     ...item,
                     quantity: 1, // Começa com 1 no carrinho
