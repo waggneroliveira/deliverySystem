@@ -1,7 +1,7 @@
 <template>
     <div class="remove-selected flex flex-row justify-between items-center mb-6 h-[35px]">
         <div class="flex flex-row justify-start gap-4 items-center">
-            <a :href="redirectBack" class="text-[#FFF] text-[0.75rem] sm:text-[1.125rem] bg-[#987F2D] h-[25px] sm:h-[35px] w-auto px-4 flex justify-center items-center gap-2 hover:bg-[#b8982c] noto-sans-devanagari-regular"><span><</span> Voltar</a>
+            <a href="/" class="text-[#FFF] text-[0.75rem] sm:text-[1.125rem] bg-[#987F2D] h-[25px] sm:h-[35px] w-auto px-4 flex justify-center items-center gap-2 hover:bg-[#b8982c] noto-sans-devanagari-regular"><span><</span> Voltar</a>
             
             <form @submit.prevent="removeSelected">
                 <button-component v-if="selectedItems.length >= 2" type="submit" btnClass="w-auto h-[25px] sm:h-[35px] px-3 sm:px-8 bg-[#CF1E0C] hover:bg-red-700 text-[0.75rem] sm:text-[1.125rem]" imgClass="!w-[0.825rem]" :icon="'build/client/images/trash.png'" :label="'Remover'"></button-component>
@@ -32,11 +32,19 @@
                 </div>
                 
                 <div class="flex gap-2 text-sm">
-                    <span class="box-product__description--content__price__old-price text-[#4C3A36] text-[0.75rem] sm:text-[1.125rem] line-through noto-sans-devanagari-light">R$ {{ item.oldPrice }}</span>
-                    <span class="box-product__description--content__price__price text-[#CF1E0C] text-[0.938rem] sm:text-[1.25rem] noto-sans-devanagari-semibold">R$ {{ item.price }}</span>
+                    <span
+                        v-if="item.oldPrice && parseFloat(item.oldPrice) > 0"
+                        class="box-product__description--content__price__old-price text-[#4C3A36] text-[0.75rem] sm:text-[1.125rem] line-through noto-sans-devanagari-light">
+                        R$ {{ item.oldPrice }}
+                    </span>
+                    <span
+                        class="box-product__description--content__price__price text-[#CF1E0C] text-[0.938rem] sm:text-[1.25rem] noto-sans-devanagari-semibold">
+                        R$ {{ item.price }}
+                    </span>
                 </div>
+
                 
-                <p class="text-[#4C3A36] text-[0.625rem] sm:text-[1.5rem] noto-sans-devanagari-regular">{{ item.text }}</p>
+                <p class="text-[#4C3A36] text-[0.625rem] sm:text-[1.5rem] noto-sans-devanagari-regular" v-html="item.text"></p>
                 
                 <div class="flex items-center justify-between mt-3">
                     <div class="flex items-center gap-0 sm:gap-2">
@@ -50,95 +58,60 @@
     </div>
 </template>
 
-<script>
-export default {
-    props: {
-        redirectBack: {
-        type: String,
-        required: true
-        }
-    },
-    data() {
-        return {
-            items: [
-                {
-                    id: 1,
-                    title: 'SUSHI TAMAKI',
-                    image: 'build/client/images/teste.jpg',                    
-                    text: 'Salmão, camarão panado, queijo creme, cebolinho, olho francês e molho tarê',
-                    price: '59,90', 
-                    oldPrice: '79,00', 
-                    tag: '50'+'%'+' off',
-                    quantity: 1
-                },
-                {
-                    id: 2,
-                    title: 'SUSHI TAMAKI 02',
-                    image: 'build/client/images/product.png',                    
-                    text: 'Salmão, camarão panado, queijo creme, cebolinho, olho francês e molho tarê',
-                    price: '59,90', 
-                    oldPrice: '79,00', 
-                    tag: '50'+'%'+' off',
-                    quantity: 1
-                },
-                {
-                    id: 3,
-                    title: 'SUSHI TAMAKI 03',
-                    image: 'build/client/images/product.png',                    
-                    text: 'Salmão, camarão panado, queijo creme, cebolinho, olho francês e molho tarê',
-                    price: '59,90', 
-                    oldPrice: '79,00', 
-                    tag: '50'+'%'+' off',
-                    quantity: 1
-                },
-                {
-                    id: 4,
-                    title: 'SUSHI TAMAKI 04',
-                    image: 'build/client/images/product.png',                    
-                    text: 'Salmão, camarão panado, queijo creme, cebolinho, olho francês e molho tarê',
-                    price: '59,90', 
-                    oldPrice: '79,00', 
-                    tag: '50'+'%'+' off',
-                    quantity: 1
-                }
-            ],
-            selectedItems: []
-        };
-    },
-    computed: {
-        allSelected() {
-            return this.selectedItems.length === this.items.length;
-        }
-    },
-    methods: {
-        toggleSelectAll() {
-            if (this.allSelected) {
-                this.selectedItems = [];
-            } else {
-                this.selectedItems = this.items.map(item => item.id);
-            }
-        },
-        removeSelected() {
-            this.items = this.items.filter(item => !this.selectedItems.includes(item.id));
-            this.selectedItems = [];
-        },
-        removeItem(id) {
-            this.items = this.items.filter(item => item.id !== id);
-        },
-        increment(id) {
-            const item = this.items.find(item => item.id === id);
-            if (item) item.quantity++;
-        },
-        decrement(id) {
-            const item = this.items.find(item => item.id === id);
-            if (item && item.quantity > 1) item.quantity--;
+<script setup>
+    import { useCartStore } from '@/stores/cartStores';
+    import { computed, ref } from 'vue';
+
+    const cartStore = useCartStore();
+    const items = computed(() => cartStore.cart); // Itens do carrinho (reativo via store)
+    const selectedItems = ref([]); // Itens selecionados para remoção
+    const allSelected = computed(() => selectedItems.value.length === items.value.length); // Selecionar todos
+
+    function toggleSelectAll() {
+        if (allSelected.value) {
+            selectedItems.value = [];
+        } else {
+            selectedItems.value = items.value.map(item => item.id);
         }
     }
-};
+
+    // Remover selecionados do carrinho
+    function removeSelected() {
+        selectedItems.value.forEach(id => cartStore.removeFromCart(id));
+        selectedItems.value = [];
+    }
+
+    // Remover item individual do carrinho
+    function removeItem(id) {
+        cartStore.removeFromCart(id);
+    }
+
+    // Incrementar quantidade
+    function increment(id) {
+        const item = cartStore.cart.find(item => item.id === id);
+        if (item && item.quantity < item.stock) {
+            item.quantity++;
+            cartStore.updateLocalStorage(); // Se tem persistência
+        }
+    }
+    // Decrementar quantidade (mínimo 1)
+    function decrement(id) {
+        const item = cartStore.cart.find(item => item.id === id);
+        if (item && item.quantity > 1) {
+            item.quantity--;
+            cartStore.updateLocalStorage();
+        }
+    }
+
+
+    // Props (ex: voltar para a loja)
+    const props = defineProps({
+        redirectBack: {
+            type: String,
+            required: true
+        }
+    });
 </script>
-
-
-
 
 <style>
     @media screen and (max-width: 416px) {

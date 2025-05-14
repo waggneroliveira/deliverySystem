@@ -10,8 +10,8 @@
                 </div>
 
                 <div class="flex space-x-5 gap-[35px]">
-                    <a href="/" class="w-[48px] h-auto relative">
-                        <span class="absolute flex justify-center items-center -top-2 sm:-top-2.5 right-[18px] sm:right-[6px] text-white text-[0.625rem] sm:text-[1rem] bg-[#9F793A] w-[15px] sm:w-[20px] h-auto rounded-full">0</span>
+                    <a href="/carrinho" class="w-[48px] h-auto relative">
+                        <span class="absolute flex justify-center items-center -top-2 sm:-top-2.5 right-[18px] sm:right-[6px] text-white text-[0.625rem] sm:text-[1rem] bg-[#9F793A] w-[15px] sm:w-[20px] h-auto rounded-full">{{ cartCount }}</span>
                         <img :src="logoCart" alt="Carrinho" class="w-[25px] sm:w-[30px]">
                     </a>
                 </div>
@@ -19,8 +19,16 @@
         </header>
     </div>
 </template>
+<script setup>
+    import { computed } from 'vue';
+    import { useCartStore } from '@/stores/cartStores';
+
+    const cartStore = useCartStore();
+    const cartCount = computed(() => cartStore.cartCount);
+</script>
 
 <script>
+
 export default {
     font: "MontaguFontExample",
     name: "Header",

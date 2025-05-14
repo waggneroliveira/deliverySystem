@@ -1,6 +1,4 @@
 <template>
-<pre>{{ cart }}</pre>
-
     <h1 v-if="isCategoryPage" class="text-[#CF1E0C] text-[1.125rem] sm:text-[1.875rem] uppercase noto-sans-devanagari-extrabold">{{ category }}</h1>
     <div v-if="isCategoryPage" class="filter">
         <product-filter-component></product-filter-component>
@@ -55,98 +53,109 @@
                         +
                     </button>
                 </div>
-
                 <button-component v-if="item.stock > 0 && item.price > 0" class="none" :icon="'/build/client/images/heart.png'" :label="'Quero!'" @click="addToCart(item)"></button-component>
             </div>
         </div>
     </div>
 </template>
 
+<script setup>
+    import { useCartStore } from '@/stores/cartStores';
+    import { ref } from 'vue';
 
-<script>
-import axios from 'axios';
+    const cartStore = useCartStore(); // Inicializa a store
 
-export default {
-    name: 'products',
-    data() {
-        return {
-            items: [],
-            category: null,
-            cart: []
-        };
-    },
-    methods: {
-        async fetchProducts() {
-            const categorySlug = window.location.pathname.split('/').pop();
-            const url = categorySlug ? `/api/produtos/${categorySlug}` : '/api/produtos-destaques';
-
-            this.isCategoryPage = !!categorySlug; 
-            this.category = categorySlug ? decodeURIComponent(categorySlug.replace(/-/g, ' ')) : null;
-
-            try {
-                const response = await axios.get(url);
-                console.log(categorySlug, url, response);
-
-                this.items = response.data.map(item => ({
-                    ...item,
-                    quantity: 1,
-                    stock: item.stock,
-                    outOfStock: item.stock <= 0,
-                }));
-            } catch (error) {
-                console.error('Erro ao buscar os produtos:', error);
-
-                if (error.response) {
-                    console.error('Response data:', error.response.data);
-                    console.error('Status:', error.response.status);
-                    console.error('Headers:', error.response.headers);
-                } else if (error.request) {
-                    console.error('Request:', error.request);
-                } else {
-                    console.error('Erro', error.message);
-                }
-            }
-
-        },
-
-        increment(id) { /* ok */ },
-        decrement(id) { /* ok */ },
-
-        addToCart(item) {
-            const existingItem = this.cart.find(cartItem => cartItem.id === item.id);
-
+    function addToCart(item) {
+        if (cartStore && cartStore.cart !== undefined) {
+            const existingItem = cartStore.cart.find(cartItem => cartItem.id === item.id);
             if (existingItem) {
                 existingItem.quantity += item.quantity;
             } else {
-                this.cart.push({
+                cartStore.addToCart({
                     ...item,
                     quantity: item.quantity
                 });
             }
+        } else {
+            console.error('cartStore não está inicializado corretamente');
+        }
 
-            // Feedback opcional:
-            console.log('Carrinho:', this.cart);
-
-            // Zera quantidade do item visual após adicionar (opcional):
-            item.quantity = 1;
-        },
-        increment(id) {
-            const item = this.items.find(item => item.id === id);
-            if (item && item.quantity < item.stock) {
-                item.quantity++;
-            }
-        },
-        decrement(id) {
-            const item = this.items.find(item => item.id === id);
-            if (item && item.quantity > 1) {
-                item.quantity--;
-            }
-        },
-    },
-    mounted() {
-        this.fetchProducts();
+        // console.log('Carrinho:', cartStore.cart);
+        item.quantity = 1; // Zera a quantidade visual após adicionar
     }
-}
+
+    // Função para remover item do carrinho
+    function removeFromCart(id) {
+        if (cartStore && cartStore.cart !== undefined) {
+            cartStore.removeFromCart(id);
+            console.log('Item removido. Carrinho:', cartStore.cart);
+        } else {
+            console.error('cartStore não está inicializado corretamente');
+        }
+    }
+</script>
+
+<script>
+    import axios from 'axios';
+
+    export default {
+        name: 'products',
+        data() {
+            return {
+                items: [],
+                category: null,
+                cart: []
+            };
+        },
+        methods: {
+            async fetchProducts() {
+                const categorySlug = window.location.pathname.split('/').pop();
+                const url = categorySlug ? `/api/produtos/${categorySlug}` : '/api/produtos-destaques';
+
+                this.isCategoryPage = !!categorySlug; 
+                this.category = categorySlug ? decodeURIComponent(categorySlug.replace(/-/g, ' ')) : null;
+
+                try {
+                    const response = await axios.get(url);
+
+                    this.items = response.data.map(item => ({
+                        ...item,
+                        quantity: 1,
+                        stock: item.stock,
+                        outOfStock: item.stock <= 0,
+                    }));
+                } catch (error) {
+                    console.error('Erro ao buscar os produtos:', error);
+
+                    if (error.response) {
+                        console.error('Response data:', error.response.data);
+                        console.error('Status:', error.response.status);
+                        console.error('Headers:', error.response.headers);
+                    } else if (error.request) {
+                        console.error('Request:', error.request);
+                    } else {
+                        console.error('Erro', error.message);
+                    }
+                }
+
+            },
+            increment(id) {
+                const item = this.items.find(item => item.id === id);
+                if (item && item.quantity < item.stock) {
+                    item.quantity++;
+                }
+            },
+            decrement(id) {
+                const item = this.items.find(item => item.id === id);
+                if (item && item.quantity > 1) {
+                    item.quantity--;
+                }
+            },
+        },
+        mounted() {
+            this.fetchProducts();
+        }
+    }
 </script>
 
 
