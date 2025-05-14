@@ -1,4 +1,12 @@
 <template>
+<pre>{{ cart }}</pre>
+
+    <h1 v-if="isCategoryPage" class="text-[#CF1E0C] text-[1.125rem] sm:text-[1.875rem] uppercase noto-sans-devanagari-extrabold">{{ category }}</h1>
+    <div v-if="isCategoryPage" class="filter">
+        <product-filter-component></product-filter-component>
+    </div>
+
+    
     <div class="box-products grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 m-auto w-full max-w[79.188rem]">
         <div class="box-product__content rounded-tl-[0rem] rounded-tr-[0rem] rounded-br-[1.25rem] rounded-bl-[1.25rem] w-100 !max-w-full sm:max-w-[320px] relative pt-[0.5rem] p-[0.75rem] sm:pr-[1.5625rem] pb-[1.296rem] pl-[0.75rem] sm:pl-[1.5625rem] border border-[#CF1E0C] border-solid" 
             v-for="(item, index) in items" :key="index">
@@ -28,7 +36,7 @@
             </div>
 
             <div class="actions flex items-center justify-between mt-[0.625rem] sm:mt-[2.5rem] max-w-[362.89px] m-auto">
-                <div v-if="item.stock === 0" class="bg-red-500 text-white w-full text-[0.813rem] sm:text-[1.25rem] text-center h-[35px] py-2 px-4 font-bold">Produto Esgotado</div>
+                <div v-if="item.stock === 0" class="flex items-center justify-center bg-red-500 text-white w-full text-[0.813rem] sm:text-[1.25rem] text-center h-[35px] py-2 px-4 font-bold">Produto Esgotado</div>
                 
                 <div v-else-if="item.price == 0" class="bg-red-500 text-white w-full text-[0.813rem] sm:text-[1.25rem] text-center h-[35px] py-2 px-4 font-bold">Indisponível</div>
                 
@@ -48,7 +56,7 @@
                     </button>
                 </div>
 
-                <button-component v-if="item.stock > 0 && item.price > 0" class="none" :icon="'build/client/images/heart.png'" :label="'Quero!'"></button-component>
+                <button-component v-if="item.stock > 0 && item.price > 0" class="none" :icon="'/build/client/images/heart.png'" :label="'Quero!'" @click="addToCart(item)"></button-component>
             </div>
         </div>
     </div>
@@ -64,16 +72,20 @@ export default {
         return {
             items: [],
             category: null,
+            cart: []
         };
     },
     methods: {
         async fetchProducts() {
             const categorySlug = window.location.pathname.split('/').pop();
-            const url = categorySlug ? `/api/produtos/${categorySlug}` : '/api/produtos';
-    
+            const url = categorySlug ? `/api/produtos/${categorySlug}` : '/api/produtos-destaques';
+
+            this.isCategoryPage = !!categorySlug; 
+            this.category = categorySlug ? decodeURIComponent(categorySlug.replace(/-/g, ' ')) : null;
+
             try {
                 const response = await axios.get(url);
-                console.log(response.data);
+                console.log(categorySlug, url, response);
 
                 this.items = response.data.map(item => ({
                     ...item,
@@ -97,6 +109,27 @@ export default {
 
         },
 
+        increment(id) { /* ok */ },
+        decrement(id) { /* ok */ },
+
+        addToCart(item) {
+            const existingItem = this.cart.find(cartItem => cartItem.id === item.id);
+
+            if (existingItem) {
+                existingItem.quantity += item.quantity;
+            } else {
+                this.cart.push({
+                    ...item,
+                    quantity: item.quantity
+                });
+            }
+
+            // Feedback opcional:
+            console.log('Carrinho:', this.cart);
+
+            // Zera quantidade do item visual após adicionar (opcional):
+            item.quantity = 1;
+        },
         increment(id) {
             const item = this.items.find(item => item.id === id);
             if (item && item.quantity < item.stock) {

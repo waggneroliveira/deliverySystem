@@ -8,11 +8,15 @@ use App\Http\Controllers\Client\ProductPageController;
 require __DIR__ . '/dashboard.php';
 
 Route::get('/', function () {
-    return redirect()->route('index');
-});
-Route::get('/home', function () {
     return view('client.blades.app');
 })->name('index');
+
+// Route::get('/', function () {
+//     return redirect()->route('index');
+// });
+// Route::get('/home', function () {
+//     return view('client.blades.app');
+// })->name('index');
 
 // Route::get('/produtos', function () {
 //     return view('client.blades.products');

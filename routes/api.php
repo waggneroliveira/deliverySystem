@@ -6,6 +6,6 @@ use App\Http\Controllers\Client\Api\HomePageController;
 
 Route::get('/slides', [HomePageController::class, 'slides']);
 Route::get('/categorias', [HomePageController::class, 'categories']);
-Route::get('/produtos', [HomePageController::class, 'products']);
+Route::get('/produtos-destaques', [HomePageController::class, 'products']);
 
 Route::get('/produtos/{category?}', [HomePageController::class, 'productWithCategory'])->name('productWithCategory');

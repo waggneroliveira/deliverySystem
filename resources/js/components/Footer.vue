@@ -45,7 +45,7 @@
                 </nav>
             </div>
         </div>
-        <div class="copyright mt-[50px] w-full border-t border-[#ffffff57]">
+        <div class="copyright mt-[0px] w-full border-t border-[#ffffff57]">
             <div class="flex flex-row justify-between items-center mt-[40px] mb-[40px] m-auto w-[90%] max-w[79.188rem]">
                 <p class="noto-sans-devanagari-thin text-[1rem] text-[#E2E3DE]">Sushitan &copy;{{ currentYear }}. all right reserved</p>
 
