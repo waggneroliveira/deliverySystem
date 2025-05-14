@@ -68,31 +68,35 @@ export default {
     },
     methods: {
         async fetchProducts() {
-            // Verifica a URL atual para ver se contém uma categoria
-            const urlParams = new URLSearchParams(window.location.search);
-            const categoryId = window.location.pathname.split('/').pop();
-            
-            const url = categoryId ?? `/api/produtos/${categoryId}`;
-            const response = await axios.get('/api/produtos');
-
+            const categorySlug = window.location.pathname.split('/').pop();
+            const url = categorySlug ? `/api/produtos/${categorySlug}` : '/api/produtos';
+    
             try {
-                if (url) {
-                    const response = await axios.get(url);
-                    
-                }else{
-                    const response = await axios.get('/api/produtos');
-                }
-                // const response = await axios.get(url);
+                const response = await axios.get(url);
+                console.log(response.data);
+
                 this.items = response.data.map(item => ({
                     ...item,
-                    quantity: 1, // Começa com 1 no carrinho
-                    stock: item.stock, // Estoque real do backend
-                    outOfStock: item.stock <= 0, // Verifica se está esgotado
+                    quantity: 1,
+                    stock: item.stock,
+                    outOfStock: item.stock <= 0,
                 }));
             } catch (error) {
                 console.error('Erro ao buscar os produtos:', error);
+
+                if (error.response) {
+                    console.error('Response data:', error.response.data);
+                    console.error('Status:', error.response.status);
+                    console.error('Headers:', error.response.headers);
+                } else if (error.request) {
+                    console.error('Request:', error.request);
+                } else {
+                    console.error('Erro', error.message);
+                }
             }
+
         },
+
         increment(id) {
             const item = this.items.find(item => item.id === id);
             if (item && item.quantity < item.stock) {

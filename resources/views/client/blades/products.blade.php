@@ -3,7 +3,7 @@
 @section('content') 
     <section id="banner-inner">
         <banner-inner-component 
-            :image="'{{ asset('/build/client/images/banner-inner-1.png') }}'" 
+            :image="'{{ asset('build/client/images/banner-inner-1.png') }}'" 
             :title="'Escolha seu Sushi abaixo'">
         </banner-inner-component>
     </section>

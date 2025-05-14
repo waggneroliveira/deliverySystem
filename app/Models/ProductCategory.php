@@ -25,7 +25,7 @@ class ProductCategory extends Model
         return $this->hasMany(Product::class);
     }
     public function scopeActive(){
-        return $this->where('active', 1);
+        return $this->where('product_categories.active', 1);
     }
 
     public function scopeSorting($query)

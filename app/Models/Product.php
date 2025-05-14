@@ -36,7 +36,7 @@ class Product extends Model
     }
 
     public function scopeActive(){
-        return $this->where('active', 1);
+        return $this->where('products.active', 1);
     }
 
     public function scopeSorting($query)
