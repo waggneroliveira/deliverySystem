@@ -59,6 +59,8 @@
             </div>
 
             @yield('content')
+            
+            <floating-cart></floating-cart>
 
             <section id="footer" class="w-full h-[390px] bg-[#031D40]">
                 <footer-component></footer-component>

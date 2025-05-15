@@ -34,12 +34,12 @@
                 <div class="flex gap-2 text-sm">
                     <span
                         v-if="item.oldPrice && parseFloat(item.oldPrice) > 0"
-                        class="box-product__description--content__price__old-price text-[#4C3A36] text-[0.75rem] sm:text-[1.125rem] line-through noto-sans-devanagari-light">
-                        R$ {{ item.oldPrice }}
+                        class="box-product__description--content__price__old-price text-[#4C3A36] text-[0.75rem] sm:text-[0.938rem] line-through noto-sans-devanagari-light">
+                        {{ formatPrice(item.oldPrice) }}
                     </span>
                     <span
                         class="box-product__description--content__price__price text-[#CF1E0C] text-[0.938rem] sm:text-[1.25rem] noto-sans-devanagari-semibold">
-                        R$ {{ item.price }}
+                        {{ formatPrice(item.price) }}
                     </span>
                 </div>
 
@@ -73,6 +73,12 @@ onMounted(() => {
 const items = computed(() => cartStore.cart);
 const selectedItems = ref([]);
 const allSelected = computed(() => selectedItems.value.length === items.value.length);
+
+// Formatar para EUR
+function formatPrice(value) {
+    if (!value) return '€ 0,00';
+    return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(value);
+}
 
 function toggleSelectAll() {
     if (allSelected.value) {

@@ -15,6 +15,16 @@
 
     // Total geral (produtos + taxa - troco)
     const total = computed(() => productsTotal.value + taxa - troco);
+
+    // Formatar para EUR
+    const formatEuro = (value) => {
+        return new Intl.NumberFormat('pt-PT', {
+            style: 'currency',
+            currency: 'EUR',
+            minimumFractionDigits: 2
+        }).format(value);
+    };
+
 </script>
 
 <template>
@@ -27,26 +37,26 @@
             <!-- Produtos -->
             <div class="flex justify-between mb-3 pb-3 border-b border-[#DAAB22]">
                 <span class="noto-sans-devanagari-medium text-[0.938rem] sm:text-[1.125rem] text-[#FFF]">Produtos:</span>
-                <span class="noto-sans-devanagari-semibold text-[#FFF] text-[0.875rem] sm:text-[1.125rem]">€ {{ productsTotal.toFixed(2) }}</span>
+                <span class="noto-sans-devanagari-semibold text-[#FFF] text-[0.875rem] sm:text-[1.125rem]">{{ formatEuro(productsTotal.toFixed(2)) }}</span>
             </div>
             
             <!-- Troco -->
             <div class="flex justify-between mb-3 pb-3 border-b border-[#DAAB22]">
                 <span class="noto-sans-devanagari-medium text-[0.938rem] sm:text-[1.125rem] text-[#FFF]">Troco:</span>
                 <span class="bg-[#987F2D] text-white px-4 py-0 leading-[23px] text-[0.875rem] sm:text-[1.125rem]">Sim</span>
-                <span class="noto-sans-devanagari-semibold text-[#FFF] text-[0.875rem] sm:text-[1.125rem]">€ {{ troco.toFixed(2) }}</span>
+                <span class="noto-sans-devanagari-semibold text-[#FFF] text-[0.875rem] sm:text-[1.125rem]">{{ formatEuro(troco.toFixed(2)) }}</span>
             </div>
             
             <!-- Taxa -->
             <div class="flex justify-between pb-3 border-b border-[#DAAB22]">
                 <span class="noto-sans-devanagari-medium text-[0.938rem] sm:text-[1.125rem] text-[#FFF]">Taxa:</span>
-                <span class="noto-sans-devanagari-semibold text-[#FFF] text-[0.875rem] sm:text-[1.125rem]">€ {{ taxa.toFixed(2) }}</span>
+                <span class="noto-sans-devanagari-semibold text-[#FFF] text-[0.875rem] sm:text-[1.125rem]">{{ formatEuro(taxa.toFixed(2)) }}</span>
             </div>
             
             <!-- Total -->
             <div class="flex justify-between mt-5 mb-4 pt-2 border-b border-[#DAAB22]">
                 <span class="noto-sans-devanagari-semibold text-[0.938rem] sm:text-[1.375rem] text-[#FFF]">Total:</span>
-                <span class="noto-sans-devanagari-semibold text-[#FFF] text-[1.125rem] sm:text-[1.375rem]">€ {{ total.toFixed(2) }}</span>
+                <span class="noto-sans-devanagari-semibold text-[#FFF] text-[1.125rem] sm:text-[1.375rem]">{{ formatEuro(total.toFixed(2)) }}</span>
             </div>
             
             <!-- Endereço -->
