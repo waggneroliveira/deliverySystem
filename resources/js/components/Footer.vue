@@ -61,9 +61,9 @@
             return {
                 currentYear: new Date().getFullYear(),
                 logoPath: '/build/client/images/logo.png',
-                location: 'build/client/images/location.png',            
-                phone: 'build/client/images/phone.png',
-                logoFooter: 'build/client/images/logo-footer.svg',
+                location: '/build/client/images/location.png',            
+                phone: '/build/client/images/phone.png',
+                logoFooter: '/build/client/images/logo-footer.svg',
                 local:'#',
                 atende:'#',
                 socialMedias: [

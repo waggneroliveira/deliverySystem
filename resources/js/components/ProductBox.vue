@@ -1,13 +1,13 @@
 <template>
     <h1 v-if="isCategoryPage" class="text-[#CF1E0C] text-[1.125rem] sm:text-[1.875rem] uppercase noto-sans-devanagari-extrabold">{{ category }}</h1>
     <div v-if="isCategoryPage" class="filter">
-        <product-filter-component></product-filter-component>
+        <product-filter-component v-model="searchTerm"></product-filter-component>
     </div>
 
     
     <div class="box-products grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 m-auto w-full max-w[79.188rem]">
         <div class="box-product__content rounded-tl-[0rem] rounded-tr-[0rem] rounded-br-[1.25rem] rounded-bl-[1.25rem] w-100 !max-w-full sm:max-w-[320px] relative pt-[0.5rem] p-[0.75rem] sm:pr-[1.5625rem] pb-[1.296rem] pl-[0.75rem] sm:pl-[1.5625rem] border border-[#CF1E0C] border-solid" 
-            v-for="(item, index) in items" :key="index">
+            v-for="(item, index) in filteredItems" :key="index">
             
             <div class="box-product__image relative flex items-center justify-center w-full max-w-[362.89px] m-auto h-[10.625rem] sm:h-[215.68px] overflow-hidden">
                 <div v-if="item.promotion" class="tag z-10 absolute top-[1.125rem] h-[1.563rem] sm:h-[2.125rem] left-0 bg-[#CF1E0C] text-[#FFF] w-[3.600rem] sm:w-[5.063rem] flex justify-center items-center">
@@ -104,8 +104,23 @@
             return {
                 items: [],
                 category: null,
-                cart: []
+                cart: [],
+                searchTerm: '',
             };
+        },
+        computed: {
+            filteredItems() {
+                if (!this.searchTerm) {
+                    return this.items;
+                }
+
+                const term = this.searchTerm.toLowerCase();
+
+                return this.items.filter(item =>
+                    item.title.toLowerCase().includes(term) ||
+                    item.text.toLowerCase().includes(term)
+                );
+            }
         },
         methods: {
             async fetchProducts() {

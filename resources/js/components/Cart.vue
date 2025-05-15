@@ -60,12 +60,18 @@
 
 <script setup>
     import { useCartStore } from '@/stores/cartStores';
-    import { computed, ref } from 'vue';
+    import { computed, ref, onMounted } from 'vue';
 
     const cartStore = useCartStore();
-    const items = computed(() => cartStore.cart); // Itens do carrinho (reativo via store)
-    const selectedItems = ref([]); // Itens selecionados para remoção
-    const allSelected = computed(() => selectedItems.value.length === items.value.length); // Selecionar todos
+
+    // Garantir que o carrinho seja carregado do localStorage
+    onMounted(() => {
+        cartStore.loadCart();
+    });
+
+    const items = computed(() => cartStore.cart);
+    const selectedItems = ref([]);
+    const allSelected = computed(() => selectedItems.value.length === items.value.length);
 
     function toggleSelectAll() {
         if (allSelected.value) {
@@ -75,36 +81,29 @@
         }
     }
 
-    // Remover selecionados do carrinho
     function removeSelected() {
         selectedItems.value.forEach(id => cartStore.removeFromCart(id));
         selectedItems.value = [];
     }
 
-    // Remover item individual do carrinho
     function removeItem(id) {
         cartStore.removeFromCart(id);
     }
 
-    // Incrementar quantidade
     function increment(id) {
         const item = cartStore.cart.find(item => item.id === id);
         if (item && item.quantity < item.stock) {
-            item.quantity++;
-            cartStore.updateLocalStorage(); // Se tem persistência
+            cartStore.updateQuantity(id, item.quantity + 1);
         }
     }
-    // Decrementar quantidade (mínimo 1)
+
     function decrement(id) {
         const item = cartStore.cart.find(item => item.id === id);
         if (item && item.quantity > 1) {
-            item.quantity--;
-            cartStore.updateLocalStorage();
+            cartStore.updateQuantity(id, item.quantity - 1);
         }
     }
 
-
-    // Props (ex: voltar para a loja)
     const props = defineProps({
         redirectBack: {
             type: String,
@@ -112,6 +111,7 @@
         }
     });
 </script>
+
 
 <style>
     @media screen and (max-width: 416px) {

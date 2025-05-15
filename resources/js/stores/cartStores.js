@@ -19,6 +19,13 @@ export const useCartStore = defineStore('cart', {
 
             localStorage.setItem('cart', JSON.stringify(this.cart));
         },
+        updateQuantity(id, quantity) {
+            const item = this.cart.find(item => item.id === id);
+            if (item && quantity >= 1 && quantity <= item.stock) {
+                item.quantity = quantity;
+                localStorage.setItem('cart', JSON.stringify(this.cart)); // Salva no localStorage
+            }
+        },
         removeFromCart(id) {
             this.cart = this.cart.filter(item => item.id !== id);
             localStorage.setItem('cart', JSON.stringify(this.cart)); // Atualiza no localStorage
