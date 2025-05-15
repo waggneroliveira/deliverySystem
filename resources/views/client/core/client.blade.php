@@ -14,12 +14,6 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Montagu+Slab:opsz,wght@16..144,100..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Devanagari:wght@100..900&display=swap" rel="stylesheet">
 
-        <!-- SweetAlert2 CSS -->
-        <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
-
-        <!-- SweetAlert2 JS -->
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
         <!-- Styles / Scripts -->
         @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
             @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -65,10 +59,6 @@
             </div>
 
             @yield('content')
-
-            <div class="fixed right-0 bottom-0">
-                <p>Produto adicionao com sucesso!</p>
-            </div>
 
             <section id="footer" class="w-full h-[390px] bg-[#031D40]">
                 <footer-component></footer-component>

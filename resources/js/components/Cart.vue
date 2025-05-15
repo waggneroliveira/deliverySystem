@@ -59,58 +59,82 @@
 </template>
 
 <script setup>
-    import { useCartStore } from '@/stores/cartStores';
-    import { computed, ref, onMounted } from 'vue';
+import { useCartStore } from '@/stores/cartStores';
+import { computed, ref, onMounted } from 'vue';
+import { useToast } from 'vue-toastification';  // <-- Importa o toast
 
-    const cartStore = useCartStore();
+const cartStore = useCartStore();
+const toast = useToast(); // <-- Inicializa o toast
 
-    // Garantir que o carrinho seja carregado do localStorage
-    onMounted(() => {
-        cartStore.loadCart();
-    });
+onMounted(() => {
+    cartStore.loadCart();
+});
 
-    const items = computed(() => cartStore.cart);
-    const selectedItems = ref([]);
-    const allSelected = computed(() => selectedItems.value.length === items.value.length);
+const items = computed(() => cartStore.cart);
+const selectedItems = ref([]);
+const allSelected = computed(() => selectedItems.value.length === items.value.length);
 
-    function toggleSelectAll() {
-        if (allSelected.value) {
-            selectedItems.value = [];
-        } else {
-            selectedItems.value = items.value.map(item => item.id);
-        }
-    }
-
-    function removeSelected() {
-        selectedItems.value.forEach(id => cartStore.removeFromCart(id));
+function toggleSelectAll() {
+    if (allSelected.value) {
         selectedItems.value = [];
+    } else {
+        selectedItems.value = items.value.map(item => item.id);
     }
+}
 
-    function removeItem(id) {
+function removeSelected() {
+    // Mostra toast para cada item removido
+    selectedItems.value.forEach(id => {
+        const item = cartStore.cart.find(i => i.id === id);
+        if (item) {
+            toast.success(`"${item.title}" foi removido do carrinho!`, {
+                timeout: 3000,
+                position: 'top-right',
+                closeOnClick: true,
+                pauseOnHover: true,
+            });
+        }
         cartStore.removeFromCart(id);
-    }
-
-    function increment(id) {
-        const item = cartStore.cart.find(item => item.id === id);
-        if (item && item.quantity < item.stock) {
-            cartStore.updateQuantity(id, item.quantity + 1);
-        }
-    }
-
-    function decrement(id) {
-        const item = cartStore.cart.find(item => item.id === id);
-        if (item && item.quantity > 1) {
-            cartStore.updateQuantity(id, item.quantity - 1);
-        }
-    }
-
-    const props = defineProps({
-        redirectBack: {
-            type: String,
-            required: true
-        }
     });
+    selectedItems.value = [];
+}
+
+function removeItem(id) {
+    const item = cartStore.cart.find(i => i.id === id);
+    cartStore.removeFromCart(id);
+
+    if (item) {
+        toast.success(`"${item.title}" foi removido do carrinho!`, {
+            timeout: 3000,
+            position: 'top-right',
+            closeOnClick: true,
+            pauseOnHover: true,
+        });
+    }
+}
+
+function increment(id) {
+    const item = cartStore.cart.find(item => item.id === id);
+    if (item && item.quantity < item.stock) {
+        cartStore.updateQuantity(id, item.quantity + 1);
+    }
+}
+
+function decrement(id) {
+    const item = cartStore.cart.find(item => item.id === id);
+    if (item && item.quantity > 1) {
+        cartStore.updateQuantity(id, item.quantity - 1);
+    }
+}
+
+const props = defineProps({
+    redirectBack: {
+        type: String,
+        required: true
+    }
+});
 </script>
+
 
 
 <style>

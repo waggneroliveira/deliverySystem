@@ -1,6 +1,8 @@
 import './bootstrap';
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
+import Toast, { useToast } from 'vue-toastification';
+import 'vue-toastification/dist/index.css';
 
 // Importando os componentes
 import Header from './components/Header.vue';
@@ -39,6 +41,7 @@ const app = createApp();
 // Criando o Pinia
 const pinia = createPinia();
 app.use(pinia);
+app.use(Toast);
 
 // Carregando o cart com o Pinia no ciclo de vida do Vue
 app.mixin({

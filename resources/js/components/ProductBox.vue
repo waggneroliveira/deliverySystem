@@ -61,13 +61,16 @@
 
 <script setup>
     import { useCartStore } from '@/stores/cartStores';
+    import { useToast } from 'vue-toastification';
     import { ref } from 'vue';
 
     const cartStore = useCartStore(); // Inicializa a store
+    const toast = useToast(); // Inicia o toast
 
     function addToCart(item) {
         if (cartStore && cartStore.cart !== undefined) {
             const existingItem = cartStore.cart.find(cartItem => cartItem.id === item.id);
+
             if (existingItem) {
                 existingItem.quantity += item.quantity;
             } else {
@@ -76,12 +79,21 @@
                     quantity: item.quantity
                 });
             }
+
+            // Exibe o toast após adicionar
+            toast.success(`"${item.title}" foi adicionado ao carrinho!`, {
+                timeout: 3000,
+                position: 'top-right',
+                closeOnClick: true,
+                pauseOnHover: true,
+            });
+
         } else {
             console.error('cartStore não está inicializado corretamente');
         }
 
-        // console.log('Carrinho:', cartStore.cart);
-        item.quantity = 1; // Zera a quantidade visual após adicionar
+        // Zera a quantidade visual após adicionar
+        item.quantity = 1;
     }
 
     // Função para remover item do carrinho
@@ -94,6 +106,7 @@
         }
     }
 </script>
+
 
 <script>
     import axios from 'axios';
