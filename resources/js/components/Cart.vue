@@ -13,85 +13,126 @@
             <input type="checkbox" id="selectAll" @change="toggleSelectAll" :checked="allSelected">
         </div>
     </div>
-
+    
     <div class="box-products cart">
-        <div class="box-product__content flex flex-row flex-wrap gap-4 w-full rounded-r-[20px] relative mb-5 w-100 !max-w-full sm:max-w-[320px] pt-[0.5rem] p-[0.75rem] sm:pr-[1.5625rem] pb-[0.5rem] sm:pb-[1.296rem] pl-[0.75rem] sm:pl-[1.5625rem] border border-[#CF1E0C] border-solid"
-            v-for="(item, index) in items" :key="item.id">
-            
-            <div class="box-product__image flex items-center justify-center w-[60px] sm:w-[120px] h-[60px] sm:h-[120px] overflow-hidden">
-                <img :src="item.image" alt="Product Image" class="w-full h-full object-cover transition-transform duration-700 ease-in-out transform hover:scale-110">
-            </div>
-            
-            <div class="flex-1 flex flex-col gap-2">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-2">
-                        <input type="checkbox" class="w-4 h-4" :value="item.id" v-model="selectedItems">
-                        <h4 class="box-product__description--title text-[0.813rem] sm:text-[1.25rem] text-[#4C3A36] w-100 noto-sans-devanagari-semibold leading-none mt-1">{{ item.title }}</h4>
+        <div v-if="items.length">
+            <div class="box-product__content flex flex-row flex-wrap gap-4 w-full rounded-r-[20px] relative mb-5 w-100 !max-w-full sm:max-w-[320px] pt-[0.5rem] p-[0.75rem] sm:pr-[1.5625rem] pb-[0.5rem] sm:pb-[1.296rem] pl-[0.75rem] sm:pl-[1.5625rem] border border-[#CF1E0C] border-solid"
+                v-for="(item, index) in items" :key="item.id">
+                
+                <div class="box-product__image flex items-center justify-center w-[60px] sm:w-[120px] h-[60px] sm:h-[120px] overflow-hidden">
+                    <img :src="item.image" alt="Product Image" class="w-full h-full object-cover transition-transform duration-700 ease-in-out transform hover:scale-110">
+                </div>
+                
+                <div class="flex-1 flex flex-col gap-2">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <input type="checkbox" class="w-4 h-4" :value="item.id" v-model="selectedItems">
+                            <h4 class="box-product__description--title text-[0.813rem] sm:text-[1.25rem] text-[#4C3A36] w-100 noto-sans-devanagari-semibold leading-none mt-1">{{ item.title }}</h4>
+                        </div>
+                        <button-component btnClass="!w-full !h-[28px] rounded-md" imgClass="!w-[10px] !sm:w-[0.825rem]" :icon="'build/client/images/trash.png'" :label="''" @click="removeItem(item.id)"></button-component>
                     </div>
-                    <button-component btnClass="!w-full !h-[28px] rounded-md" imgClass="!w-[10px] !sm:w-[0.825rem]" :icon="'build/client/images/trash.png'" :label="''" @click="removeItem(item.id)"></button-component>
-                </div>
-                
-                <div class="flex gap-2 text-sm">
-                    <span
-                        v-if="item.oldPrice && parseFloat(item.oldPrice) > 0"
-                        class="box-product__description--content__price__old-price text-[#4C3A36] text-[0.75rem] sm:text-[0.938rem] line-through noto-sans-devanagari-light">
-                        {{ formatPrice(item.oldPrice) }}
-                    </span>
-                    <span
-                        class="box-product__description--content__price__price text-[#CF1E0C] text-[0.938rem] sm:text-[1.25rem] noto-sans-devanagari-semibold">
-                        {{ formatPrice(item.price) }}
-                    </span>
-                </div>
+                    
+                    <div class="flex gap-2 text-sm">
+                        <span
+                            v-if="item.oldPrice && parseFloat(item.oldPrice) > 0"
+                            class="box-product__description--content__price__old-price text-[#4C3A36] text-[0.75rem] sm:text-[0.938rem] line-through noto-sans-devanagari-light">
+                            {{ formatPrice(item.oldPrice) }}
+                        </span>
+                        <span
+                            class="box-product__description--content__price__price text-[#CF1E0C] text-[0.938rem] sm:text-[1.25rem] noto-sans-devanagari-semibold">
+                            {{ formatPrice(item.price) }}
+                        </span>
+                    </div>
 
-                
-                <p class="text-[#4C3A36] text-[0.625rem] sm:text-[1.5rem] noto-sans-devanagari-regular" v-html="item.text"></p>
-                
-                <div class="flex items-center justify-between mt-3">
-                    <div class="flex items-center gap-0 sm:gap-2">
-                        <button @click="decrement(item.id)" class="px-2 py-[0.20rem] sm:px-3 sm:py-1 bg-[#987F2D] text-sm sm:text-lg rounded hover:bg-[#b8982c] text-[#FFF] focus:outline-none">-</button>
-                        <span class="mx-3 text-sm sm:text-xl noto-sans-devanagari-semibold">{{ item.quantity }}</span>
-                        <button @click="increment(item.id)" class="px-2 py-[0.20rem] sm:px-3 sm:py-1 bg-[#987F2D] text-sm sm:text-lg rounded hover:bg-[#b8982c] text-[#FFF] focus:outline-none">+</button>
+                    
+                    <p class="text-[#4C3A36] text-[0.625rem] sm:text-[1.5rem] noto-sans-devanagari-regular" v-html="item.text"></p>
+                    
+                    <div class="flex items-center justify-between mt-3">
+                        <div class="flex items-center gap-0 sm:gap-2">
+                            <button @click="decrement(item.id)" class="px-2 py-[0.20rem] sm:px-3 sm:py-1 bg-[#987F2D] text-sm sm:text-lg rounded hover:bg-[#b8982c] text-[#FFF] focus:outline-none">-</button>
+                            <span class="mx-3 text-sm sm:text-xl noto-sans-devanagari-semibold">{{ item.quantity }}</span>
+                            <button @click="increment(item.id)" class="px-2 py-[0.20rem] sm:px-3 sm:py-1 bg-[#987F2D] text-sm sm:text-lg rounded hover:bg-[#b8982c] text-[#FFF] focus:outline-none">+</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div v-else class="flex flex-col items-center justify-center text-center gap-3 py-5 px-0">
+            <div class=" w-full flex flex-col items-center justify-center text-center py-3 border border-[#CF1E0C] bg-[#FFE5E5] text-[#CF1E0C] rounded-xl">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-[35px] w-[35px]" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7a1 1 0 00.9 1.5H19M7 13l-2 4m0 0a1 1 0 102 0m10 0a1 1 0 102 0" />
+                </svg>
+
+                <h3 class="text-lg sm:text-xl font-semibold mb-1">Seu carrinho está vazio</h3>
+                <p class="text-sm sm:text-base text-[#CF1E0C] mb-0 w-full">
+                    Explore nossos produtos e adicione ao carrinho para continuar.
+                </p>
+            </div>
+
+            <button
+                @click="goToProducts"
+                class="bg-[#CF1E0C] hover:bg-red-700 text-white px-6 py-2 rounded-full text-sm sm:text-base transition">
+                Ver produtos
+            </button>
+        </div>
+
     </div>
+
 </template>
 
 <script setup>
-import { useCartStore } from '@/stores/cartStores';
-import { computed, ref, onMounted } from 'vue';
-import { useToast } from 'vue-toastification';  // <-- Importa o toast
+    import { useCartStore } from '@/stores/cartStores';
+    import { computed, ref, onMounted } from 'vue';
+    import { useToast } from 'vue-toastification';  // <-- Importa o toast
 
-const cartStore = useCartStore();
-const toast = useToast(); // <-- Inicializa o toast
+    const cartStore = useCartStore();
+    const toast = useToast(); // <-- Inicializa o toast
 
-onMounted(() => {
-    cartStore.loadCart();
-});
+    onMounted(() => {
+        cartStore.loadCart();
+    });
 
-const items = computed(() => cartStore.cart);
-const selectedItems = ref([]);
-const allSelected = computed(() => selectedItems.value.length === items.value.length);
+    const items = computed(() => cartStore.cart);
+    const selectedItems = ref([]);
+    const allSelected = computed(() => selectedItems.value.length === items.value.length);
 
-// Formatar para EUR
-function formatPrice(value) {
-    if (!value) return '€ 0,00';
-    return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(value);
-}
-
-function toggleSelectAll() {
-    if (allSelected.value) {
-        selectedItems.value = [];
-    } else {
-        selectedItems.value = items.value.map(item => item.id);
+    // Formatar para EUR
+    function formatPrice(value) {
+        if (!value) return '€ 0,00';
+        return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(value);
     }
-}
 
-function removeSelected() {
-    // Mostra toast para cada item removido
-    selectedItems.value.forEach(id => {
+    function toggleSelectAll() {
+        if (allSelected.value) {
+            selectedItems.value = [];
+        } else {
+            selectedItems.value = items.value.map(item => item.id);
+        }
+    }
+
+    function removeSelected() {
+        // Mostra toast para cada item removido
+        selectedItems.value.forEach(id => {
+            const item = cartStore.cart.find(i => i.id === id);
+            if (item) {
+                toast.success(`"${item.title}" foi removido do carrinho!`, {
+                    timeout: 3000,
+                    position: 'top-right',
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                });
+            }
+            cartStore.removeFromCart(id);
+        });
+        selectedItems.value = [];
+    }
+
+    function removeItem(id) {
         const item = cartStore.cart.find(i => i.id === id);
+        cartStore.removeFromCart(id);
+
         if (item) {
             toast.success(`"${item.title}" foi removido do carrinho!`, {
                 timeout: 3000,
@@ -100,45 +141,31 @@ function removeSelected() {
                 pauseOnHover: true,
             });
         }
-        cartStore.removeFromCart(id);
+    }
+
+    function increment(id) {
+        const item = cartStore.cart.find(item => item.id === id);
+        if (item && item.quantity < item.stock) {
+            cartStore.updateQuantity(id, item.quantity + 1);
+        }
+    }
+
+    function decrement(id) {
+        const item = cartStore.cart.find(item => item.id === id);
+        if (item && item.quantity > 1) {
+            cartStore.updateQuantity(id, item.quantity - 1);
+        }
+    }
+    const goToProducts = () => {
+        window.location.href = '/produtos/';
+    };
+
+    const props = defineProps({
+        redirectBack: {
+            type: String,
+            required: true
+        }
     });
-    selectedItems.value = [];
-}
-
-function removeItem(id) {
-    const item = cartStore.cart.find(i => i.id === id);
-    cartStore.removeFromCart(id);
-
-    if (item) {
-        toast.success(`"${item.title}" foi removido do carrinho!`, {
-            timeout: 3000,
-            position: 'top-right',
-            closeOnClick: true,
-            pauseOnHover: true,
-        });
-    }
-}
-
-function increment(id) {
-    const item = cartStore.cart.find(item => item.id === id);
-    if (item && item.quantity < item.stock) {
-        cartStore.updateQuantity(id, item.quantity + 1);
-    }
-}
-
-function decrement(id) {
-    const item = cartStore.cart.find(item => item.id === id);
-    if (item && item.quantity > 1) {
-        cartStore.updateQuantity(id, item.quantity - 1);
-    }
-}
-
-const props = defineProps({
-    redirectBack: {
-        type: String,
-        required: true
-    }
-});
 </script>
 
 

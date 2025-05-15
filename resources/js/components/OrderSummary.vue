@@ -4,19 +4,15 @@
 
     const cartStore = useCartStore();
 
-    // Soma total dos produtos (preço * quantidade)
     const productsTotal = computed(() =>
         cartStore.cart.reduce((total, item) => total + (item.price * item.quantity), 0)
     );
 
-    // Exemplo fixo de taxa e troco (depois pode vir do store ou props)
     const troco = 0;
     const taxa = 0;
 
-    // Total geral (produtos + taxa - troco)
     const total = computed(() => productsTotal.value + taxa - troco);
 
-    // Formatar para EUR
     const formatEuro = (value) => {
         return new Intl.NumberFormat('pt-PT', {
             style: 'currency',
@@ -25,7 +21,15 @@
         }).format(value);
     };
 
+    const hasProducts = computed(() => cartStore.cart.length > 0);
+
+    function goToCheckout() {
+        if (hasProducts.value) {
+            window.location.href = '/finalizar-pedido';
+        }
+    }
 </script>
+
 
 <template>
     <div class="order-summary bg-[#031D40] text-white p-4 w-full relative">
@@ -65,8 +69,17 @@
                 <span class="text-sm noto-sans-devanagari-light leading-[15px] sm:leading-[23px] text-[0.594rem] sm:text-[0.938rem] text-[#FFF]">Apartado 1, Freixo de Espada À Cinta 5181-909 FREIXO DE ESPADA À CINTA</span>
             </div>
             
-            <div class="flex justify-center items-center mt-9 btn-go">
-                <button class="w-full max-w-[141.1px] bg-[#CF1E0C] hover:bg-red-700 text-white py-2 rounded font-bold">Avançar</button>
+            <div class="flex justify-center items-center mt-9"><!-- class -> btn-go -->
+                <button
+                    :disabled="!hasProducts"
+                    :class="[
+                        'w-full max-w-[141.1px] py-2 rounded font-bold',
+                        hasProducts ? 'bg-[#CF1E0C] hover:bg-red-700 cursor-pointer' : 'bg-gray-400 opacity-50 cursor-not-allowed'
+                    ]"
+                    @click="goToCheckout"
+                >
+                Avançar
+            </button>
             </div>
         </div>
     </div>

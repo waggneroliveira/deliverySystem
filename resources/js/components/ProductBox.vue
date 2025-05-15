@@ -1,9 +1,15 @@
 <template>
-    <h1 v-if="isCategoryPage" class="text-[#CF1E0C] text-[1.125rem] sm:text-[1.875rem] uppercase noto-sans-devanagari-extrabold">{{ category }}</h1>
-  
-    <div v-if="isCategoryPage" class="filter">
+    <h1 v-if="isCategoryPage" class="text-[#CF1E0C] text-[1.125rem] sm:text-[1.875rem] uppercase noto-sans-devanagari-extrabold">
+        {{ category }}
+    </h1>
+    <h1 v-else-if="isProductsPage" class="text-[#CF1E0C] text-[1.125rem] sm:text-[1.875rem] uppercase noto-sans-devanagari-extrabold">
+        Todos os produtos
+    </h1>
+
+    <div v-if="isCategoryPage || isProductsPage" class="filter">
         <product-filter-component v-model="searchTerm"></product-filter-component>
     </div>
+
 
     <div class="box-products grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 m-auto w-full max-w[79.188rem]">
         <div
@@ -87,6 +93,7 @@
     const items = ref([]);
     const category = ref(null);
     const isCategoryPage = ref(false);
+    const isProductsPage = ref(false);
     const searchTerm = ref('');
     
     // Formatar para EUR
@@ -97,24 +104,29 @@
 
     // Função para carregar produtos da API
     async function fetchProducts() {
-        const categorySlug = window.location.pathname.split('/').pop();
-        isCategoryPage.value = !!categorySlug;
-        category.value = categorySlug ? decodeURIComponent(categorySlug.replace(/-/g, ' ')) : null;
+        const pathname = window.location.pathname;
+        const categorySlug = pathname.split('/').pop();
 
-        const url = categorySlug ? `/api/produtos/${categorySlug}` : '/api/produtos-destaques';
+        isProductsPage.value = pathname === '/produtos/';
+        isCategoryPage.value = !!categorySlug && pathname !== '/produtos/';
 
+        category.value = isCategoryPage.value ? decodeURIComponent(categorySlug.replace(/-/g, ' ')) : null;
+
+        const url = isCategoryPage.value ? `/api/produtos/${categorySlug}` : '/api/produtos-destaques';
+        
         try {
             const response = await axios.get(url);
             items.value = response.data.map(item => ({
-            ...item,
-            quantity: 1,
-            stock: item.stock,
-            outOfStock: item.stock <= 0,
+                ...item,
+                quantity: 1,
+                stock: item.stock,
+                outOfStock: item.stock <= 0,
             }));
         } catch (error) {
             console.error('Erro ao buscar os produtos:', error);
         }
     }
+
 
     const filteredItems = computed(() => {
         if (!searchTerm.value) {
@@ -144,13 +156,7 @@
             return;
         }
 
-        const existingItem = cartStore.cart.find(cartItem => cartItem.id === item.id);
-
-        if (existingItem) {
-            existingItem.quantity += item.quantity;
-        } else {
-            cartStore.addToCart({ ...item, quantity: item.quantity });
-        }
+        cartStore.addToCart({ ...item, quantity: item.quantity });
 
         toast.success(`"${item.title}" foi adicionado ao carrinho!`, {
             timeout: 3000,
@@ -162,7 +168,7 @@
         item.quantity = 1;
     }
 
-        onMounted(() => {
+    onMounted(() => {
         fetchProducts();
     });
 
