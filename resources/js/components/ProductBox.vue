@@ -10,10 +10,9 @@
         <product-filter-component v-model="searchTerm"></product-filter-component>
     </div>
 
-
     <div class="box-products grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 m-auto w-full max-w[79.188rem]">
         <div
-            v-for="(item, index) in filteredItems"
+            v-for="(item) in filteredItems"
             :key="item.id"
             class="box-product__content rounded-tl-[0rem] rounded-tr-[0rem] rounded-br-[1.25rem] rounded-bl-[1.25rem] w-100 !max-w-full sm:max-w-[320px] relative pt-[0.5rem] p-[0.75rem] sm:pr-[1.5625rem] pb-[1.296rem] pl-[0.75rem] sm:pl-[1.5625rem] border border-[#CF1E0C] border-solid"
         >
@@ -26,7 +25,7 @@
 
             <div class="box-product__description flex flex-wrap text-left items-center gap-[0.063rem] sm:gap-[1.514rem] max-w-[362.89px] m-auto">
                 <div class="box-product__description--content w-full flex flex-wrap justify-between mt-[0.625rem] sm:mt-[1.363rem]">
-                    <h4 class="box-product__description--title uppercase text-[0.813rem] sm:text-[1.25rem] text-[#4C3A36] w-100 noto-sans-devanagari-semibold">
+                    <h4 class="box-product__description--title uppercase text-[0.75rem] sm:text-[1.25rem] text-[#4C3A36] w-100 noto-sans-devanagari-semibold">
                     {{ item.title }}
                     </h4>
                     <div class="box-product__description--content__price flex gap-2">
@@ -39,7 +38,7 @@
                     </div>
                 </div>
                 <div class="box-product__description--text w-100">
-                    <p class="text-[#4C3A36] text-[0.75rem] sm:text-[1.5rem] noto-sans-devanagari-regular" v-html="item.text"></p>
+                    <p class="text-[#4C3A36] text-[0.75rem] sm:text-[1.25rem] noto-sans-devanagari-regular" v-html="item.text"></p>
                 </div>
             </div>
 
@@ -175,31 +174,31 @@
 </script>
 
 <style>
+    @media screen and (max-width: 416px) {
+        .box-products {
+            grid-template-columns: repeat(1, 1fr);
+        }
+    }
+    @media screen and (max-width: 680px) {
+        .box-product__description--content__price__price {
+            font-weight: 800 !important;
+        }
+    }
+    @media screen and (min-width: 1441px) {
+        .box-products {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
 
-@media screen and (max-width: 416px) {
-  .box-products {
-    grid-template-columns: repeat(1, 1fr);
-  }
-}
-@media screen and (min-width: 1441px) {
-  .box-products {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-.box-product__description--content__price__price,
-.box-product__description--content__price__old-price {
-  font-family: Arial, sans-serif !important;
-}
-
-.count-item button,
-.btn__buy {
-  transition: background-color 0.3s;
-}
-.count-item button:disabled {
-  background-color: #987f2d;
-  cursor: not-allowed;
-}
-.tag i {
-  font-style: normal;
-}
+    .count-item button,
+    .btn__buy {
+        transition: background-color 0.3s;
+    }
+    .count-item button:disabled {
+        background-color: #987f2d;
+        cursor: not-allowed;
+    }
+    .tag i {
+        font-style: normal;
+    }
 </style>

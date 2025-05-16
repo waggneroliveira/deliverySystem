@@ -76,3 +76,9 @@
         max-width: inherit;
     }
 }
+@media (max-width: 475px) {
+    .Vue-Toastification__toast-body{
+        font-size: 12px !important;
+        line-height: 18px !important;
+    }
+}

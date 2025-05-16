@@ -2,7 +2,7 @@
     <transition name="fade-slide">
         <div v-if="cartCount > 0" class="fixed bottom-4 right-4 z-50">
             <button
-            class="bg-green-600 text-white px-4 py-2 rounded-full shadow-lg flex items-center gap-2 hover:bg-green-700 transition"
+            class="bg-[#CF1E0C] text-[0.75rem] sm:text-[1rem] text-white sm:px-4 sm:py-[6px] px-3 py-[5px] rounded-full shadow-lg flex items-center gap-2 hover:bg-red-700 transition"
             @click="goToCart"
             >
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
