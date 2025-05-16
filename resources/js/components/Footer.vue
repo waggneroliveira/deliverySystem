@@ -7,25 +7,25 @@
             <div class="footer__content--sitemap flex justify-center mt-[25px]">
                 <nav>
                     <h6 class="text-[#E2E3DE] text-[1rem] sm:text-[1.375rem] noto-sans-devanagari-regular">Sitemap</h6>
-                    <ul class="flex flex-col gap-3 sm:gap-5 mt-5">
-                        <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[1.25rem] noto-sans-devanagari-thin"><a>Encomendas personalizadas</a></li>
-                        <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[1.25rem] noto-sans-devanagari-thin"><a>Forneça um feedback</a></li>
-                        <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[1.25rem] noto-sans-devanagari-thin"><a>Política de devolução</a></li>
-                        <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[1.25rem] noto-sans-devanagari-thin"><a>Política de Privacidade</a></li>
+                    <ul class="flex flex-col gap-2 sm:gap-2 mt-5">
+                        <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[0.938rem] noto-sans-devanagari-thin"><a>Encomendas personalizadas</a></li>
+                        <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[0.938rem] noto-sans-devanagari-thin"><a>Forneça um feedback</a></li>
+                        <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[0.938rem] noto-sans-devanagari-thin"><a>Política de devolução</a></li>
+                        <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[0.938rem] noto-sans-devanagari-thin"><a>Política de Privacidade</a></li>
                     </ul>
                 </nav>
             </div>
             <div class="footer__content--contact flex justify-end mt-[25px] m-auto w-[90%] max-w[79.188rem]">
                 <nav>
                     <h6 class="text-[#E2E3DE] text-[1rem] sm:text-[1.375rem] noto-sans-devanagari-regular">Contato</h6>
-                    <ul class="flex flex-col gap-5 mt-5">
-                        <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[1.25rem] noto-sans-devanagari-thin">
+                    <ul class="flex flex-col gap-2 mt-5">
+                        <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[0.938rem] noto-sans-devanagari-thin">
                             <a :href="local" class="flex flex-row items-center justify-center gap-4">
                                 <img :src="location" alt="Localização" class="w-[15px]">
                                 <span>Onde atendemos</span>
                             </a>
                         </li>
-                        <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[1.25rem] noto-sans-devanagari-thin">
+                        <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[0.938rem] noto-sans-devanagari-thin">
                             <a :href="atende" class="flex flex-row items-center justify-center gap-4">
                                 <img :src="phone" alt="Telefone" class="w-[10px]">
                                 <span>+351 99999-9999</span>
