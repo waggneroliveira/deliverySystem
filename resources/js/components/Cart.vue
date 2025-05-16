@@ -1,7 +1,7 @@
 <template>
     <div class="remove-selected flex flex-row justify-between items-center mb-6 h-[35px]">
         <div class="flex flex-row justify-start gap-4 items-center">
-            <a href="/" class="text-[#FFF] text-[0.75rem] sm:text-[1.125rem] bg-[#987F2D] h-[25px] sm:h-[35px] w-auto px-4 flex justify-center items-center gap-2 hover:bg-[#b8982c] noto-sans-devanagari-regular"><span><</span> Voltar</a>
+            <a href="/" class="text-[#FFF] rounded text-[0.75rem] sm:text-[1.125rem] bg-[#987F2D] h-[25px] sm:h-[35px] w-auto px-4 flex justify-center items-center gap-2 hover:bg-[#b8982c] noto-sans-devanagari-regular"><span><</span> Voltar</a>
             
             <form @submit.prevent="removeSelected">
                 <button-component v-if="selectedItems.length >= 2" type="submit" btnClass="w-auto h-[25px] sm:h-[35px] px-3 sm:px-8 bg-[#CF1E0C] hover:bg-red-700 text-[0.75rem] sm:text-[1.125rem]" imgClass="!w-[0.825rem]" :icon="'build/client/images/trash.png'" :label="'Remover'"></button-component>
@@ -17,27 +17,29 @@
     
     <div class="box-products cart">
         <div v-if="items.length">
-            <div class="box-product__content flex flex-row flex-wrap gap-4 w-full rounded-r-[20px] relative mb-5 w-100 !max-w-full sm:max-w-[320px] pt-[0.5rem] p-[0.75rem] sm:pr-[1.5625rem] pb-[0.5rem] sm:pb-[1.296rem] pl-[0.75rem] sm:pl-[1.5625rem] border border-[#CF1E0C] border-solid"
+            <div class="box-product__content flex flex-row flex-wrap gap-4 w-full rounded-r-[20px] relative mb-5 w-100 !max-w-full sm:max-w-[320px] pt-[0.5rem] p-[0.75rem] sm:pr-[1rem] pb-[0.5rem] sm:pb-[0.5rem] pl-[0.75rem] sm:pl-[1rem] border border-[#CF1E0C] border-solid"
                 v-for="(item, index) in items" :key="item.id">
                 
-                <div class="box-product__image flex items-center justify-center w-[75px] sm:w-[120px] h-[90px] sm:h-[120px] overflow-hidden">
+                <div class="box-product__image flex items-center justify-center w-[75px] sm:w-[120px] h-[90px] sm:h-[155px] overflow-hidden">
                     <div v-if="item.promotion" class="tag z-10 absolute top-[1.125rem] h-[1.25rem] sm:h-[2.125rem] left-0 bg-[#CF1E0C] text-[#FFF] w-[3.000rem] sm:w-[5.063rem] flex justify-center items-center">
                         <i class="w-full h-100 flex items-center justify-center text-[0.625rem] sm:text-[0.938rem] mt-[0.188rem] noto-sans-devanagari-regular">{{ item.tag }}</i>
                     </div>
                     <img :src="item.image" alt="Product Image" class="w-full h-full object-cover transition-transform duration-700 ease-in-out transform hover:scale-110">
                 </div>
                 
-                <div class="flex-1 flex flex-col gap-2">
+                <div class="flex-1 flex flex-col gap-1 sm:gap-2">
                     <div class="flex flex-col items-start justify-between">
                         <div class="flex items-center gap-2">
                             <input type="checkbox" class="w-4 h-4" :value="item.id" v-model="selectedItems">
                             <h4 class="box-product__description--title text-[0.75rem] sm:text-[1.25rem] uppercase text-[#4C3A36] w-100 noto-sans-devanagari-semibold leading-none mt-1">{{ item.title }}</h4>
 
                         </div>
-                        <i @click="removeItem(item.id)" class="text-[#CF1E0C] text-[0.75rem] sm:text-[1.25rem] noto-sans-devanagari-semibold mt-2">Excluir</i>
+                        <i @click="removeItem(item.id)" class="text-[#CF1E0C] text-[0.75rem] sm:text-[1.25rem] noto-sans-devanagari-semibold mt-2 cursor-pointer">Excluir</i>
                     </div>
                     
-                    <p class="text-[#4C3A36] text-[0.625rem] hidden md:block sm:text-[1.5rem] noto-sans-devanagari-regular" v-html="item.text"></p>
+                    <div class="box-product__description--text w-100">
+                        <div class="text-[#4C3A36] text-[0.938rem] hidden md:block sm:text-[1.25rem] noto-sans-devanagari-regular" v-html="item.text"></div>
+                    </div>
                     
                     <div class="flex items-center justify-between mt-1">
                         <div class="flex items-center gap-0 sm:gap-2">
@@ -51,10 +53,10 @@
                                 class="box-product__description--content__price__old-price mt-[-2.5px] text-[#4C3A36] text-[0.75rem] sm:text-[0.938rem] line-through noto-sans-devanagari-light">
                                 {{ formatPrice(item.oldPrice) }}
                             </div>
-                            <di
+                            <div
                                 class="box-product__description--content__price__price text-[#CF1E0C] text-[1.063rem] sm:text-[1.25rem] noto-sans-devanagari-semibold">
                                 {{ formatPrice(item.price) }}
-                            </di>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -76,7 +78,7 @@
 
             <button
                 @click="goToProducts"
-                class="bg-[#CF1E0C] hover:bg-red-700 text-white px-6 py-2 rounded-full text-sm sm:text-base transition">
+                class="bg-[#CF1E0C] hover:bg-red-700 text-white px-6 py-2 rounded text-sm sm:text-base transition">
                 Ver produtos
             </button>
         </div>
@@ -174,7 +176,21 @@
 
 
 <style>
-    @media screen and (max-width: 416px) {
+
+    .count-item button, .btn__buy {
+        transition: background-color 0.3s;
+    }
+    .count-item button:disabled {
+        background-color: #987F2D;
+        cursor: not-allowed;
+    }
+    .tag i{
+        font-style: normal;
+    }
+    .box-product__description--text p{
+        font-size: 1.125rem;
+    }
+        @media screen and (max-width: 416px) {
         .box-products {
             grid-template-columns: repeat(1, 1fr);
         }
@@ -188,15 +204,8 @@
         .box-product__description--content__price__price {
             font-weight: 800 !important;
         }
-    }
-    .count-item button, .btn__buy {
-        transition: background-color 0.3s;
-    }
-    .count-item button:disabled {
-        background-color: #987F2D;
-        cursor: not-allowed;
-    }
-    .tag i{
-        font-style: normal;
+        .box-product__description--text p{
+            font-size: 0.938rem;
+        }
     }
 </style>

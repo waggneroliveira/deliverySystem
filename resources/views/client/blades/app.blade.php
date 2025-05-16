@@ -1,6 +1,9 @@
 @extends('client.core.client')
 
 @section('content')
+    {{-- Load de carregamento --}}
+    <load-page></load-page>
+    
     <section id="slide">
         <slide-carousel-component></slide-carousel-component>         
     </section>

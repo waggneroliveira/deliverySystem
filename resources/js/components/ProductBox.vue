@@ -38,16 +38,16 @@
                     </div>
                 </div>
                 <div class="box-product__description--text w-100">
-                    <p class="text-[#4C3A36] text-[0.75rem] sm:text-[1.25rem] noto-sans-devanagari-regular" v-html="item.text"></p>
+                    <div class="text-[#4C3A36] text-[0.938rem] sm:text-[1.25rem] noto-sans-devanagari-regular" v-html="item.text"></div>
                 </div>
             </div>
 
             <div class="actions flex items-center justify-between mt-[0.625rem] sm:mt-[2.5rem] max-w-[362.89px] m-auto">
-                <div v-if="item.stock === 0" class="flex items-center justify-center bg-red-500 text-white w-full text-[0.813rem] sm:text-[1.25rem] text-center h-[35px] py-2 px-4 font-bold">
+                <div v-if="item.stock === 0" class="flex items-center rounded justify-center bg-red-500 text-white w-full text-[0.813rem] sm:text-[1.25rem] text-center h-[35px] py-2 px-4 font-bold">
                     Produto Esgotado
                 </div>
 
-                <div v-else-if="item.price == 0" class="bg-red-500 text-white w-full text-[0.813rem] sm:text-[1.25rem] text-center h-[35px] py-2 px-4 font-bold">
+                <div v-else-if="item.price == 0" class="bg-red-500 rounded text-white w-full text-[0.813rem] sm:text-[1.25rem] text-center h-[35px] py-2 px-4 font-bold">
                     Indisponível
                 </div>
 
@@ -173,23 +173,10 @@
 
 </script>
 
-<style>
-    @media screen and (max-width: 416px) {
-        .box-products {
-            grid-template-columns: repeat(1, 1fr);
-        }
+<style>    
+    .box-product__description--text p{
+        font-size: 1.125rem;
     }
-    @media screen and (max-width: 680px) {
-        .box-product__description--content__price__price {
-            font-weight: 800 !important;
-        }
-    }
-    @media screen and (min-width: 1441px) {
-        .box-products {
-            grid-template-columns: repeat(4, 1fr);
-        }
-    }
-
     .count-item button,
     .btn__buy {
         transition: background-color 0.3s;
@@ -200,5 +187,23 @@
     }
     .tag i {
         font-style: normal;
+    }
+    @media screen and (min-width: 1441px) {
+        .box-products {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+    @media screen and (max-width: 680px) {
+        .box-product__description--content__price__price {
+            font-weight: 800 !important;
+        }
+        .box-product__description--text p{
+            font-size: 0.938rem;
+        }
+    }
+        @media screen and (max-width: 416px) {
+        .box-products {
+            grid-template-columns: repeat(1, 1fr);
+        }
     }
 </style>
