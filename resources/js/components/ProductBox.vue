@@ -38,7 +38,7 @@
                     </div>
                 </div>
                 <div class="box-product__description--text w-100">
-                    <div class="text-[#4C3A36] text-[0.938rem] sm:text-[1.25rem] noto-sans-devanagari-regular" v-html="item.text"></div>
+                    <div class="text-[#4C3A36] text-[0.938rem] sm:text-[1.25rem] noto-sans-devanagari-regular" v-html="truncate(stripTags(item.text), 120)"></div>
                 </div>
             </div>
 
@@ -95,6 +95,15 @@
     const isProductsPage = ref(false);
     const searchTerm = ref('');
     
+    function stripTags(text) {
+        return text.replace(/<\/?[^>]+(>|$)/g, "");
+    }
+
+    function truncate(text, length) {
+        if (!text) return '';
+        return text.length > length ? text.substring(0, length) + '...' : text;
+    }
+
     // Formatar para EUR
     function formatPrice(value) {
         if (!value) return '€ 0,00';

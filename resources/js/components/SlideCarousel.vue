@@ -4,11 +4,11 @@
       <carousel :wrap-around="true" :autoplay="0" class="rounded-xl h-[100dvh] sm:h-full">
         <slide v-for="(banner, index) in banners" :key="index" class="bg-fundo">
           <img :src="getImage(banner)" :alt="banner.title" class="w-full sm:h-screen h-[100dvh] object-cover" />
-          <div class="description absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 text-left w-[90%] max-w-[1140px] h-[100dvh] sm:h-full max-h-[333px] flex flex-col items-start justify-center gap-[30px] leading-[52px]">
-            <h1 class="noto-sans-devanagari-semibold text-white font-normal text-[52px]">
+          <div class="description z-10 absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 text-left w-[90%] max-w-[1140px] h-[100dvh] sm:h-full max-h-[333px] flex flex-col items-start justify-start sm:justify-center gap-[30px] leading-[43px] sm:leading-[52px]">
+            <h1 class="noto-sans-devanagari-semibold text-white font-normal text-[2.188rem] sm:text-[3.25rem]">
               {{ banner.title }}
             </h1>
-            <p class="noto-sans-devanagari-regular text-white font-normal text-[28px] leading-[45px] max-w-[475px]">
+            <p class="noto-sans-devanagari-regular text-white font-normal text-[0.938rem] sm:text-[1.5rem] leading-[28px] sm:leading-[32px] max-w-[630px]">
               {{ banner.description }}
             </p>
           </div>
@@ -100,7 +100,7 @@ export default {
   }
   .bg-fundo::after{
     content: '';
-    background: #00000033;
+    background: #00000050;
     position: absolute;
     top: 0;
     left: 0;

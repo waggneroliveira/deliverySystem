@@ -31,10 +31,10 @@ class HomePageController extends Controller
     public function categories(){
         try {
             $productCategories = ProductCategory::whereHas('products', function ($query) {
-                $query->where('active', 1);
+                $query->active();
             })
             ->with(['products' => function ($query) {
-                $query->where('active', 1);
+                $query->active();
             }])
             ->active()
             ->sorting()
@@ -61,7 +61,7 @@ class HomePageController extends Controller
             ->active()
             ->where('highlight_home', '=', 1)
             ->sorting()
-            ->limit(6)
+            ->limit(8)
             ->get();
     
             return response()->json($products->map(function ($product) {
