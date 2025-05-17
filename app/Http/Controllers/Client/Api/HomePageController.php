@@ -30,7 +30,15 @@ class HomePageController extends Controller
     
     public function categories(){
         try {
-            $productCategories = ProductCategory::active()->sorting()->get();
+            $productCategories = ProductCategory::whereHas('products', function ($query) {
+                $query->where('active', 1);
+            })
+            ->with(['products' => function ($query) {
+                $query->where('active', 1);
+            }])
+            ->active()
+            ->sorting()
+            ->get();
 
             return response()->json($productCategories->map(function ($category) {
                 return [
@@ -42,7 +50,7 @@ class HomePageController extends Controller
                 ];
             }));
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Erro ao buscar as categorias'], 500);
+            return response()->json(['error' => 'Erro ao buscar as categorias' . $e], 500);
         }
     }
 

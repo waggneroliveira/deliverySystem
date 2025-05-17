@@ -22,10 +22,10 @@ class ProductCategory extends Model
     ];
 
     public function products(){
-        return $this->hasMany(Product::class);
+        return $this->hasMany(Product::class, 'produtc_category');
     }
-    public function scopeActive(){
-        return $this->where('product_categories.active', 1);
+    public function scopeActive($query){
+        return $query->where('active', 1);
     }
 
     public function scopeSorting($query)

@@ -35,8 +35,8 @@ class Product extends Model
         return $this->hasMany(ProductStock::class, 'product_id');
     }
 
-    public function scopeActive(){
-        return $this->where('products.active', 1);
+    public function scopeActive($query){
+        return $query->where('active', 1);
     }
 
     public function scopeSorting($query)

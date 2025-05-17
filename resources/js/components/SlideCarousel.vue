@@ -1,16 +1,23 @@
 <template>
-  <div class="relative w-full h-full top-0">
+  <div class="relative w-full h-[100dvh] sm:h-full top-0">
     <div class="slide relative z-0 w-full">
-      <carousel :wrap-around="true" :autoplay="0" class="rounded-xl h-full">
-        <slide v-for="(banner, index) in banners" :key="index">
-          <img :src="getImage(banner)" :alt="banner.title" class="w-full h-screen object-cover" />
-          <div class="description absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 text-left w-[90%] max-w-[1140px] h-full max-h-[333px] flex flex-col items-start justify-center gap-[30px] leading-[52px]">
+      <carousel :wrap-around="true" :autoplay="0" class="rounded-xl h-[100dvh] sm:h-full">
+        <slide v-for="(banner, index) in banners" :key="index" class="bg-fundo">
+          <img :src="getImage(banner)" :alt="banner.title" class="w-full sm:h-screen h-[100dvh] object-cover" />
+          <div class="description absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 text-left w-[90%] max-w-[1140px] h-[100dvh] sm:h-full max-h-[333px] flex flex-col items-start justify-center gap-[30px] leading-[52px]">
             <h1 class="noto-sans-devanagari-semibold text-white font-normal text-[52px]">
               {{ banner.title }}
             </h1>
             <p class="noto-sans-devanagari-regular text-white font-normal text-[28px] leading-[45px] max-w-[475px]">
               {{ banner.description }}
             </p>
+          </div>
+          <div class="absolute bottom-[70px] sm:bottom-10 w-full flex justify-center z-10">
+            <div class="cursor-pointer animate-bounce" @click="scrollToSection">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
           </div>
         </slide>
         <!-- Pagination Dots -->
@@ -48,6 +55,12 @@ export default {
     window.removeEventListener('resize', this.checkMobileResolution); // Limpeza do evento
   },
   methods: {
+    scrollToSection() {
+      const section = document.getElementById('product__categories');
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+    },
     async getBanners() {
       try {
         const response = await axios.get('/api/slides'); // Requisição para Laravel
@@ -84,6 +97,16 @@ export default {
     font-optical-sizing: auto;
     font-weight: 400; 
     font-style: normal;
+  }
+  .bg-fundo::after{
+    content: '';
+    background: #00000033;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
   }
   @media screen and (max-width: 640px) {
     .pagination{
