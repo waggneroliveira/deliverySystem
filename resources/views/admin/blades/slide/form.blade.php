@@ -6,6 +6,10 @@
     <label for="description" class="form-label">Descrição </label>
     <input type="text" name="description" class="form-control" id="description{{isset($slide->id)?$slide->id:''}}" value="{{isset($slide)?$slide->description:''}}" placeholder="Descrição">
 </div>
+<div class="mb-3">
+    <label for="link_youtube" class="form-label">Link do youtube </label>
+    <input type="text" name="link_youtube" class="form-control" id="link_youtube{{isset($slide->id)?$slide->id:''}}" value="{{isset($slide)?$slide->link_youtube:''}}" placeholder="Link do youtube">
+</div>
 
 <div class="col-lg-12">
     <div class="mt-3">

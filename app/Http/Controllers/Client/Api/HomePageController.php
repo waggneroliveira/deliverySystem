@@ -18,6 +18,7 @@ class HomePageController extends Controller
                     'id' => $slide->id,
                     'title' => $slide->title,
                     'active' => $slide->active,
+                    'link_youtube' => $slide->link_youtube ? $slide->link_youtube : null,
                     'description' => $slide->description,
                     'image' => $slide->path_image ? asset('storage/' . $slide->path_image) : null, 
                     'image_mobile' => $slide->path_image_mobile ? asset('storage/' . $slide->path_image_mobile) : null,

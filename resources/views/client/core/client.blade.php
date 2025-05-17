@@ -51,6 +51,10 @@
             'resources/js/app.js'
         ])
         {{-- @inertiaHead --}}
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- YTPlayer Plugin -->
+<script src="https://cdn.jsdelivr.net/npm/jquery.mb.ytplayer/dist/jquery.mb.YTPlayer.min.js"></script>
     </head>
     <body class="font-sans antialiased dark:bg-white dark:text-black/50">
         <main id="app" class="relative">
