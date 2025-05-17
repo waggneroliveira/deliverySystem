@@ -22,6 +22,7 @@ class Slide extends Model
         'description',
         'sorting',
         'active',
+        'link_youtube',
     ];
 
     public function scopeActive(){
