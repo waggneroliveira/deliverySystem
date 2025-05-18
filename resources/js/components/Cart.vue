@@ -38,7 +38,7 @@
                     </div>
                     
                     <div class="box-product__description--text w-100">
-                        <div class="text-[#4C3A36] text-[0.938rem] hidden md:block sm:text-[1.25rem] noto-sans-devanagari-regular" v-html="item.text"></div>
+                        <p class="text-[#4C3A36] text-[0.938rem] hidden md:block sm:text-[1.25rem] noto-sans-devanagari-regular" v-html="truncate(stripTags(item.text), 100)"></p>
                     </div>
                     
                     <div class="flex items-center justify-between mt-1">
@@ -102,6 +102,16 @@
     const items = computed(() => cartStore.cart);
     const selectedItems = ref([]);
     const allSelected = computed(() => selectedItems.value.length === items.value.length);
+
+    function stripTags(text) {
+        return text.replace(/<\/?[^>]+(>|$)/g, "");
+    }
+
+    function truncate(text, length) {
+        if (!text) return '';
+        return text.length > length ? text.substring(0, length) + '...' : text;
+    }
+
 
     // Formatar para EUR
     function formatPrice(value) {
