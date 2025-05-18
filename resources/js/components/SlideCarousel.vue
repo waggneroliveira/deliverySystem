@@ -6,7 +6,7 @@
 
           <template v-if="banner.link_youtube">
             <div class="video-wrapper absolute top-0 left-0 w-full h-[100dvh] sm:h-screen overflow-hidden z-0">
-              <div :id="`video-bg-${index}`" class="w-full h-[100dvh]"></div>
+              <div :id="`video-bg-${index}`" class="w-full !h-[100dvh]"></div>
             </div>
           </template>
           
@@ -22,7 +22,13 @@
               {{ banner.description }}
             </p>
           </div>
-
+          <div class="absolute bottom-[70px] sm:bottom-10 w-full flex justify-center z-10">
+            <div class="cursor-pointer animate-bounce" @click="scrollToSection">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
         </slide>
 
         <!-- Pagination Dots -->
@@ -129,15 +135,23 @@ export default {
 </script>
 
 <style scoped>
-.video-wrapper,
-.video-wrapper iframe {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
+  .video-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100dvh;
+    overflow: hidden;
+    z-index: 0;
+  }
 
+  .video-wrapper iframe {
+    width: 100%;
+    height: 100dvh;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
   .carousel .carousel__slide {
     display: flex;
     justify-content: center;
