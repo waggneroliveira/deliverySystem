@@ -60,30 +60,37 @@ export default {
     window.removeEventListener('resize', this.checkMobileResolution); // Limpeza do evento
   },
   methods: {
-  initYoutubeBackground() {
-    if (window.jQuery && window.jQuery.fn.YTPlayer) {
-      this.banners.forEach((banner, index) => {
-        if (banner.link_youtube) {
-          const id = `#video-bg-${index}`;
-          window.jQuery(id).YTPlayer({
-            videoURL: banner.link_youtube,
-            mute: true,
-            autoPlay: true,
-            loop: true,
-            showControls: false,
-            containment: id,
-            optimizeDisplay: true,
-            startAt: 0,
-            opacity: 1,
-            quality: 'highres',
-          });
-        }
-      });
-    } else {
-      console.warn('YTPlayer não carregado corretamente');
-    }
-  },
+    initYoutubeBackground() {
+      if (window.jQuery && window.jQuery.fn.YTPlayer) {
+        this.banners.forEach((banner, index) => {
+          if (banner.link_youtube) {
+            const id = `#video-bg-${index}`;
+            let videoURL = banner.link_youtube;
 
+            // Converte o link se for no formato youtu.be/XYZ
+            if (videoURL.includes('youtu.be/')) {
+              const videoId = videoURL.split('youtu.be/')[1];
+              videoURL = `https://www.youtube.com/watch?v=${videoId}`;
+            }
+
+            window.jQuery(id).YTPlayer({
+              videoURL: videoURL,
+              mute: true,
+              autoPlay: true,
+              loop: true,
+              showControls: false,
+              containment: id,
+              optimizeDisplay: true,
+              startAt: 0,
+              opacity: 1,
+              quality: 'highres',
+            });
+          }
+        });
+      } else {
+        console.warn('YTPlayer não carregado corretamente');
+      }
+    },
 
     scrollToSection() {
       const section = document.getElementById('product__categories');
