@@ -19,6 +19,7 @@ use App\Http\Controllers\ProductController;
 use App\Repositories\SettingThemeRepository;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\ProductStockController;
 use App\Http\Controllers\SettingEmailController;
 use App\Http\Controllers\SettingThemeController;
@@ -139,7 +140,12 @@ Route::prefix('painel/')->group(function () {
         ->name('admin.dashboard.user.destroySelected');
         Route::post('usuario/sorting', [UserController::class, 'sorting'])
         ->name('admin.dashboard.user.sorting');
-        
+        //NEWSLETTER
+        Route::resource('newsletter', NewsletterController::class)
+        ->names('admin.dashboard.newsletter')
+        ->parameters(['newsletter'=>'newsletter']);
+        Route::post('newsletter/delete', [NewsletterController::class, 'destroySelected'])
+        ->name('admin.dashboard.newsletter.destroySelected');
         // SETTINGS THEME
         Route::post('setting', [SettingThemeController::class, 'setting'])->name('admin.dashboard.settingTheme'); 
         Route::post('setting/update', [SettingThemeController::class, 'settingUpdate'])->name('admin.dashboard.settingThemeUpdate'); 

@@ -14,9 +14,9 @@ class DashboardController extends Controller
         $currentUser = Auth::user();
         $user = User::where('id', $currentUser->id)->active()->first();
         $settingTheme = (new SettingThemeRepository())->settingTheme();
-        
+
         if (isset($user)) {
-            return view('admin.dashboard', compact('settingTheme'));
+            return view('admin.dashboard', compact('settingTheme', 'user'));
         }
         return redirect()->route('admin.dashboard.painel');
     }

@@ -34,14 +34,21 @@ export default {
         document.body.style.width = '100%';
         document.body.style.height = '100%';
 
+        // window.addEventListener('load', () => {
+        //     setTimeout(() => {
+        //         this.isLoading = false;
+        //         document.body.style.overflow = '';
+        //         document.body.style.position = '';
+        //         document.body.style.width = '';
+        //         document.body.style.height = '';
+        //     }, 2500);
+        // });
         window.addEventListener('load', () => {
-            setTimeout(() => {
-                this.isLoading = false;
-                document.body.style.overflow = '';
-                document.body.style.position = '';
-                document.body.style.width = '';
-                document.body.style.height = '';
-            }, 2500);
+            this.isLoading = false;
+            document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.width = '';
+            document.body.style.height = '';
         });
     }
 }

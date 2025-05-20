@@ -19,6 +19,7 @@ import BannerInner from './components/BannerInner.vue';
 import FinalizeOrder from './components/FinalizeOrder.vue';
 import FloatingCart from './components/FloatingCart.vue';
 import LoadPage from './components/Load.vue';
+import ServiceLocation from './components/ServiceLocation.vue';
 
 // Importando o Pinia e a store
 import { useCartStore } from '@/stores/cartStores';
@@ -68,6 +69,7 @@ app.component('order-summary-component', OrderSummary);
 app.component('finalize-order-component', FinalizeOrder);
 app.component('floating-cart', FloatingCart);
 app.component('load-page', LoadPage);
+app.component('service-location', ServiceLocation);
 
 // Montando o aplicativo
 app.mount('#app');
