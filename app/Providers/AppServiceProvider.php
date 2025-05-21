@@ -4,10 +4,11 @@ namespace App\Providers;
 
 use Exception;
 use App\Models\SettingEmail;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Vite;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Vite::useHotFile(public_path('build/.vite-hot'));
+        if (App::environment('local')) {
+            Vite::useHotFile(public_path('build/.vite-hot'));
+        }
     }
 }
