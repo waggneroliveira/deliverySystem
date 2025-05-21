@@ -16,7 +16,6 @@
        
         <link href="{{ asset('build/client/css/main.css') }}" rel="stylesheet" type="text/css" />
 
-        <script type="module" src="{{ asset('build/client/app.js') }}"></script>
         @vite(['resources/js/app.js'])
 
         <!-- jQuery -->
