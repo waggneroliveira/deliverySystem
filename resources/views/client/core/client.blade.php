@@ -45,12 +45,8 @@
             }
             
         </style>
-        {{-- <link href="{{ asset('build/client/css/main.css') }}" rel="stylesheet" type="text/css" /> --}}
-        {{-- <script src="{{ asset('build/js/app.js') }}"></script> --}}
-        @vite([
-            'resources/assets/client/css/main.css',
-            'resources/js/app.js'
-        ])
+        <link href="{{ asset('build/client/css/main.css') }}" rel="stylesheet" type="text/css" />
+        <script src="{{ asset('build/client/app.js') }}"></script>
 
         <!-- jQuery -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
