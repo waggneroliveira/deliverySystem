@@ -13,7 +13,16 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Montagu+Slab:opsz,wght@16..144,100..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Devanagari:wght@100..900&display=swap" rel="stylesheet">
+       
+        <link href="{{ asset('build/client/css/main.css') }}" rel="stylesheet" type="text/css" />
 
+        @vite(['resources/js/app.js'])
+
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- YTPlayer Plugin -->
+        <script src="https://cdn.jsdelivr.net/npm/jquery.mb.ytplayer/dist/jquery.mb.YTPlayer.min.js"></script>
+        
         <!-- Styles / Scripts -->
         @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
             @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -45,14 +54,6 @@
             }
             
         </style>
-        <link href="{{ asset('build/client/css/main.css') }}" rel="stylesheet" type="text/css" />
-
-        @vite('resources/js/app.js')
-
-        <!-- jQuery -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <!-- YTPlayer Plugin -->
-        <script src="https://cdn.jsdelivr.net/npm/jquery.mb.ytplayer/dist/jquery.mb.YTPlayer.min.js"></script>
     </head>
     <body class="font-sans antialiased dark:bg-white dark:text-black/50">
         <main id="app" class="relative">
