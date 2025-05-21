@@ -46,7 +46,7 @@
             
         </style>
         <link href="{{ asset('build/client/css/main.css') }}" rel="stylesheet" type="text/css" />
-        <script src="{{ asset('build/client/app.js') }}"></script>
+        <script type="module" src="{{ asset('build/client/app.js') }}"></script>
 
         <!-- jQuery -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
