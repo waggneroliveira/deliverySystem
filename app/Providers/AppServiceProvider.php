@@ -25,8 +25,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (App::environment('local')) {
-            Vite::useHotFile(public_path('build/.vite-hot'));
+        if (app()->environment('local')) {
+            \Illuminate\Support\Facades\Vite::useHotFile(public_path('build/.vite-hot'));
         }
     }
 }
