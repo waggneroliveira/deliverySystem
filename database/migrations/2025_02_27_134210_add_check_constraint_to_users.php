@@ -12,14 +12,35 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::statement("ALTER TABLE users ADD CONSTRAINT check_super_user CHECK (is_super = 0 OR id = 1)");
+        DB::unprepared("
+            CREATE TRIGGER check_super_user_before_insert
+            BEFORE INSERT ON users
+            FOR EACH ROW
+            BEGIN
+                IF NEW.is_super = 1 AND NEW.id != 1 THEN
+                    SIGNAL SQLSTATE '45000'
+                    SET MESSAGE_TEXT = 'Apenas o usuário com ID 1 pode ser super usuário.';
+                END IF;
+            END
+        ");
+
+        DB::unprepared("
+            CREATE TRIGGER check_super_user_before_update
+            BEFORE UPDATE ON users
+            FOR EACH ROW
+            BEGIN
+                IF NEW.is_super = 1 AND NEW.id != 1 THEN
+                    SIGNAL SQLSTATE '45000'
+                    SET MESSAGE_TEXT = 'Apenas o usuário com ID 1 pode ser super usuário.';
+                END IF;
+            END
+        ");
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        DB::statement("ALTER TABLE users DROP CONSTRAINT check_super_user");
+        DB::unprepared("DROP TRIGGER IF EXISTS check_super_user_before_insert");
+        DB::unprepared("DROP TRIGGER IF EXISTS check_super_user_before_update");
     }
+
 };
