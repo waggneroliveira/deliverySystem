@@ -5,7 +5,7 @@
             <div class="w-full md:w-1/2">
                 <label for="pickup_location">Local de Retirada<span class="text-[red]">*</span></label>
                 <select id="pickup_location" v-model="pickUpLocation" required>
-                    <option value="" disabled>Selecione o local de retirada</option>
+                    <option value="" disabled>Selecione o local de retirada do produto</option>
                     <option v-for="location in locations" :key="location.value" :value="location.value" :disabled="location.disabled">
                         {{ location.label }}             
                     </option>
@@ -24,7 +24,7 @@
 
                 <select id="location_name" v-model="selectedLocalidade" :disabled="pickUpLocation === 'store'"
                 :style="{ cursor: pickUpLocation === 'store' ? 'not-allowed' : 'default' }" required>
-                    <option value="" disabled>Selecione a localidade</option>
+                    <option value="" disabled>Selecione a localidade para entrega</option>
                     <option v-for="location in validLocalidades" :key="location" :value="location">
                         {{ location }}
                     </option>
@@ -154,12 +154,28 @@
 
 <script setup>
 
-import { ref, watch } from 'vue';
-import { computed } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import { useCartStore } from '@/stores/cartStores';
 
 const cartStore = useCartStore();
 const hasProducts = computed(() => cartStore.cart.length > 0);
+
+const validLocalidades = ref([]);
+
+const getServiceLocations = async () => {
+    try {
+        const response = await axios.get('/api/locais-de-atendimentos');
+
+    // Preencher validLocalidades só com os nomes dos locais ativos, por exemplo
+    validLocalidades.value = response.data.map(loc => loc.name);
+    } catch (error) {
+        console.error('Erro ao buscar os locais de atendimentos:', error);
+    }
+};
+
+onMounted(() => {
+  getServiceLocations();
+});
 
 const canSubmit = computed(() => {    
     // Retirada na loja: forma de pagamento deve estar escolhida
@@ -208,6 +224,7 @@ const trocoPara = ref('');
 const change = ref('');
 const showPaymentSection = ref(false);
 
+
 watch(pickUpLocation, (newValue) => {
     if (newValue === 'store') {
         rua.value = '';
@@ -228,23 +245,10 @@ watch(pickUpLocation, (newValue) => {
     }
 });
 
-
 const locations = ref([
     { value: 'delivery', label: 'Entrega ao domicílio', disabled: false },
-    { value: 'store', label: 'Buscar no estabelecimento', disabled: false },
+    { value: 'store', label: 'Retirar na loja', disabled: false },
 ]);
-
-const validLocalidades = [
-    "Cascais",
-    "Monte Estoril",
-    "Estoril",
-    "Sintra",
-    "São João do Estoril",
-    "São Pedro do Estoril",
-    "Parede",
-    "Carcavelos",
-    "Oeiras"
-];
 
 const paymentMethods = ref([
     { value: 'mbway', label: 'Mbway', image: 'build/client/images/mbway.png' },

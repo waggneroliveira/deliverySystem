@@ -27,6 +27,8 @@ use App\Http\Controllers\AuditActivityController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\Auth\PasswordEmailController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\ServiceLocationController;
+use App\Http\Controllers\TaxaController;
 
 Route::get('painel/', function () {
     return redirect()->route('admin.dashboard.painel');
@@ -87,6 +89,23 @@ Route::prefix('painel/')->group(function () {
         ->names('admin.dashboard.productStock')
         ->parameters(['stock'=>'productStock']);
 
+        //TAXAS
+        Route::resource('taxas', TaxaController::class)
+        ->names('admin.dashboard.taxa')
+        ->parameters(['taxas'=>'taxa']);
+        Route::post('taxas/delete', [TaxaController::class, 'destroySelected'])
+        ->name('admin.dashboard.taxa.destroySelected');
+
+        //SERVICE-LOCATION
+        Route::resource('locais-de-atendimentos', ServiceLocationController::class)
+        ->names('admin.dashboard.serviceLocation')
+        ->parameters(['locais-de-atendimentos'=>'serviceLocation']);
+        Route::post('locais-de-atendimentos/delete', [ServiceLocationController::class, 'destroySelected'])
+            ->name('admin.dashboard.serviceLocation.destroySelected');
+        Route::post('locais-de-atendimentos/sorting', [ServiceLocationController::class, 'sorting'])
+        ->name('admin.dashboard.serviceLocation.sorting');  
+
+        
         //PRODUCT-CATEGORY
         Route::resource('categorias-dos-produtos', ProductCategoryController::class)
         ->names('admin.dashboard.productCategory')

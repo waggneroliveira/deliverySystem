@@ -1,36 +1,3 @@
-<script setup>
-    import { computed } from 'vue';
-    import { useCartStore } from '@/stores/cartStores';
-
-    const cartStore = useCartStore();
-
-    const productsTotal = computed(() =>
-        cartStore.cart.reduce((total, item) => total + (item.price * item.quantity), 0)
-    );
-
-    const troco = 0;
-    const taxa = 0;
-
-    const total = computed(() => productsTotal.value + taxa - troco);
-
-    const formatEuro = (value) => {
-        return new Intl.NumberFormat('pt-PT', {
-            style: 'currency',
-            currency: 'EUR',
-            minimumFractionDigits: 2
-        }).format(value);
-    };
-
-    const hasProducts = computed(() => cartStore.cart.length > 0);
-
-    function goToCheckout() {
-        if (hasProducts.value) {
-            window.location.href = '/finalizar-pedido';
-        }
-    }
-</script>
-
-
 <template>
     <div class="order-summary bg-[#031D40] text-white p-4 w-full relative">
         <span class="rounded-full bg-[#CF1E0C] w-[41px] h-[41px] absolute top-[-20px] left-1/2 transform -translate-x-1/2"></span>
@@ -69,7 +36,7 @@
                 <span class="text-sm noto-sans-devanagari-light leading-[15px] sm:leading-[23px] text-[0.594rem] sm:text-[0.938rem] text-[#FFF]">Apartado 1, Freixo de Espada À Cinta 5181-909 FREIXO DE ESPADA À CINTA</span>
             </div>
             
-            <div class="flex justify-center items-center mt-9"><!-- class -> btn-go -->
+            <div v-if="showButton" class="flex justify-center items-center mt-9"><!-- class -> btn-go -->
                 <button
                     :disabled="!hasProducts"
                     :class="[
@@ -78,9 +45,43 @@
                     ]"
                     @click="goToCheckout"
                 >
-                Avançar
-            </button>
+                    Avançar
+                </button>
             </div>
         </div>
     </div>
 </template>
+
+<script setup>
+    import { computed } from 'vue';
+    import { useCartStore } from '@/stores/cartStores';
+
+    const cartStore = useCartStore();
+
+    const showButton = computed(() => window.location.pathname !== '/finalizar-pedido')
+
+    const productsTotal = computed(() =>
+        cartStore.cart.reduce((total, item) => total + (item.price * item.quantity), 0)
+    );
+
+    const troco = 0;
+    const taxa = 0;
+
+    const total = computed(() => productsTotal.value + taxa - troco);
+    
+    const formatEuro = (value) => {
+        return new Intl.NumberFormat('pt-PT', {
+            style: 'currency',
+            currency: 'EUR',
+            minimumFractionDigits: 2
+        }).format(value);
+    };
+
+    const hasProducts = computed(() => cartStore.cart.length > 0);
+
+    function goToCheckout() {
+        if (hasProducts.value) {
+            window.location.href = '/finalizar-pedido';
+        }
+    }
+</script>

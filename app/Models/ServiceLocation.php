@@ -8,13 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Newsletter extends Model
+class ServiceLocation extends Model
 {
     use HasFactory, LogsActivity;
-    
+
     protected $fillable = [
+        'taxa_id',
         'name',
-        'email',
+        'active',
+        'sorting',
     ];
 
     public function getActivitylogOptions(): LogOptions
@@ -23,5 +25,17 @@ class Newsletter extends Model
         
         return LogOptions::defaults()
             ->logOnly($activityLogService->getLoggableAttributes());
+    }
+
+    public function taxa(){
+        return $this->belongsTo(Taxa::class);
+    }
+
+    public function scopeActive($query){
+        return $query->where('active', 1);
+    }
+    
+    public function scopeSorting($query){
+        return $query->orderBy('sorting', 'asc');
     }
 }

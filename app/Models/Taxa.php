@@ -8,13 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Newsletter extends Model
+class Taxa extends Model
 {
     use HasFactory, LogsActivity;
-    
+
     protected $fillable = [
-        'name',
-        'email',
+        'taxa'        
     ];
 
     public function getActivitylogOptions(): LogOptions
@@ -23,5 +22,9 @@ class Newsletter extends Model
         
         return LogOptions::defaults()
             ->logOnly($activityLogService->getLoggableAttributes());
+    }
+
+    public function serviceLocations(){
+        return $this->hasMany(ServiceLocation::class, 'taxa_id');
     }
 }
