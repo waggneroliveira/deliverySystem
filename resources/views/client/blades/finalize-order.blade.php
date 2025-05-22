@@ -14,7 +14,7 @@
                 <order-summary-component></order-summary-component>
             </div>
             <div class=" finalize-order-component-content w-full">
-                <finalize-order-component></finalize-order-component>
+                <finalize-order-location-component></finalize-order-location-component>
             </div>
         </div>
     </section>

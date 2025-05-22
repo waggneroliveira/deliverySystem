@@ -1,15 +1,19 @@
 @extends('client.core.client')
 
 @section('content')
-    <section id="banner-inner">
-        <banner-inner-component 
-            :image="'{{ asset('/build/client/images/banner-inner-1.png') }}'" 
-            :title="'Locais de atendimento'">
-        </banner-inner-component>
-    </section>
-    <section id="service-location">
-        <div class="service-location-content flex flex-row flex-wrap gap-[35px] justify-center items-center m-auto w-[90%] max-w[79.188rem] mt-[1.25rem] sm:mt-[65.67px] mb-[25px] sm:mb-[65.67px]">
-            <service-location></service-location>
-        </div>
-    </section>
+    <div class="bg-[#d9d9d94f]">
+        <section id="banner-inner">
+            <banner-inner-component 
+                :image="'{{ asset('/build/client/images/banner-inner-1.png') }}'" 
+                :title="'Locais de atendimento'">
+            </banner-inner-component>
+        </section>
+        <section id="service-location" class="relative overflow-hidden">
+            <img src="{{asset('/build/client/images/firula-loctation-left.png')}}" alt="Firula left" class="absolute left-0 top-[-180px]">
+            <div class="service-location-content flex flex-row flex-wrap gap-[35px] justify-center items-center m-auto w-[90%] max-w[79.188rem] pt-[1.25rem] sm:pt-[65.67px] pb-[25px] sm:pb-[65.67px]">
+                <service-location></service-location>
+            </div>
+            <img src="{{asset('/build/client/images/firula-location-rigth.png')}}" alt="Firula rigth" class="absolute right-0 top-0">
+        </section>
+    </div>
 @endsection

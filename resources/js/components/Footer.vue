@@ -8,9 +8,9 @@
                 <nav>
                     <h6 class="text-[#E2E3DE] text-[1rem] sm:text-[1.375rem] noto-sans-devanagari-regular">Sitemap</h6>
                     <ul class="flex flex-col gap-2 sm:gap-2 mt-5">
-                        <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[0.938rem] noto-sans-devanagari-thin"><a>Encomendas personalizadas</a></li>
+                        <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[0.938rem] noto-sans-devanagari-thin"><a href="https://api.whatsapp.com/send/?phone=%2B351930531500&text&type=phone_number&app_absent=0" target="_blank" rel="nofollow noopener noreferrer">Encomendas personalizadas</a></li>
                         <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[0.938rem] noto-sans-devanagari-thin"><a>Forneça um feedback</a></li>
-                        <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[0.938rem] noto-sans-devanagari-thin"><a>Política de devolução</a></li>
+                        <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[0.938rem] noto-sans-devanagari-thin"><a href="/produtos/">Produtos</a></li>
                         <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[0.938rem] noto-sans-devanagari-thin"><a>Política de Privacidade</a></li>
                     </ul>
                 </nav>
@@ -28,7 +28,7 @@
                         <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[0.938rem] noto-sans-devanagari-thin">
                             <a :href="atende" class="flex flex-row items-center justify-center gap-4">
                                 <img :src="phone" alt="Telefone" class="w-[10px]">
-                                <span>+351 99999-9999</span>
+                                <span>+351 9 3053-1500</span>
                             </a>
                         </li>
                     </ul>
@@ -39,7 +39,7 @@
                     <ul class="flex flex-col gap-5">
                         <li class="text-[#E2E3DE] text-[1.25rem] noto-sans-devanagari-light rounded-full bg-[#9C7831] w-[44px] h-[44px] flex items-center justify-center" 
                         v-for="(icon, index) in socialMedias" :key="index">
-                        <a v-if="icon.link" :href="icon.link"><img :src="icon.path" :alt="icon.alt" :title="icon.name"></a>
+                        <a v-if="icon.link" :href="icon.link" target="_blank" rel="nofollow noopener noreferrer"><img :src="icon.path" :alt="icon.alt" :title="icon.name"></a>
                         </li>
                     </ul>
                 </nav>
@@ -64,29 +64,22 @@
                 location: '/build/client/images/location.png',            
                 phone: '/build/client/images/phone.png',
                 logoFooter: '/build/client/images/logo-footer.svg',
-                local:'#',
-                atende:'#',
+                local:'/locais-de-atendimentos',
+                atende:'tel:+351930531500',
                 socialMedias: [
                     {
                         id: 1,
                         name: 'Instagram',
                         path: '/build/client/images/insta.png',
                         alt: 'Instagram',
-                        link:'#',
+                        link:'https://www.instagram.com/sushitancascais?igsh=eHY5YXRyZHB4Y244',
                     },
                     {
                         id: 2,
                         name: 'whatsapp',
                         path: '/build/client/images/wpp.png',
                         alt: 'Whatsapp',
-                        link:'#',
-                    },
-                    {
-                        id: 3,
-                        name: 'facebook',
-                        path: '/build/client/images/fb.png',
-                        alt: 'Facebook',
-                        link:'#',
+                        link:'https://api.whatsapp.com/send/?phone=%2B351930531500&text&type=phone_number&app_absent=0',
                     },
                 ],
             }
