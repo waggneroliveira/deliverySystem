@@ -1,132 +1,154 @@
 <template>
-    <div class="flex flex-col sm:flex-row justify-center items-center gap-3">
-        <!-- Local de Retirada -->
-        <div class="w-full md:w-1/2">
-            <label for="pickup_location">Local de Retirada<span class="text-[red]">*</span></label>
-            <select id="pickup_location" v-model="pickUpLocation" required>
-                <option value="" disabled>Selecione o local de retirada</option>
-                <option v-for="location in locations" :key="location.value" :value="location.value" :disabled="location.disabled">
-                    {{ location.label }}             
-                </option>
-            </select>
-        </div>
-
-        <!-- Localidade -->
-        <div class="w-full md:w-1/2">
-            <label 
-            for="location_name" 
-            :style="{ color: pickUpLocation === 'store' ? '#e5e7eb' : '', cursor: pickUpLocation === 'store' ? 'not-allowed' : 'default' }"
-            >
-            Localidade para Entrega<span class="text-[red]"
-            :style="{ color: pickUpLocation === 'store' ? '#e5e7eb' : '', cursor: pickUpLocation === 'store' ? 'not-allowed' : 'default' }">*</span>
-            </label>
-
-            <select id="location_name" v-model="selectedLocalidade" :disabled="pickUpLocation === 'store'"
-            :style="{ cursor: pickUpLocation === 'store' ? 'not-allowed' : 'default' }" required>
-                <option value="" disabled>Selecione a localidade</option>
-                <option v-for="location in validLocalidades" :key="location" :value="location">
-                    {{ location }}
-                </option>
-            </select>
-        </div>
-    </div>
-
-    <div v-if="pickUpLocation === 'delivery'" class="row">
-        <!-- Endereço (mostra após seleção de localidade válida) -->
-        <div v-if="selectedLocalidade" class="row mt-4 flex-col">
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
-                <div class="md:col-span-4">
-                    <label for="address">Endereço<span class="text-[red]">*</span></label>
-                    <input id="address" type="text" v-model="address" placeholder="Endereço" class="w-full p-2 border rounded-md bg-white">
-                </div>
-                <div class="md:col-span-4">
-                    <label for="rua">Rua<span class="text-[red]">*</span></label>
-                    <input id="rua" type="text" v-model="rua" placeholder="Rua" class="w-full p-2 border rounded-md bg-white">
-                </div>
-                <div class="md:col-span-3">
-                    <label for="localidade">Localidade<span class="text-[red]">*</span></label>
-                    <input id="localidade" type="text" v-model="localidade" readonly class="w-full p-2 border rounded-md bg-gray-100">
-                </div>
-                <div class="md:col-span-1">
-                    <label for="casa">Número<span class="text-[red]">*</span></label>
-                    <input id="casa" type="text" v-model="casa" placeholder="Nº" class="w-full p-2 border rounded-md bg-white">
-                </div>            
+    <div v-if="hasProducts">
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-3">
+            <!-- Local de Retirada -->
+            <div class="w-full md:w-1/2">
+                <label for="pickup_location">Local de Retirada<span class="text-[red]">*</span></label>
+                <select id="pickup_location" v-model="pickUpLocation" required>
+                    <option value="" disabled>Selecione o local de retirada</option>
+                    <option v-for="location in locations" :key="location.value" :value="location.value" :disabled="location.disabled">
+                        {{ location.label }}             
+                    </option>
+                </select>
             </div>
 
-
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
-                <div>
-                    <label for="distrito">Distrito<span class="text-[red]">*</span></label>
-                    <input id="distrito" type="text" v-model="distrito" placeholder="Distrito" class="w-full p-2 border rounded-md bg-white">
-                </div>
-                <div>
-                    <label for="concelho">Concelho<span class="text-[red]">*</span></label>
-                    <input id="concelho" type="text" v-model="concelho" placeholder="Concelho" class="w-full p-2 border rounded-md bg-white">
-                </div>
-                <div>
-                    <label for="designacao_postal">Designação Postal<span class="text-[red]">*</span></label>
-                    <input id="designacao_postal" type="text" v-model="designacaoPostal" placeholder="Designação Postal" class="w-full p-2 border rounded-md bg-white">
-                </div>
-                <div>
-                    <label for="phone">Telefone<span class="text-[red]">*</span></label>
-                    <input id="phone" type="number" v-model="phone" placeholder="Telefone" class="w-full p-2 border rounded-md bg-white">
-                </div>
-            </div>
-
-            <div class="mt-4">
-                <label for="ref">Referência</label>
-                <textarea id="ref" v-model="reference" placeholder="Referência" class="w-full p-2 border rounded-md h-24 resize-none bg-white"></textarea>
-            </div>
-        </div>
-
-        <!-- Forma de Pagamento (só aparece se tudo estiver preenchido) -->
-        <div v-if="showPaymentSection" class="row flex flex-col mt-6">
-            <label>Forma de Pagamento</label>
-            <div class="flex flex-wrap gap-4 mt-2">
-                <div 
-                    v-for="method in paymentMethods" 
-                    :key="method.value" 
-                    class="border p-4 rounded-lg cursor-pointer flex flex-col items-center w-32 hover:shadow-md transition"
-                    :class="{ 'ring-2 ring-[#031d40]': paymentMethod === method.value }"
-                    @click="paymentMethod = method.value"
+            <!-- Localidade -->
+            <div class="w-full md:w-1/2">
+                <label 
+                for="location_name" 
+                :style="{ color: pickUpLocation === 'store' ? '#e5e7eb' : '', cursor: pickUpLocation === 'store' ? 'not-allowed' : 'default' }"
                 >
-                    <img :src="method.image" :alt="method.label" class="w-[50px] h-[50px] object-contain mb-2" />
-                    <span class="text-center text-sm font-medium">{{ method.label }}</span>
+                Localidade para Entrega<span class="text-[red]"
+                :style="{ color: pickUpLocation === 'store' ? '#e5e7eb' : '', cursor: pickUpLocation === 'store' ? 'not-allowed' : 'default' }">*</span>
+                </label>
+
+                <select id="location_name" v-model="selectedLocalidade" :disabled="pickUpLocation === 'store'"
+                :style="{ cursor: pickUpLocation === 'store' ? 'not-allowed' : 'default' }" required>
+                    <option value="" disabled>Selecione a localidade</option>
+                    <option v-for="location in validLocalidades" :key="location" :value="location">
+                        {{ location }}
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <div v-if="pickUpLocation === 'delivery'" class="row">
+            <!-- Endereço (mostra após seleção de localidade válida) -->
+            <div v-if="selectedLocalidade" class="row mt-4 flex-col">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+                    <div class="md:col-span-4">
+                        <label for="address">Endereço<span class="text-[red]">*</span></label>
+                        <input id="address" type="text" v-model="address" placeholder="Endereço" class="w-full p-2 border rounded-md bg-white">
+                    </div>
+                    <div class="md:col-span-4">
+                        <label for="rua">Rua<span class="text-[red]">*</span></label>
+                        <input id="rua" type="text" v-model="rua" placeholder="Rua" class="w-full p-2 border rounded-md bg-white">
+                    </div>
+                    <div class="md:col-span-3">
+                        <label for="localidade">Localidade<span class="text-[red]">*</span></label>
+                        <input id="localidade" type="text" v-model="localidade" readonly class="w-full p-2 border rounded-md bg-gray-100">
+                    </div>
+                    <div class="md:col-span-1">
+                        <label for="casa">Número<span class="text-[red]">*</span></label>
+                        <input id="casa" type="text" v-model="casa" placeholder="Nº" class="w-full p-2 border rounded-md bg-white">
+                    </div>            
+                </div>
+
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
+                    <div>
+                        <label for="distrito">Distrito<span class="text-[red]">*</span></label>
+                        <input id="distrito" type="text" v-model="distrito" placeholder="Distrito" class="w-full p-2 border rounded-md bg-white">
+                    </div>
+                    <div>
+                        <label for="concelho">Concelho<span class="text-[red]">*</span></label>
+                        <input id="concelho" type="text" v-model="concelho" placeholder="Concelho" class="w-full p-2 border rounded-md bg-white">
+                    </div>
+                    <div>
+                        <label for="designacao_postal">Designação Postal<span class="text-[red]">*</span></label>
+                        <input id="designacao_postal" type="text" v-model="designacaoPostal" placeholder="Designação Postal" class="w-full p-2 border rounded-md bg-white">
+                    </div>
+                    <div>
+                        <label for="phone">Telefone<span class="text-[red]">*</span></label>
+                        <input id="phone" type="number" v-model="phone" placeholder="Telefone" class="w-full p-2 border rounded-md bg-white">
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <label for="ref">Referência</label>
+                    <textarea id="ref" v-model="reference" placeholder="Referência" class="w-full p-2 border rounded-md h-24 resize-none bg-white"></textarea>
                 </div>
             </div>
 
-            <div class="row flex flex-col">
-                <div v-if="paymentMethod === 'money'" class="row flex flex-row w-full mt-4 !mb-0">
-                    <h5>Precisa de troco?</h5>
-                    <div class="change">
-                        <input id="change_yes" type="radio" v-model="change" value="yes" class="!h-[18px] sm:h-[35px]">
-                        <label for="change_yes" class="text-[0.75rem] sm:text-[0.938rem]">Sim</label>
-                    </div>
-                    <div class="change">
-                        <input id="change_no" type="radio" v-model="change" value="no" class="!h-[18px] sm:h-[35px]">
-                        <label for="change_no" class="text-[0.75rem] sm:text-[0.938rem]">Não</label>
+            <!-- Forma de Pagamento (só aparece se tudo estiver preenchido) -->
+            <div v-if="showPaymentSection" class="row flex flex-col mt-6">
+                <label>Forma de Pagamento</label>
+                <div class="flex flex-wrap gap-4 mt-2">
+                    <div 
+                        v-for="method in paymentMethods" 
+                        :key="method.value" 
+                        class="border p-4 rounded-lg cursor-pointer flex flex-col items-center w-32 hover:shadow-md transition"
+                        :class="{ 'ring-2 ring-[#031d40]': paymentMethod === method.value }"
+                        @click="paymentMethod = method.value"
+                    >
+                        <img :src="method.image" :alt="method.label" class="w-[50px] h-[50px] object-contain mb-2" />
+                        <span class="text-center text-sm font-medium">{{ method.label }}</span>
                     </div>
                 </div>
 
-                <div v-if="paymentMethod === 'money' && change === 'yes'" class="flex flex-row w-[280px] mt-0">
-                    <div class="troco">
-                        <label for="trocoPara">Troco para<span class="text-[red]">*</span></label>
-                        <input
-                            id="trocoPara"
-                            type="number"
-                            v-model="trocoPara"
-                            placeholder="Ex: 100€"
-                            class="w-full p-2 border rounded-md bg-white"
-                            required
-                        >
+                <div class="row flex flex-col">
+                    <div v-if="paymentMethod === 'money'" class="row flex flex-row w-full mt-4 !mb-0">
+                        <h5>Precisa de troco?</h5>
+                        <div class="change">
+                            <input id="change_yes" type="radio" v-model="change" value="yes" class="!h-[18px] sm:h-[35px]">
+                            <label for="change_yes" class="text-[0.75rem] sm:text-[0.938rem]">Sim</label>
+                        </div>
+                        <div class="change">
+                            <input id="change_no" type="radio" v-model="change" value="no" class="!h-[18px] sm:h-[35px]">
+                            <label for="change_no" class="text-[0.75rem] sm:text-[0.938rem]">Não</label>
+                        </div>
+                    </div>
+
+                    <div v-if="paymentMethod === 'money' && change === 'yes'" class="flex flex-row w-[280px] mt-0">
+                        <div class="troco">
+                            <label for="trocoPara">Troco para<span class="text-[red]">*</span></label>
+                            <input
+                                id="trocoPara"
+                                type="number"
+                                v-model="trocoPara"
+                                placeholder="Ex: 100€"
+                                class="w-full p-2 border rounded-md bg-white"
+                                required
+                            >
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="row mt-4" v-if="canSubmit">
-        <button type="submit">Confirmar Pedido</button>
+        <div class="row mt-4" v-if="canSubmit">
+            <button type="submit">Confirmar Pedido</button>
+        </div>
+    </div>
+    <div v-else class="flex flex-col items-center justify-center text-center gap-3 py-5 px-0">
+        <div class=" w-full flex flex-col items-center justify-center text-center py-3 border border-[#CF1E0C] bg-[#FFE5E5] text-[#CF1E0C] rounded-xl">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-[35px] w-[35px]" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7a1 1 0 00.9 1.5H19M7 13l-2 4m0 0a1 1 0 102 0m10 0a1 1 0 102 0" />
+            </svg>
+
+            <h3 class="text-lg sm:text-xl font-semibold mb-1">Seu carrinho está vazio</h3>
+            <p class="text-sm sm:text-base text-[#CF1E0C] mb-0 w-full">
+                Explore nossos produtos e adicione ao carrinho para continuar.
+            </p>
+        </div>
+
+        <button
+            @click="goToProducts"
+            class="bg-[#CF1E0C] hover:bg-red-700 text-white px-6 py-2 rounded text-sm sm:text-base transition">
+            Ver produtos
+        </button>
     </div>
 </template>
 
@@ -134,8 +156,12 @@
 
 import { ref, watch } from 'vue';
 import { computed } from 'vue';
+import { useCartStore } from '@/stores/cartStores';
 
-const canSubmit = computed(() => {
+const cartStore = useCartStore();
+const hasProducts = computed(() => cartStore.cart.length > 0);
+
+const canSubmit = computed(() => {    
     // Retirada na loja: forma de pagamento deve estar escolhida
     if (pickUpLocation.value === 'store') {
         return true;
@@ -183,7 +209,7 @@ const change = ref('');
 const showPaymentSection = ref(false);
 
 watch(pickUpLocation, (newValue) => {
-    if (newValue === 'delivery') {
+    if (newValue === 'store') {
         rua.value = '';
         casa.value = '';
         address.value = '';
@@ -193,6 +219,7 @@ watch(pickUpLocation, (newValue) => {
         designacaoPostal.value = '';
         phone.value = '';
         reference.value = '';
+        selectedLocalidade.value = '';
 
         paymentMethod.value = '';
         trocoDe.value = '';
@@ -224,6 +251,10 @@ const paymentMethods = ref([
     { value: 'multibank', label: 'Multibanco', image: 'build/client/images/credit-debit.svg' },
     { value: 'money', label: 'Dinheiro', image: 'build/client/images/money.svg' },
 ]);
+
+const goToProducts = () => {
+    window.location.href = '/produtos/';
+};
 
 // Atualiza campo localidade automaticamente se selecionada for válida
 watch(selectedLocalidade, (value) => {
