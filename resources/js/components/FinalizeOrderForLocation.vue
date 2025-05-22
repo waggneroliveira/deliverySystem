@@ -262,7 +262,7 @@ const goToProducts = () => {
 
 // Atualiza campo localidade automaticamente se selecionada for válida
 watch(selectedLocalidade, (value) => {
-    if (validLocalidades.includes(value)) {
+    if (validLocalidades.value.includes(value)) {
         localidade.value = value;
     } else {
         localidade.value = '';
