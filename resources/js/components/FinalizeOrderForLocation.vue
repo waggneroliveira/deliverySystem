@@ -153,241 +153,258 @@
 </template>
 
 <script setup>
+    import { ref, onMounted, watch, computed } from 'vue';
+    import { useCartStore } from '@/stores/cartStores';
+    import { useTaxaServiceLocation } from '@/stores/taxaServiceLocation';
 
-import { ref, onMounted, watch, computed } from 'vue';
-import { useCartStore } from '@/stores/cartStores';
+    const taxaStore = useTaxaServiceLocation();
+    const cartStore = useCartStore();
+    const hasProducts = computed(() => cartStore.cart.length > 0);
 
-const cartStore = useCartStore();
-const hasProducts = computed(() => cartStore.cart.length > 0);
+    const validLocalidades = ref([]);
+    const localidadesComTaxa = ref([]);
 
-const validLocalidades = ref([]);
+    const getServiceLocations = async () => {
+        try {
+            const response = await axios.get('/api/locais-de-atendimentos');
 
-const getServiceLocations = async () => {
-    try {
-        const response = await axios.get('/api/locais-de-atendimentos');
+        // Preencher validLocalidades só com os nomes dos locais ativos, por exemplo
+        validLocalidades.value = response.data.map(loc => loc.name);
+        localidadesComTaxa.value = response.data
+        .filter(loc => loc.taxa)
+        .map(loc => ({
+            ...loc,
+            valorTaxa: parseFloat(loc.taxa.valor)
+        }));
 
-    // Preencher validLocalidades só com os nomes dos locais ativos, por exemplo
-    validLocalidades.value = response.data.map(loc => loc.name);
-    } catch (error) {
-        console.error('Erro ao buscar os locais de atendimentos:', error);
-    }
-};
+        } catch (error) {
+            console.error('Erro ao buscar os locais de atendimentos:', error);
+        }
+    };
 
-onMounted(() => {
-  getServiceLocations();
-});
+    onMounted(() => {
+        getServiceLocations();
+    });
 
-const canSubmit = computed(() => {    
-    // Retirada na loja: forma de pagamento deve estar escolhida
-    if (pickUpLocation.value === 'store') {
+    const canSubmit = computed(() => {    
+        // Retirada na loja: forma de pagamento deve estar escolhida
+        if (pickUpLocation.value === 'store') {
+            return true;
+        }
+
+        // Entrega ao domicílio: tudo precisa estar preenchido
+        const entregaValida = address.value &&
+            rua.value &&
+            casa.value &&
+            localidade.value &&
+            distrito.value &&
+            concelho.value &&
+            designacaoPostal.value &&
+            phone.value;
+
+        if (!entregaValida || !paymentMethod.value) {
+            return false;
+        }
+
+        // Se for dinheiro, valida troco
+        if (paymentMethod.value === 'money') {
+            if (change.value === 'no') return true;
+            if (change.value === 'yes' && trocoPara.value) return true;
+            return false;
+        }
+
         return true;
+    });
+
+    const pickUpLocation = ref('');
+    const selectedLocalidade = ref('');
+    const address = ref('');
+    const rua = ref('');
+    const casa = ref('');
+    const localidade = ref('');
+    const distrito = ref('');
+    const concelho = ref('');
+    const designacaoPostal = ref('');
+    const phone = ref('');
+    const reference = ref('');
+    const paymentMethod = ref('');
+    const trocoPara = ref('');
+    const change = ref('');
+    const showPaymentSection = ref(false);
+
+
+    watch(pickUpLocation, (newValue) => {
+        if (newValue === 'store') {
+            rua.value = '';
+            casa.value = '';
+            address.value = '';
+            localidade.value = '';
+            distrito.value = '';
+            concelho.value = '';
+            designacaoPostal.value = '';
+            phone.value = '';
+            reference.value = '';
+            selectedLocalidade.value = '';
+
+            paymentMethod.value = '';
+            trocoDe.value = '';
+            trocoPara.value = '';
+            change.value = '';
+        }
+    });
+
+    const locations = ref([
+        { value: 'delivery', label: 'Entrega ao domicílio', disabled: false },
+        { value: 'store', label: 'Retirar na loja', disabled: false },
+    ]);
+
+    const paymentMethods = ref([
+        { value: 'mbway', label: 'Mbway', image: 'build/client/images/mbway.png' },
+        { value: 'multibank', label: 'Multibanco', image: 'build/client/images/credit-debit.svg' },
+        { value: 'money', label: 'Dinheiro', image: 'build/client/images/money.svg' },
+    ]);
+
+    const goToProducts = () => {
+        window.location.href = '/produtos/';
+    };
+
+    // Atualiza campo localidade automaticamente se selecionada for válida
+    const taxa = computed(() => {
+    const local = localidadesComTaxa.value.find(loc => loc.name === selectedLocalidade.value);
+    return local ? local.valorTaxa : 0;
+    });
+
+    watch(selectedLocalidade, (novaLocalidade) => {
+    if (!novaLocalidade) {
+        taxaStore.reset();
+        return;
     }
 
-    // Entrega ao domicílio: tudo precisa estar preenchido
-    const entregaValida = address.value &&
-        rua.value &&
-        casa.value &&
-        localidade.value &&
-        distrito.value &&
-        concelho.value &&
-        designacaoPostal.value &&
-        phone.value;
-
-    if (!entregaValida || !paymentMethod.value) {
-        return false;
+    const localidade = localidadesComTaxa.value.find(loc => loc.name === novaLocalidade);
+    if (localidade) {
+        taxaStore.setCidadeETaxa(localidade.name, localidade.valorTaxa);
     }
+    });
 
-    // Se for dinheiro, valida troco
-    if (paymentMethod.value === 'money') {
-        if (change.value === 'no') return true;
-        if (change.value === 'yes' && trocoPara.value) return true;
-        return false;
-    }
-
-    return true;
-});
-
-const pickUpLocation = ref('');
-const selectedLocalidade = ref('');
-const address = ref('');
-const rua = ref('');
-const casa = ref('');
-const localidade = ref('');
-const distrito = ref('');
-const concelho = ref('');
-const designacaoPostal = ref('');
-const phone = ref('');
-const reference = ref('');
-const paymentMethod = ref('');
-const trocoDe = ref('');
-const trocoPara = ref('');
-const change = ref('');
-const showPaymentSection = ref(false);
-
-
-watch(pickUpLocation, (newValue) => {
-    if (newValue === 'store') {
-        rua.value = '';
-        casa.value = '';
-        address.value = '';
-        localidade.value = '';
-        distrito.value = '';
-        concelho.value = '';
-        designacaoPostal.value = '';
-        phone.value = '';
-        reference.value = '';
-        selectedLocalidade.value = '';
-
-        paymentMethod.value = '';
-        trocoDe.value = '';
-        trocoPara.value = '';
-        change.value = '';
-    }
-});
-
-const locations = ref([
-    { value: 'delivery', label: 'Entrega ao domicílio', disabled: false },
-    { value: 'store', label: 'Retirar na loja', disabled: false },
-]);
-
-const paymentMethods = ref([
-    { value: 'mbway', label: 'Mbway', image: 'build/client/images/mbway.png' },
-    { value: 'multibank', label: 'Multibanco', image: 'build/client/images/credit-debit.svg' },
-    { value: 'money', label: 'Dinheiro', image: 'build/client/images/money.svg' },
-]);
-
-const goToProducts = () => {
-    window.location.href = '/produtos/';
-};
-
-// Atualiza campo localidade automaticamente se selecionada for válida
-watch(selectedLocalidade, (value) => {
-    if (validLocalidades.value.includes(value)) {
-        localidade.value = value;
-    } else {
-        localidade.value = '';
-    }
-});
-
-// Verifica se pode mostrar a forma de pagamento
-watch([address, rua, casa, localidade, distrito, concelho, designacaoPostal, phone], () => {
-    if (
-        address.value &&
-        rua.value &&
-        casa.value &&
-        localidade.value &&
-        distrito.value &&
-        concelho.value &&
-        designacaoPostal.value &&
-        phone.value
-    ) {
-        showPaymentSection.value = true;
-    } else {
-        showPaymentSection.value = false;
-    }
-});
+    // Verifica se pode mostrar a forma de pagamento
+    watch([address, rua, casa, localidade, distrito, concelho, designacaoPostal, phone], () => {
+        if (
+            address.value &&
+            rua.value &&
+            casa.value &&
+            localidade.value &&
+            distrito.value &&
+            concelho.value &&
+            designacaoPostal.value &&
+            phone.value
+        ) {
+            showPaymentSection.value = true;
+        } else {
+            showPaymentSection.value = false;
+        }
+    });
 </script>
 
 <style scoped>
-/* Estilos gerais */
-.row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 15px;
-}
-
-label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-/* Inputs estilizados */
-input, select {
-    width: 100%;
-    height: 35px;
-    padding: 5px 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-}
-
-/* Alinhamento dos inputs */
-.address, .phone, .ref {
-    flex: 1;
-}
-
-/* Pagamentos estilizados */
-.payments {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.payment-box {
-    width: 120px;
-    height: 80px;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.payment-box img {
-    width: 50px;
-    height: 50px;
-    object-fit: contain;
-}
-
-.payment-box span {
-    font-size: 14px;
-    font-weight: bold;
-    margin-top: 5px;
-}
-
-/* Efeito ativo no pagamento selecionado */
-.payment-box.active {
-    border-color: #031d40;
-    background: rgba(0, 123, 255, 0.1);
-}
-
-/* Estilos dos botões */
-button {
-    background: #CF1E0C;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background 0.3s;
-}
-
-button:hover {
-    background: rgba(185, 28, 28, 0.9);
-}
-.troco {
-    flex: 1;
-}
-@media screen and (max-width: 871px) {
+    /* Estilos gerais */
     .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    /* Inputs estilizados */
+    input, select {
+        width: 100%;
+        height: 35px;
+        padding: 5px 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+    /* Alinhamento dos inputs */
+    .address, .phone, .ref {
+        flex: 1;
+    }
+
+    /* Pagamentos estilizados */
+    .payments {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .payment-box {
+        width: 120px;
+        height: 80px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        display: flex;
         flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
     }
-}
-@media screen and (max-width: 422px) {
-    .payments{
-        justify-content: space-between;
-        gap: 0;
+
+    .payment-box img {
+        width: 50px;
+        height: 50px;
+        object-fit: contain;
     }
-    .payment-box{
-        width:48%;
-        margin-bottom: 10px;
+
+    .payment-box span {
+        font-size: 14px;
+        font-weight: bold;
+        margin-top: 5px;
     }
-}
+
+    /* Efeito ativo no pagamento selecionado */
+    .payment-box.active {
+        border-color: #031d40;
+        background: rgba(0, 123, 255, 0.1);
+    }
+
+    /* Estilos dos botões */
+    button {
+        background: #CF1E0C;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background 0.3s;
+    }
+
+    button:hover {
+        background: rgba(185, 28, 28, 0.9);
+    }
+    .troco {
+        flex: 1;
+    }
+    @media screen and (max-width: 871px) {
+        .row {
+            flex-direction: column;
+        }
+    }
+    @media screen and (max-width: 422px) {
+        .payments{
+            justify-content: space-between;
+            gap: 0;
+        }
+        .payment-box{
+            width:48%;
+            margin-bottom: 10px;
+        }
+    }
 </style>
 

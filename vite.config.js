@@ -54,7 +54,7 @@ export default defineConfig({
         port: 5173, 
         strictPort: true, // Garante que o Vite não mude a porta
         hmr: {
-            host: '192.168.15.14' 
+            host: '192.168.100.9' 
         }
     }
 });

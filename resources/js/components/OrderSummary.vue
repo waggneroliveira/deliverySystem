@@ -21,7 +21,7 @@
             <!-- Taxa -->
             <div class="flex justify-between pb-3 border-b border-[#DAAB22]">
                 <span class="noto-sans-devanagari-medium text-[0.938rem] sm:text-[1.125rem] text-[#FFF]">Taxa:</span>
-                <span class="noto-sans-devanagari-semibold text-[#FFF] text-[0.875rem] sm:text-[1.125rem]">{{ formatEuro(taxa.toFixed(2)) }}</span>
+                <span class="noto-sans-devanagari-semibold text-[#FFF] text-[0.875rem] sm:text-[1.125rem]">{{ formatEuro(taxaStore.taxa.toFixed(2)) }}</span>
             </div>
             
             <!-- Total -->
@@ -55,20 +55,25 @@
 <script setup>
     import { computed } from 'vue';
     import { useCartStore } from '@/stores/cartStores';
+    import { useTaxaServiceLocation } from '@/stores/taxaServiceLocation';
+
+    const taxaStore = useTaxaServiceLocation();
+
+    // Correto: taxa vem diretamente da store como número
+    const taxa = computed(() => taxaStore.taxa);
 
     const cartStore = useCartStore();
 
-    const showButton = computed(() => window.location.pathname !== '/finalizar-pedido')
+    const showButton = computed(() => window.location.pathname !== '/finalizar-pedido');
 
     const productsTotal = computed(() =>
         cartStore.cart.reduce((total, item) => total + (item.price * item.quantity), 0)
     );
 
     const troco = 0;
-    const taxa = 0;
 
-    const total = computed(() => productsTotal.value + taxa - troco);
-    
+    const total = computed(() => productsTotal.value + taxa.value - troco);
+
     const formatEuro = (value) => {
         return new Intl.NumberFormat('pt-PT', {
             style: 'currency',
