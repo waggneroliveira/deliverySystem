@@ -279,12 +279,13 @@
             return;
         }
 
-        const localidade = localidadesComTaxa.value.find(loc => loc.name === novaLocalidade);
-        if (localidade) {
-            taxaStore.setCidadeETaxa(localidade.name, localidade.valorTaxa);
-            localidade.value = localidade.name;
+        const localidadeObj = localidadesComTaxa.value.find(loc => loc.name === novaLocalidade);
+        if (localidadeObj) {
+            taxaStore.setCidadeETaxa(localidadeObj.name, localidadeObj.valorTaxa);
+            localidade.value = localidadeObj.name; // Aqui está o ajuste
         }
     });
+
 
     // Verifica se pode mostrar a forma de pagamento
     watch([address, rua, casa, localidade, distrito, concelho, designacaoPostal, phone], () => {
