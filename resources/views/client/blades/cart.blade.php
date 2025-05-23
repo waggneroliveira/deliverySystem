@@ -12,7 +12,7 @@
             <div class="order-summary-content w-full max-w-[364px]">
                 <order-summary-component></order-summary-component>
             </div>
-            <div class="cart-component-content w-[66%]">
+            <div class="cart-component-content w-full sm:w-[66%]">
                 <cart-component redirect-back="{{ route('products') }}"></cart-component>
             </div>
         </div>
