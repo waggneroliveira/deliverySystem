@@ -19,13 +19,21 @@
 <script setup>
     import { computed } from 'vue';
     import { useCartStore } from '@/stores/cartStores';
+    import { useTaxaServiceLocation } from '@/stores/taxaServiceLocation';
 
     const cartStore = useCartStore();
     const cartCount = computed(() => cartStore.cartCount);// Total de itens no carrinho
 
+    const taxaStore = useTaxaServiceLocation();
+    const taxa = computed(() => taxaStore.taxa);
+
     // Calcular o valor total do carrinho
     const totalPrice = computed(() =>
         cartStore.cart.reduce((total, item) => total + (item.price * item.quantity), 0)
+    );
+
+    const totalPriceWithTaxa = computed(() =>
+        totalPrice.value + taxa.value,
     );
 
     // Formatar o valor para BRL (R$)
@@ -35,7 +43,7 @@
     
     // Formatar o valor para EUR (€)
     const totalPriceFormatted = computed(() =>
-        totalPrice.value.toLocaleString('pt-PT', { style: 'currency', currency: 'EUR' })
+        totalPriceWithTaxa.value.toLocaleString('pt-PT', { style: 'currency', currency: 'EUR' })
     );
 
 
