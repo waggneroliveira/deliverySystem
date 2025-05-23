@@ -13,15 +13,34 @@
             
             <!-- Troco -->
             <div class="flex justify-between mb-3 pb-3 border-b border-[#DAAB22]">
-                <span class="noto-sans-devanagari-medium text-[0.938rem] sm:text-[1.125rem] text-[#FFF]">Troco:</span>
-                <span class="bg-[#987F2D] text-white px-4 py-0 leading-[23px] text-[0.875rem] sm:text-[1.125rem]">Sim</span>
-                <span class="noto-sans-devanagari-semibold text-[#FFF] text-[0.875rem] sm:text-[1.125rem]">{{ formatEuro(troco.toFixed(2)) }}</span>
+                <span
+                    class="noto-sans-devanagari-medium text-[0.938rem] sm:text-[1.125rem]"
+                    :class="troco > 0 ? 'text-[#FFF]' : 'text-[#ffffff66]'"
+                >
+                    Troco:
+                </span>
+
+                <div v-if="troco > 0">
+                    <span class="bg-[#987F2D] text-white px-4 py-0 leading-[23px] text-[0.875rem] sm:text-[1.125rem]">
+                        Sim
+                    </span>
+                </div>
+
+                <span
+                    class="noto-sans-devanagari-semibold text-[0.875rem] sm:text-[1.125rem]"
+                    :class="troco > 0 ? 'text-[#FFF]' : 'text-[#ffffff66]'"
+                >
+                    {{ formatEuro(troco.toFixed(2)) }}
+                </span>
             </div>
+
             
             <!-- Taxa -->
             <div class="flex justify-between pb-3 border-b border-[#DAAB22]">
-                <span class="noto-sans-devanagari-medium text-[0.938rem] sm:text-[1.125rem] text-[#FFF]">Taxa:</span>
-                <span class="noto-sans-devanagari-semibold text-[#FFF] text-[0.875rem] sm:text-[1.125rem]">{{ formatEuro(taxaStore.taxa.toFixed(2)) }}</span>
+                <span class="noto-sans-devanagari-medium text-[0.938rem] sm:text-[1.125rem]"
+                :class="taxaStore.taxa > 0 ? 'text-[#FFF]' : 'text-[#ffffff66]'">Taxa:</span>
+                <span class="noto-sans-devanagari-semibold text-[0.875rem] sm:text-[1.125rem]"
+                :class="taxaStore.taxa > 0 ? 'text-[#FFF]' : 'text-[#ffffff66]'">{{ formatEuro(taxaStore.taxa.toFixed(2)) }}</span>
             </div>
             
             <!-- Total -->
@@ -33,7 +52,7 @@
             <!-- Endereço -->
             <div class="mb-4 gap-7 flex justify-between items-baseline">
                 <span class="inline-block noto-sans-devanagari-medium text-[0.938rem] sm:text-[1.125rem] text-[#FFF]">Entrega:</span>
-                <span class="text-sm noto-sans-devanagari-light leading-[15px] sm:leading-[23px] text-[0.594rem] sm:text-[0.938rem] text-[#FFF]">Apartado 1, Freixo de Espada À Cinta 5181-909 FREIXO DE ESPADA À CINTA</span>
+                <span class="text-sm noto-sans-devanagari-light leading-[15px] sm:leading-[23px] text-[0.594rem] sm:text-[0.938rem] text-[#FFF]">{{taxaStore.cidade + ', ' + taxaStore.rua + ' - ' + taxaStore.casa}}</span>
             </div>
             
             <div v-if="showButton" class="flex justify-center items-center mt-9"><!-- class -> btn-go -->
@@ -62,6 +81,8 @@
     // Correto: taxa vem diretamente da store como número
     const taxa = computed(() => taxaStore.taxa);
 
+    const cidade = computed(() => taxaStore.cidade);
+
     const cartStore = useCartStore();
 
     const showButton = computed(() => window.location.pathname !== '/finalizar-pedido');
@@ -69,10 +90,9 @@
     const productsTotal = computed(() =>
         cartStore.cart.reduce((total, item) => total + (item.price * item.quantity), 0)
     );
+    const troco = computed(() => taxaStore.trocoPara || 0);
 
-    const troco = 0;
-
-    const total = computed(() => productsTotal.value + taxa.value - troco);
+    const total = computed(() => productsTotal.value + taxa.value);
 
     const formatEuro = (value) => {
         return new Intl.NumberFormat('pt-PT', {

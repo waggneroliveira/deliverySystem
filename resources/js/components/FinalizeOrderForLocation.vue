@@ -116,7 +116,7 @@
                                 id="trocoPara"
                                 type="number"
                                 v-model="trocoPara"
-                                placeholder="Ex: 100€"
+                                placeholder="Ex: 100"
                                 class="w-full p-2 border rounded-md bg-white"
                                 required
                             >
@@ -273,6 +273,21 @@
     return local ? local.valorTaxa : 0;
     });
 
+    const trocoCalculado = computed(() => {
+        if (paymentMethod.value === 'money' && change.value === 'yes') {
+            const valorTroco = parseFloat(trocoPara.value || 0);
+            const totalPedido = cartStore.cart.reduce((total, item) => total + (item.price * item.quantity), 0) + taxa.value;
+
+            const troco = valorTroco - totalPedido;
+            return troco > 0 ? troco : 0;
+        }
+        return 0;
+    });
+
+    watch(trocoCalculado, (novoTroco) => {
+        taxaStore.setCidadeETaxa(taxaStore.cidade, taxaStore.taxa, novoTroco);
+    });
+
     watch(selectedLocalidade, (novaLocalidade) => {
         if (!novaLocalidade) {
             taxaStore.reset();
@@ -282,10 +297,9 @@
         const localidadeObj = localidadesComTaxa.value.find(loc => loc.name === novaLocalidade);
         if (localidadeObj) {
             taxaStore.setCidadeETaxa(localidadeObj.name, localidadeObj.valorTaxa);
-            localidade.value = localidadeObj.name; // Aqui está o ajuste
+            localidade.value = localidadeObj.name;
         }
     });
-
 
     // Verifica se pode mostrar a forma de pagamento
     watch([address, rua, casa, localidade, distrito, concelho, designacaoPostal, phone], () => {
@@ -304,6 +318,27 @@
             showPaymentSection.value = false;
         }
     });
+
+    watch(
+        [address, rua, casa, phone],
+        ([newAddress, newRua, newCasa, newPhone]) => {
+            taxaStore.setEndereco({
+            address: newAddress,
+            rua: newRua,
+            casa: newCasa,
+            phone: newPhone,
+            reference: taxaStore.reference,
+            })
+        }
+    )
+
+    watch(change, (newValue) => {
+        if (newValue === 'no') {
+            trocoPara.value = '';
+            taxaStore.setCidadeETaxa(taxaStore.cidade, taxaStore.taxa, 0); // reseta o troco no store também
+        }
+    });
+
 </script>
 
 <style scoped>
@@ -408,4 +443,3 @@
         }
     }
 </style>
-
