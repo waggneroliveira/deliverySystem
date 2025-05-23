@@ -52,7 +52,12 @@
             <!-- Endereço -->
             <div class="mb-4 gap-7 flex justify-between items-baseline">
                 <span class="inline-block noto-sans-devanagari-medium text-[0.938rem] sm:text-[1.125rem] text-[#FFF]">Entrega:</span>
-                <span class="text-sm noto-sans-devanagari-light leading-[15px] sm:leading-[23px] text-[0.594rem] sm:text-[0.938rem] text-[#FFF]">{{taxaStore.cidade + ', ' + taxaStore.rua + ' - ' + taxaStore.casa}}</span>
+                <span
+                v-if="taxaStore.cidade && taxaStore.rua && taxaStore.casa"
+                class="text-sm noto-sans-devanagari-light leading-[15px] sm:leading-[23px] text-[0.594rem] sm:text-[0.938rem] text-[#FFF]"
+                >
+                {{ taxaStore.cidade + ', ' + taxaStore.rua + ' - ' + taxaStore.casa }}
+                </span>
             </div>
             
             <div v-if="showButton" class="flex justify-center items-center mt-9"><!-- class -> btn-go -->

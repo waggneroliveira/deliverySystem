@@ -109,9 +109,13 @@
                         </div>
                     </div>
 
-                    <div v-if="paymentMethod === 'money' && change === 'yes'" class="flex flex-row w-[280px] mt-0">
+                    <div v-if="paymentMethod === 'money' && change === 'yes'" class="flex flex-row w-[290px] mt-0">
                         <div class="troco">
                             <label for="trocoPara">Troco para<span class="text-[red]">*</span></label>
+                            <p v-if="paymentMethod === 'money' && change === 'yes' && trocoPara && !trocoValido" class="text-red-600 text-[0.75rem] mb-1">
+                                O valor para troco deve ser maior ao total do pedido.
+                            </p>
+
                             <input
                                 id="trocoPara"
                                 type="number"
@@ -209,9 +213,10 @@
         // Se for dinheiro, valida troco
         if (paymentMethod.value === 'money') {
             if (change.value === 'no') return true;
-            if (change.value === 'yes' && trocoPara.value) return true;
+            if (change.value === 'yes' && trocoPara.value && trocoValido.value) return true;
             return false;
         }
+
 
         return true;
     });
@@ -283,6 +288,16 @@
         }
         return 0;
     });
+
+    const trocoValido = computed(() => {
+        if (paymentMethod.value === 'money' && change.value === 'yes') {
+            const valorTroco = parseFloat(trocoPara.value || 0);
+            const totalPedido = cartStore.cart.reduce((total, item) => total + (item.price * item.quantity), 0) + taxa.value;
+            return valorTroco >= totalPedido;
+        }
+        return true; // se não for dinheiro ou não for 'yes', está válido por padrão
+    });
+
 
     watch(trocoCalculado, (novoTroco) => {
         taxaStore.setCidadeETaxa(taxaStore.cidade, taxaStore.taxa, novoTroco);
