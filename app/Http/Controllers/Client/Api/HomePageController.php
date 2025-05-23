@@ -71,7 +71,7 @@ class HomePageController extends Controller
                 return [
                     'id' => $product->id,
                     'title' => $product->title,
-                    'text' => $product->description,
+                    'text' => $product->description ? $product->description : '',
                     'slug' => $product->slug,
                     'active' => $product->active,
                     'promotion' => $product->promotion,

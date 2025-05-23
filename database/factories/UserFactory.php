@@ -20,6 +20,7 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
+            'id' => 1,
             'name' => 'Wagner Oliveira',
             'email' => 'waggner.dev@gmail.com',
             'password' => Hash::make('W@gn3R13041994dev'),

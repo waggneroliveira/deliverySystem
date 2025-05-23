@@ -13,6 +13,10 @@ class AuditActivity extends Model
     {
         switch ($subjectType) { 
            
+            case Taxa::class:
+                return 'Taxas';
+            case ServiceLocation::class:
+                return 'Locais de Atendimentos';
             case Newsletter::class:
                 return 'Newsletter';
             case Product::class:
