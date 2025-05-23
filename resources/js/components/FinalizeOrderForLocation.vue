@@ -247,7 +247,6 @@
             selectedLocalidade.value = '';
 
             paymentMethod.value = '';
-            trocoDe.value = '';
             trocoPara.value = '';
             change.value = '';
         }
@@ -275,15 +274,16 @@
     });
 
     watch(selectedLocalidade, (novaLocalidade) => {
-    if (!novaLocalidade) {
-        taxaStore.reset();
-        return;
-    }
+        if (!novaLocalidade) {
+            taxaStore.reset();
+            return;
+        }
 
-    const localidade = localidadesComTaxa.value.find(loc => loc.name === novaLocalidade);
-    if (localidade) {
-        taxaStore.setCidadeETaxa(localidade.name, localidade.valorTaxa);
-    }
+        const localidade = localidadesComTaxa.value.find(loc => loc.name === novaLocalidade);
+        if (localidade) {
+            taxaStore.setCidadeETaxa(localidade.name, localidade.valorTaxa);
+            localidade.value = localidade.name;
+        }
     });
 
     // Verifica se pode mostrar a forma de pagamento
