@@ -387,13 +387,16 @@
         if (address.value && rua.value && casa.value && localidade.value) {
             endereco = `📍 *Endereço*: ${address.value}, ${rua.value}, Nº: ${casa.value} - ${localidade.value}`;
         }
-        const pagamento = `💳 *Forma de Pagamento*: ${paymentMethod.value === 'mbway' ? 'Mbway' : paymentMethod.value === 'multibanco' ? 'Multibanco' : 'Dinheiro'}`;
+        let pagamento = '';
+        if(pickUpLocation.value === 'delivery'){
+            pagamento = `💳 *Forma de Pagamento*: ${paymentMethod.value === 'mbway' ? 'Mbway' : paymentMethod.value === 'multibanco' ? 'Multibanco' : 'Dinheiro'}`;
+        }
         const telefone = phone.value ? `📞 *Telefone*: ${phone.value}` : '';
         const referencia = reference.value ? `📝 *Referência*: ${reference.value}` : '';
         let troco = '';
         if (paymentMethod.value === 'money') {
             if (change.value === 'yes') {
-                troco = `💶 *Troco*: €${(parseFloat(trocoPara.value) - (cartStore.cart.reduce((total, item) => total + (item.price * item.quantity), 0) + taxa.value)).toFixed(2)} | 💵 *Troco para*: €${trocoPara.value}`;
+                troco = `💶 *Valor de troco*: €${(parseFloat(trocoPara.value) - (cartStore.cart.reduce((total, item) => total + (item.price * item.quantity), 0) + taxa.value)).toFixed(2)} | 💵 *Troco para*: €${trocoPara.value}`;
             } else {
                 troco = '💶 *Valor de troco*: Não haverá troco';
             }
@@ -401,7 +404,13 @@
         const total = cartStore.cart.reduce((total, item) => total + (item.price * item.quantity), 0) + taxa.value;
         const totalStr = `🧾 *Total do pedido*: €${total.toFixed(2)}`;
 
-        const mensagem = `*Novo pedido*:%0A%0A*Produto(s)*:%0A%0A${produtos}%0A%0A${retirada}%0A${endereco ? endereco + '%0A' : ''}${telefone}%0A${pagamento}%0A${troco}%0A${referencia}%0A${totalStr}`;
+        // Ajuste de espaçamento para retirada na loja
+        let mensagem = '';
+        if (pickUpLocation.value === 'store') {
+            mensagem = `*Novo pedido*:%0A%0A*Produto(s)*:%0A%0A${produtos}%0A%0A${retirada}%0A${totalStr}`;
+        } else {
+            mensagem = `*Novo pedido*:%0A%0A*Produto(s)*:%0A%0A${produtos}%0A%0A${retirada}%0A${endereco ? endereco + '%0A' : ''}${telefone}%0A${pagamento}%0A${troco}%0A${referencia}%0A${totalStr}`;
+        }
         const numeroWhatsapp = '71982743414'; // Altere para o número desejado
         const urlWhatsapp = `https://wa.me/${numeroWhatsapp}?text=${mensagem}`;
 
