@@ -52,4 +52,26 @@ class ProductStockController extends Controller
         Session::flash('success',__('dashboard.response_item_delete'));
         return redirect()->back();
     }
+
+    // Novo método para decrementar o estoque dos produtos do pedido
+    public function decrementStock(Request $request)
+    {
+        $produtos = $request->input('produtos', []); // [{id, quantity}]
+
+        DB::beginTransaction();
+        try {
+            foreach ($produtos as $item) {
+                $productStock = ProductStock::where('product_id', $item['id'])->first();
+                if ($productStock && $productStock->quantity >= $item['quantity']) {
+                    $productStock->quantity -= $item['quantity'];
+                    $productStock->save();
+                }
+            }
+            DB::commit();
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
+        }
+    }
 }

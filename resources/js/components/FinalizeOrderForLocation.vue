@@ -131,7 +131,7 @@
         </div>
 
         <div class="row mt-4" v-if="canSubmit">
-            <button type="submit">Confirmar Pedido</button>
+            <button type="button" @click="submitOrder" :disabled="!canSubmit">Confirmar Pedido</button>
         </div>
     </div>
     <div v-else class="flex flex-col items-center justify-center text-center gap-3 py-5 px-0">
@@ -160,6 +160,7 @@
     import { ref, onMounted, watch, computed } from 'vue';
     import { useCartStore } from '@/stores/cartStores';
     import { useTaxaServiceLocation } from '@/stores/taxaServiceLocation';
+    import axios from 'axios';
 
     const taxaStore = useTaxaServiceLocation();
     const cartStore = useCartStore();
@@ -353,6 +354,44 @@
             taxaStore.setCidadeETaxa(taxaStore.cidade, taxaStore.taxa, 0); // reseta o troco no store também
         }
     });
+
+    async function submitOrder() {
+        // 1. Montar mensagem do pedido com ícones
+        const produtos = cartStore.cart.map(item => `🍣 *-* ${item.title} (Qtd: ${item.quantity})`).join('%0A');
+        // Local de retirada
+        const retirada = `${pickUpLocation.value === 'store' ? '🏪 *Local de Retirada*: Retirar na loja' : '🛵 *Local de Retirada*: Entrega ao domicílio'}`;
+        // Endereço
+        const endereco = `📍 *Endereço*: ${address.value}, ${rua.value}, Nº: ${casa.value} - ${localidade.value}`;
+        const pagamento = `💳 *Forma de Pagamento*: ${paymentMethod.value === 'mbway' ? 'Mbway' : paymentMethod.value === 'multibanco' ? 'Multibanco' : 'Dinheiro'}`;
+        const telefone = phone.value ? `📞 *Telefone*: ${phone.value}` : '';
+        const referencia = reference.value ? `📝 *Referência*: ${reference.value}` : '';
+        let troco = '';
+        if (paymentMethod.value === 'money' && change.value === 'yes') {
+            troco = `💶 *Troco*: €${(parseFloat(trocoPara.value) - (cartStore.cart.reduce((total, item) => total + (item.price * item.quantity), 0) + taxa.value)).toFixed(2)} | 💵 *Troco para*: €${trocoPara.value}`;
+        }
+        const total = cartStore.cart.reduce((total, item) => total + (item.price * item.quantity), 0) + taxa.value;
+        const totalStr = `🧾 *Total do pedido*: €${total.toFixed(2)}`;
+
+        const mensagem = `*Novo pedido*:%0A%0A*Produto(s)*:%0A%0A${produtos}%0A%0A${retirada}%0A${endereco}%0A${telefone}%0A${pagamento}%0A${troco}%0A${referencia}%0A${totalStr}`;
+        const numeroWhatsapp = '71982743414'; // Altere para o número desejado
+        const urlWhatsapp = `https://wa.me/${numeroWhatsapp}?text=${mensagem}`;
+
+        // 2. Abrir WhatsApp Web
+        window.open(urlWhatsapp, '_blank');
+
+        // 3. Decrementar estoque dos produtos
+        try {
+            await axios.post('/api/decrementar-estoque', {
+                produtos: cartStore.cart.map(item => ({ id: item.id, quantity: item.quantity }))
+            });
+        } catch (e) {
+            console.error('Erro ao decrementar estoque:', e);
+        }
+
+        // 4. Limpar carrinho
+        cartStore.cart = [];
+        localStorage.removeItem('cart');
+    }
 
 </script>
 
