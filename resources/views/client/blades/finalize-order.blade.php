@@ -13,8 +13,8 @@
             <div class="order-summary-content w-full max-w-[364px]">
                 <order-summary-component></order-summary-component>
             </div>
-            <div class=" finalize-order-component-content w-full">
-                <finalize-order-location-component></finalize-order-location-component>
+            <div class="finalize-order-component-content w-full">
+                <finalize-order-for-location-component></finalize-order-for-location-component>
             </div>
         </div>
     </section>

@@ -3,26 +3,7 @@ import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import Toast, { useToast } from 'vue-toastification';
 import 'vue-toastification/dist/index.css';
-
-// Importando os componentes
-import Header from './components/Header.vue';
-import Slide from './components/SlideCarousel.vue';
-import ProductCategory from './components/ProductCategories.vue';
-import Products from './components/ProductBox.vue';
-import ProductFilter from './components/ProdutctFilter.vue';
-import OrderSummary from './components/OrderSummary.vue';
-import Cart from './components/Cart.vue';
-import Newslleter from './components/Newslleter.vue';
-import Button from './components/Button.vue';
-import Footer from './components/Footer.vue';
-import BannerInner from './components/BannerInner.vue';
-import FinalizeOrderForLocation from './components/FinalizeOrderForLocation.vue';
-import FloatingCart from './components/FloatingCart.vue';
-import LoadPage from './components/Load.vue';
-import ServiceLocation from './components/ServiceLocation.vue';
-
-// Importando o Pinia e a store
-import { useCartStore } from '@/stores/cartStores';
+import { useCartStore } from '@/stores/cartStores';// Importando o Pinia e a store
 
 // Verificando se o Inertia App existe
 if (typeof createInertiaApp !== 'undefined') {
@@ -40,9 +21,7 @@ if (typeof createInertiaApp !== 'undefined') {
 }
 
 const app = createApp();
-
-// Criando o Pinia
-const pinia = createPinia();
+const pinia = createPinia();// Criando o Pinia
 app.use(pinia);
 app.use(Toast);
 
@@ -54,22 +33,19 @@ app.mixin({
   }
 });
 
-// Registrando componentes globais
-app.component('header-component', Header);
-app.component('slide-carousel-component', Slide);
-app.component('product-category-component', ProductCategory);
-app.component('products-component', Products);
-app.component('newslleter-component', Newslleter);
-app.component('button-component', Button);
-app.component('footer-component', Footer);
-app.component('banner-inner-component', BannerInner);
-app.component('product-filter-component', ProductFilter);
-app.component('cart-component', Cart);
-app.component('order-summary-component', OrderSummary);
-app.component('finalize-order-location-component', FinalizeOrderForLocation);
-app.component('floating-cart', FloatingCart);
-app.component('load-page', LoadPage);
-app.component('service-location', ServiceLocation);
+// Registro automático de componentes Vue 3 + Vite (com nome em kebab-case e sufixo -component)
+function toKebabCase(str) {
+  return str
+    .replace(/([a-z])([A-Z])/g, '$1-$2')
+    .replace(/([A-Z])([A-Z][a-z])/g, '$1-$2')
+    .toLowerCase();
+}
+const modules = import.meta.glob('./components/*.vue', { eager: true });
+Object.entries(modules).forEach(([path, module]) => {
+  let name = path.split('/').pop().replace('.vue', '');
+  name = toKebabCase(name) + '-component';
+  app.component(name, module.default);
+});
 
 // Montando o aplicativo
 app.mount('#app');

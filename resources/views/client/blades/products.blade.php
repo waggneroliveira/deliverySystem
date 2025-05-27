@@ -10,7 +10,7 @@
 
     <section id="products-inner" class="relative flex justify-center items-center">
         <div class="m-auto w-[90%] max-w[79.188rem] mt-[1.25rem] sm:mt-[65.67px] mb-[2.188rem] sm:mb-[65.67px]">
-            <products-component></products-component>
+            <product-box-component></product-box-component>
         </div>
     </section>
 @endsection

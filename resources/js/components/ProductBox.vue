@@ -7,7 +7,7 @@
     </h1>
 
     <div v-if="isCategoryPage || isProductsPage" class="filter">
-        <product-filter-component v-model="searchTerm"></product-filter-component>
+        <produtct-filter-component v-model="searchTerm"></produtct-filter-component>
     </div>
 
     <div class="box-products grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 m-auto w-full max-w[79.188rem]">

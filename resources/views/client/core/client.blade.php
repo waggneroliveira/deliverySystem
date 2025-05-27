@@ -55,7 +55,7 @@
             @yield('content')
             
             {{-- Carrinho flutuante --}}
-            <floating-cart></floating-cart>
+            <floating-cart-component></floating-cart-component>
 
             <section id="footer" class="w-full h-[390px] bg-[#031D40]">
                 <footer-component></footer-component>
