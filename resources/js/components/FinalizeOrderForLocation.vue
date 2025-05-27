@@ -385,7 +385,7 @@
         // Endereço: só mostra se todos os campos obrigatórios estiverem preenchidos
         let endereco = '';
         if (address.value && rua.value && casa.value && localidade.value) {
-            endereco = `📍 *Endereço*: ${address.value}, ${rua.value}, Nº: ${casa.value} - ${localidade.value}`;
+            endereco = `📍 *Endereço*: ${address.value}, ${rua.value}, *Nº*: ${casa.value} - ${localidade.value}`;
         }
         let pagamento = '';
         if(pickUpLocation.value === 'delivery'){
@@ -406,10 +406,21 @@
 
         // Ajuste de espaçamento para retirada na loja
         let mensagem = '';
+        // Sempre mostra a forma de pagamento, independente do local
+        let pagamentoMsg = '';
+        if (paymentMethod.value) {
+            if (paymentMethod.value === 'mbway') {
+                pagamentoMsg = '💳 *Forma de Pagamento*: Mbway';
+            } else if (paymentMethod.value === 'multibank') {
+                pagamentoMsg = '💳 *Forma de Pagamento*: Multibanco';
+            } else {
+                pagamentoMsg = '💳 *Forma de Pagamento*: Dinheiro';
+            }
+        }
         if (pickUpLocation.value === 'store') {
-            mensagem = `*Novo pedido*:%0A%0A*Produto(s)*:%0A%0A${produtos}%0A%0A${retirada}%0A${totalStr}`;
+            mensagem = `*Novo pedido*:%0A%0A*Produto(s)*:%0A%0A${produtos}%0A%0A${retirada}%0A${pagamentoMsg ? pagamentoMsg + '%0A' : ''}${totalStr}`;
         } else {
-            mensagem = `*Novo pedido*:%0A%0A*Produto(s)*:%0A%0A${produtos}%0A%0A${retirada}%0A${endereco ? endereco + '%0A' : ''}${telefone}%0A${pagamento}%0A${troco}%0A${referencia}%0A${totalStr}`;
+            mensagem = `*Novo pedido*:%0A%0A*Produto(s)*:%0A%0A${produtos}%0A%0A${retirada}%0A${endereco ? endereco + '%0A' : ''}${telefone}%0A${pagamentoMsg}%0A${troco}%0A${referencia}%0A${totalStr}`;
         }
         const numeroWhatsapp = '71982743414'; // Altere para o número desejado
         const urlWhatsapp = `https://wa.me/${numeroWhatsapp}?text=${mensagem}`;
@@ -429,6 +440,15 @@
         // 4. Limpar carrinho
         cartStore.cart = [];
         localStorage.removeItem('cart');
+        // Limpar taxa, troco e endereço na store
+        taxaStore.setCidadeETaxa('', 0, 0);
+        taxaStore.setEndereco({ address: '', rua: '', casa: '', phone: '', reference: '' });
+        // Limpar trocoPara explicitamente
+        taxaStore.trocoPara = 0;
+        // 5. Refresh na página
+        setTimeout(() => {
+            window.location.reload();
+        }, 500);
     }
 
 </script>
