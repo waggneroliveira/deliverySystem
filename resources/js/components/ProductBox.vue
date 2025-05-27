@@ -47,7 +47,7 @@
                     Produto Esgotado
                 </div>
 
-                <div v-else-if="item.price == 0" class="bg-red-500 rounded text-white w-full text-[0.813rem] sm:text-[1.25rem] text-center h-[35px] py-2 px-4 font-bold">
+                <div v-else-if="item.price == 0" class="bg-red-500 leading-[17px] rounded text-white w-full text-[0.813rem] sm:text-[1.25rem] text-center h-[35px] py-2 px-4 font-bold">
                     Indisponível
                 </div>
 

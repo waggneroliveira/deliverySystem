@@ -57,6 +57,8 @@
             {{-- Carrinho flutuante --}}
             <floating-cart-component></floating-cart-component>
 
+            <lgpd-component></lgpd-component>
+            
             <section id="footer" class="w-full h-[390px] bg-[#031D40]">
                 <footer-component></footer-component>
             </section>

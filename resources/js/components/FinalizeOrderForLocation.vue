@@ -70,7 +70,8 @@
                     </div>
                     <div>
                         <label for="phone">Telefone<span class="text-[red]">*</span></label>
-                        <input id="phone" type="number" v-model="phone" placeholder="Telefone" class="w-full p-2 border rounded-md bg-white">
+                        <input id="phone" type="text" v-model="phone" placeholder="Ex: 912345678" class="w-full p-2 border rounded-md bg-white" maxlength="9" @input="maskPhonePT">
+                        <p v-if="phoneError" class="text-red-600 text-xs mt-1">{{ phoneError }}</p>
                     </div>
                 </div>
 
@@ -205,7 +206,8 @@
             distrito.value &&
             concelho.value &&
             designacaoPostal.value &&
-            phone.value;
+            phone.value &&
+            !phoneError.value;
 
         if (!entregaValida || !paymentMethod.value) {
             return false;
@@ -232,6 +234,7 @@
     const concelho = ref('');
     const designacaoPostal = ref('');
     const phone = ref('');
+    const phoneError = ref('');
     const reference = ref('');
     const paymentMethod = ref('');
     const trocoPara = ref('');
@@ -355,9 +358,28 @@
         }
     });
 
+    function maskPhonePT(e) {
+        let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não for número
+        if (value.length > 9) value = value.slice(0, 9);
+        phone.value = value;
+    }
+
+    watch(phone, (newVal) => {
+        // Validação: 9 dígitos, começa com 2 ou 9
+        if (!newVal) {
+            phoneError.value = '';
+            return;
+        }
+        if (!/^([29])\d{8}$/.test(newVal)) {
+            phoneError.value = 'Telefone deve ter 9 dígitos e começar por 2 ou 9 (ex: 912345678)';
+        } else {
+            phoneError.value = '';
+        }
+    });
+
     async function submitOrder() {
         // 1. Montar mensagem do pedido com ícones
-        const produtos = cartStore.cart.map(item => `🍣 *-* ${item.title} (Qtd: ${item.quantity})`).join('%0A');
+        const produtos = cartStore.cart.map(item => `🍣 ${item.title}, *Qtd*: ${item.quantity} unidade(s)`).join('%0A');
         // Local de retirada
         const retirada = `${pickUpLocation.value === 'store' ? '🏪 *Local de Retirada*: Retirar na loja' : '🛵 *Local de Retirada*: Entrega ao domicílio'}`;
         // Endereço: só mostra se todos os campos obrigatórios estiverem preenchidos
@@ -373,7 +395,7 @@
             if (change.value === 'yes') {
                 troco = `💶 *Troco*: €${(parseFloat(trocoPara.value) - (cartStore.cart.reduce((total, item) => total + (item.price * item.quantity), 0) + taxa.value)).toFixed(2)} | 💵 *Troco para*: €${trocoPara.value}`;
             } else {
-                troco = '💶 *Troco*: Não haverá troco';
+                troco = '💶 *Valor de troco*: Não haverá troco';
             }
         }
         const total = cartStore.cart.reduce((total, item) => total + (item.price * item.quantity), 0) + taxa.value;
