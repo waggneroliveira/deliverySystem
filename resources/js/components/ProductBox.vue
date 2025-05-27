@@ -113,15 +113,16 @@
     // Função para carregar produtos da API
     async function fetchProducts() {
         const pathname = window.location.pathname;
-        const categorySlug = pathname.split('/').pop();
+        // Garante que tanto /produtos quanto /produtos/ funcionem
+        const normalizedPath = pathname.endsWith('/') ? pathname : pathname + '/';
+        const categorySlug = normalizedPath.split('/').filter(Boolean).pop();
 
-        isProductsPage.value = pathname === '/produtos/';
-        isCategoryPage.value = !!categorySlug && pathname !== '/produtos/';
+        isProductsPage.value = normalizedPath === '/produtos/';
+        isCategoryPage.value = !!categorySlug && normalizedPath !== '/produtos/';
 
         category.value = isCategoryPage.value ? decodeURIComponent(categorySlug.replace(/-/g, ' ')) : null;
 
         const url = isCategoryPage.value ? `/api/produtos/${categorySlug}` : '/api/produtos-destaques';
-        
         try {
             const response = await axios.get(url);
             items.value = response.data.map(item => ({
