@@ -26,29 +26,28 @@ class UserController extends Controller
 {
     protected $pathUpload = 'admin/uploads/images/usuario/';
 
-public function index(UserPermissionRepository $userPermissionRepository)
-{
-    $settingTheme = (new SettingThemeRepository())->settingTheme();
+    public function index(UserPermissionRepository $userPermissionRepository){
+        $settingTheme = (new SettingThemeRepository())->settingTheme();
 
-    $query = User::query(); // inicia com query builder simples
-    $filteredQuery = $userPermissionRepository->filterUsersByPermissions($query);
+        $query = User::query(); 
+        $filteredQuery = $userPermissionRepository->filterUsersByPermissions($query);
 
-    if ($filteredQuery === 'forbidden') {
-        return view('admin.error.403', compact('settingTheme'));
-    }
+        if ($filteredQuery === 'forbidden') {
+            return view('admin.error.403', compact('settingTheme'));
+        }
 
-    $users = $filteredQuery->with('roles')->sorting()->get();
-    $roles = (new UserRoleRepository())->userRole($users);
-    $otherRoles = $roles['otherRoles'] ?? collect();
-    $currentRoles = $roles['currentRoles'] ?? collect();
+        $users = $filteredQuery->with('roles')->sorting()->get();
+        $roles = (new UserRoleRepository())->userRole($users);
+        $otherRoles = $roles['otherRoles'] ?? collect();
+        $currentRoles = $roles['currentRoles'] ?? collect();
+            
+        $permissions = Permission::join('role_has_permissions', 'permissions.id', 'role_has_permissions.permission_id')
+            ->groupBy('permissions.name')
+            ->select('permissions.name')
+            ->get();
         
-    $permissions = Permission::join('role_has_permissions', 'permissions.id', 'role_has_permissions.permission_id')
-        ->groupBy('permissions.name')
-        ->select('permissions.name')
-        ->get();
-    
-    return view('admin.blades.user.index', compact('users','otherRoles','permissions','currentRoles'));
-}
+        return view('admin.blades.user.index', compact('users','otherRoles','permissions','currentRoles'));
+    }
 
     public function store(RequestStoreUser $request)
     {   
