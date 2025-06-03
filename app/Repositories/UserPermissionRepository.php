@@ -12,7 +12,7 @@ class UserPermissionRepository
         $user = Auth::user();
 
         // Se for Super, libera tudo (exceto usuário com id 1)
-        if ($user->hasRole('Super')) {
+        if ($user->hasRole('Super') && $user->can('usuario.tornar usuario master')) {
             return $users->where('id', '<>', 1);
         }
 
