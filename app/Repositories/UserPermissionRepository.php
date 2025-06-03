@@ -17,7 +17,7 @@ class UserPermissionRepository
         }
 
         // Se não tiver permissão mínima de visualização, bloqueia
-        if (!$user->can('usuario.visualizar') && !$user->can('usuario.tornar usuario master')) {
+        if (!$user->can('usuario.visualizar')) {
             return 'forbidden';
         }
 
