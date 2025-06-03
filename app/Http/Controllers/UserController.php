@@ -100,6 +100,9 @@ class UserController extends Controller
                     $request->file('path_image')->storeAs($this->pathUpload, $path_image);
                 }
                 DB::commit();
+                if ($user && !$user->roles()->exists()) {
+                    $user->assignRole('usuario.visualizar');
+                }
                 session()->flash('success', __('dashboard.response_item_create'));
                 return redirect()->route('admin.dashboard.user.index');
             }
