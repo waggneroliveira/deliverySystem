@@ -28,8 +28,8 @@ class UserController extends Controller
 
     public function index(UserPermissionRepository $userPermissionRepository)
     {
-
         $users = User::excludeSuper()->with('roles');
+        dd($users);
         $settingTheme = (new SettingThemeRepository())->settingTheme();
         $filteredUsers = $userPermissionRepository->filterUsersByPermissions($users);
 
