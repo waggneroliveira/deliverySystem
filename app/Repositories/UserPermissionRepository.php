@@ -10,7 +10,7 @@ class UserPermissionRepository
     public function filterUsersByPermissions($users)
     {
         $user = Auth::user();
-        dd($user);
+        
         // Verificação de permissão de acesso
         if (!$user->hasRole('Super') && !$user->can('usuario.tornar usuario master') && !$user->can('usuario.visualizar')) {
             return 'forbidden';
