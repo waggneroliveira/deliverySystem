@@ -26,29 +26,29 @@ class UserController extends Controller
 {
     protected $pathUpload = 'admin/uploads/images/usuario/';
 
-    public function index(UserPermissionRepository $userPermissionRepository)
-    {
-        $users = User::excludeSuper()->with('roles');
+public function index(UserPermissionRepository $userPermissionRepository)
+{
+    $settingTheme = (new SettingThemeRepository())->settingTheme();
 
-        $settingTheme = (new SettingThemeRepository())->settingTheme();
-        $filteredUsers = $userPermissionRepository->filterUsersByPermissions($users);
+    $query = User::query(); // inicia com query builder simples
+    $filteredQuery = $userPermissionRepository->filterUsersByPermissions($query);
 
-        if ($filteredUsers === 'forbidden') {
-            return view('admin.error.403', compact('settingTheme'));
-        }
+    if ($filteredQuery === 'forbidden') {
+        return view('admin.error.403', compact('settingTheme'));
+    }
 
-        $users = $filteredUsers->sorting()->get();
-        $roles = (new UserRoleRepository())->userRole($users);
-        $otherRoles = $roles['otherRoles'] ?? collect();
-        $currentRoles = $roles['currentRoles'] ?? collect();
-            
-        $permissions = Permission::join('role_has_permissions', 'permissions.id', 'role_has_permissions.permission_id')
+    $users = $filteredQuery->with('roles')->sorting()->get();
+    $roles = (new UserRoleRepository())->userRole($users);
+    $otherRoles = $roles['otherRoles'] ?? collect();
+    $currentRoles = $roles['currentRoles'] ?? collect();
+        
+    $permissions = Permission::join('role_has_permissions', 'permissions.id', 'role_has_permissions.permission_id')
         ->groupBy('permissions.name')
         ->select('permissions.name')
         ->get();
-        
-        return view('admin.blades.user.index', compact('users','otherRoles','permissions','currentRoles'));
-    }
+    
+    return view('admin.blades.user.index', compact('users','otherRoles','permissions','currentRoles'));
+}
 
     public function store(RequestStoreUser $request)
     {   
