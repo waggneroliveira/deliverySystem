@@ -11,28 +11,30 @@ class UserPermissionRepository
     {
         $user = Auth::user();
 
-        // Se for Super, libera tudo (exceto usuário com id 1)
-        if ($user->hasRole('Super') && $user->can('usuario.tornar usuario master')) {
-            return $users->where('id', '<>', 1);
+        // Se for Super, vê tudo 
+        if ($user->hasRole('Super')) {
+            return $users->where('id', '<>', 1); 
         }
 
-        // Se não tiver permissão mínima de visualização, bloqueia
+        // Se for Master (tem permissão específica), vê todos menos o Super
+        if ($user->can('usuario.tornar usuario master')) {
+            return $users->whereDoesntHave('roles', function ($q) {
+                $q->where('name', 'Super');
+            })->where('id', '<>', 1);
+        }
+
+        // Se não tem permissão mínima de visualização
         if (!$user->can('usuario.visualizar')) {
             return 'forbidden';
         }
 
-        // Se tiver permissão de ver outros usuários
+        // Se pode ver outros usuários
         if ($user->can('usuario.visualizar outros usuarios')) {
             return $users->where('id', '<>', 1);
         }
 
         // Se só pode ver a si mesmo
-        if ($user->can('usuario.visualizar')) {
-            return $users->where('id', '<>', 1)
-                        ->where('id', $user->id);
-        }
-
-        return $user;
+        return $users->where('id', $user->id)->where('id', '<>', 1);
     }
 
     public function usersWithPermissionsForEdit(){
