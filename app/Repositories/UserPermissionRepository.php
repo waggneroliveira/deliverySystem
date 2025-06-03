@@ -32,7 +32,7 @@ class UserPermissionRepository
                         ->where('id', $user->id);
         }
 
-        return 'forbidden';
+        return $user;
     }
 
     public function usersWithPermissionsForEdit(){
