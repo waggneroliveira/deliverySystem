@@ -34,6 +34,28 @@ class PermissionsSeeder extends Seeder
                 'Visualizar',
                 'Remover'
             ],
+            'locais de atendimentos'=>[
+                'Criar',
+                'Editar',                
+                'Visualizar',
+                'Remover'
+            ],
+            'newsletter'=>[               
+                'Visualizar',
+                'Remover'
+            ],
+            'taxa'=>[
+                'Criar',
+                'Editar',                
+                'Visualizar',
+                'Remover'
+            ],
+            'produtos'=>[
+                'Criar',
+                'Editar',                
+                'Visualizar',
+                'Remover'
+            ],
             'stocks'=>[
                 'Criar',
                 'Editar',                

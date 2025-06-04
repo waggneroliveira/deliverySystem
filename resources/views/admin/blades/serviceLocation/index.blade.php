@@ -27,16 +27,16 @@
                                 <div class="row mb-2">
                                     <div class="col-12 d-flex justify-between">
                                         <div class="col-6">
-                                            @if (Auth::user()->hasPermissionTo('produtos.visualizar') &&
-                                            Auth::user()->hasPermissionTo('produtos.remover') ||
+                                            @if (Auth::user()->hasPermissionTo('locais de atendimentos.visualizar') &&
+                                            Auth::user()->hasPermissionTo('locais de atendimentos.remover') ||
                                             Auth::user()->hasPermissionTo('usuario.tornar usuario master') || 
                                             Auth::user()->hasRole('Super'))
                                                 <button id="btSubmitDelete" data-route="{{route('admin.dashboard.serviceLocation.destroySelected')}}" type="button" class="btSubmitDelete btn btn-danger" style="display: none;">{{__('dashboard.btn_delete_all')}}</button>
                                             @endif
                                         </div>
                                         <div class="col-6 d-flex justify-content-end">
-                                            @if (Auth::user()->hasPermissionTo('produtos.visualizar') &&
-                                            Auth::user()->hasPermissionTo('produtos.criar') ||
+                                            @if (Auth::user()->hasPermissionTo('locais de atendimentos.visualizar') &&
+                                            Auth::user()->hasPermissionTo('locais de atendimentos.criar') ||
                                             Auth::user()->hasPermissionTo('usuario.tornar usuario master') || 
                                             Auth::user()->hasRole('Super'))
                                                 <button type="button" class="btn btn-success waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#serviceLocation-create"><i class="mdi mdi-plus-circle me-1"></i> {{__('dashboard.btn_create')}}</button>
@@ -129,8 +129,8 @@
                                                         @endswitch
                                                     </td>
                                                     <td class="d-flex gap-lg-1 justify-center">
-                                                        @if (Auth::user()->hasPermissionTo('produtos.visualizar') &&
-                                                        Auth::user()->hasPermissionTo('produtos.editar') ||
+                                                        @if (Auth::user()->hasPermissionTo('locais de atendimentos.visualizar') &&
+                                                        Auth::user()->hasPermissionTo('locais de atendimentos.editar') ||
                                                         Auth::user()->hasPermissionTo('usuario.tornar usuario master') || 
                                                         Auth::user()->hasRole('Super'))
                                                             <button class="table-edit-button btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-group-edit-{{$serviceLocation->id}}" style="padding: 2px 8px;width: 30px"><span class="mdi mdi-pencil"></span></button>
@@ -157,8 +157,8 @@
                                                             </div><!-- /.modal -->                                                        
                                                         @endif
 
-                                                        @if (Auth::user()->hasPermissionTo('produtos.visualizar') &&
-                                                        Auth::user()->hasPermissionTo('produtos.remover') ||
+                                                        @if (Auth::user()->hasPermissionTo('locais de atendimentos.visualizar') &&
+                                                        Auth::user()->hasPermissionTo('locais de atendimentos.remover') ||
                                                         Auth::user()->hasPermissionTo('usuario.tornar usuario master') || 
                                                         Auth::user()->hasRole('Super'))
                                                             <form action="{{route('admin.dashboard.serviceLocation.destroy',['serviceLocation' => $serviceLocation->id])}}" style="width: 30px" method="POST">
@@ -176,7 +176,7 @@
 
                                 {{-- PAGINATION --}}
                                 <div class="mt-3 float-end">
-                                   {{-- {{$produtos->links()}} --}}
+                                   {{-- {{$locais de atendimentos->links()}} --}}
                                 </div>
                             </div>
                         </div> <!-- end card-->

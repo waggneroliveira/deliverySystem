@@ -19,9 +19,14 @@
     </div>
     <!-- end page title -->
     <div class="row">
-        @if (Auth::user()->hasPermissionTo('categorias dos produtos.visualizar')||
+        @if (Auth::user()->hasPermissionTo('taxa.visualizar')||
         Auth::user()->hasPermissionTo('slides.visualizar') ||
+        Auth::user()->hasPermissionTo('email.visualizar') ||
+        Auth::user()->hasPermissionTo('newsletter.visualizar') ||
         Auth::user()->hasPermissionTo('usuario.tornar usuario master') || 
+        Auth::user()->hasPermissionTo('categorias dos produtos.visualizar') || 
+        Auth::user()->hasPermissionTo('produtos.visualizar') || 
+        Auth::user()->hasPermissionTo('locais de atendimentos.visualizar') || 
         Auth::user()->hasRole('Super'))
             <div class="col-12">
                 <div class="page-title-box">
@@ -29,7 +34,7 @@
                 </div>
             </div>
 
-            @canany(['usuario.tornar usuario master', 'categorias dos produtos.visualizar'])
+            @canany(['usuario.tornar usuario master', 'taxa.visualizar'])
                 <div class="col-md-5 col-xl-3">
                     <div class="card borda-cx ratio ratio-4x3">
                         <div class="d-flex align-items-center justify-content-center">
@@ -50,7 +55,7 @@
                 </div> <!-- end col -->
             @endcanany
             
-            @canany(['usuario.tornar usuario master', 'produtos.visualizar'])
+            @canany(['usuario.tornar usuario master', 'locais de atendimentos.visualizar'])
                 <div class="col-md-5 col-xl-3">
                     <div class="card borda-cx ratio ratio-4x3">
                         <div class="d-flex align-items-center justify-content-center">
@@ -263,6 +268,12 @@
             <div class="row">
                 <div class="col-md-6">
                     <div><a href="" target="_blank" style="color:#94a0ad;"><script>document.write(new Date().getFullYear())</script> © WHI - Web de Alta Inspiração</a></div>
+                </div>
+                <div class="col-md-6">
+                    <div class="d-none d-md-flex gap-4 align-item-center justify-content-md-end footer-links">
+                        <a href="https://www.whi.dev.br/" target="_blank" rel="noopener noreferrer">Sobre a WHI</a>
+                        <a href="https://wa.me/5571996483853" target="_blank" rel="noopener noreferrer">Fale conosco</a>
+                    </div>
                 </div>
             </div>
         </div>

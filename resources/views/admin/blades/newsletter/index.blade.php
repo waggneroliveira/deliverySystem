@@ -27,8 +27,8 @@
                                 <div class="row mb-2">
                                     <div class="col-12 d-flex justify-between">
                                         <div class="col-6">
-                                            @if (Auth::user()->hasPermissionTo('categorias dos produtos.visualizar') &&
-                                            Auth::user()->hasPermissionTo('categorias dos produtos.remover') ||
+                                            @if (Auth::user()->hasPermissionTo('newsletter.visualizar') &&
+                                            Auth::user()->hasPermissionTo('newsletter.remover') ||
                                             Auth::user()->hasPermissionTo('usuario.tornar usuario master') || 
                                             Auth::user()->hasRole('Super'))
                                                 <button id="btSubmitDelete" data-route="{{route('admin.dashboard.newsletter.destroySelected')}}" type="button" class="btSubmitDelete btn btn-danger" style="display: none;">{{__('dashboard.btn_delete_all')}}</button>
@@ -61,8 +61,8 @@
                                                     <td>{{$newsletter->name}}</td>
                                                     <td>{{$newsletter->email}}</td>
                                                     <td class="d-flex gap-lg-1 justify-center">
-                                                        @if (Auth::user()->hasPermissionTo('categorias dos produtos.visualizar') &&
-                                                        Auth::user()->hasPermissionTo('categorias dos produtos.remover') ||
+                                                        @if (Auth::user()->hasPermissionTo('newsletter.visualizar') &&
+                                                        Auth::user()->hasPermissionTo('newsletter.remover') ||
                                                         Auth::user()->hasPermissionTo('usuario.tornar usuario master') || 
                                                         Auth::user()->hasRole('Super'))
                                                             <form action="{{route('admin.dashboard.newsletter.destroy',['newsletter' => $newsletter->id])}}" style="width: 30px" method="POST">
@@ -80,7 +80,7 @@
 
                                 {{-- PAGINATION --}}
                                 <div class="mt-3 float-end">
-                                   {{-- {{$categorias dos produtos->links()}} --}}
+                                   {{-- {{$newsletter->links()}} --}}
                                 </div>
                             </div>
                         </div> <!-- end card-->
