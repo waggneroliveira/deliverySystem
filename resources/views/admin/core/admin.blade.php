@@ -101,6 +101,36 @@
                                 </a>
                             </li>
                         @endif
+                        @if (Auth::user()->hasPermissionTo('taxa.visualizar') ||
+                        Auth::user()->hasPermissionTo('usuario.tornar usuario master') || 
+                        Auth::user()->hasRole('Super'))
+                            <li class="menu-item">
+                                <a href="{{route('admin.dashboard.taxa.index')}}" class="menu-link">
+                                    <span class="menu-icon"><i class="mdi mdi mdi-currency-eur"></i></span>
+                                    <span class="menu-text"> Taxas</span>
+                                </a>
+                            </li>
+                        @endif
+                        @if (Auth::user()->hasPermissionTo('produtos.visualizar') ||
+                        Auth::user()->hasPermissionTo('usuario.tornar usuario master') || 
+                        Auth::user()->hasRole('Super'))
+                            <li class="menu-item">
+                                <a href="{{route('admin.dashboard.product.index')}}" class="menu-link">
+                                    <span class="menu-icon"><i class="mdi mdi-package-variant-closed"></i></span>
+                                    <span class="menu-text"> Produtos</span>
+                                </a>
+                            </li>
+                        @endif
+                        @if (Auth::user()->hasPermissionTo('produtos.visualizar') ||
+                        Auth::user()->hasPermissionTo('usuario.tornar usuario master') || 
+                        Auth::user()->hasRole('Super'))
+                            <li class="menu-item">
+                                <a href="{{route('admin.dashboard.serviceLocation.index')}}" class="menu-link">
+                                    <span class="menu-icon"><i class="mdi mdi-google-maps"></i></span>
+                                    <span class="menu-text"> Locais de atendimentos</span>
+                                </a>
+                            </li>
+                        @endif
 
                         @if (Auth::user()->hasPermissionTo('slides.visualizar') ||
                         Auth::user()->hasPermissionTo('usuario.tornar usuario master') || 
@@ -109,6 +139,16 @@
                                 <a href="{{route('admin.dashboard.slide.index')}}" class="menu-link">
                                     <span class="menu-icon"><i class="mdi mdi-image-size-select-actual"></i></span>
                                     <span class="menu-text"> Slides </span>
+                                </a>
+                            </li>
+                        @endif
+                        @if (Auth::user()->hasPermissionTo('newsletter.visualizar') ||
+                        Auth::user()->hasPermissionTo('usuario.tornar usuario master') || 
+                        Auth::user()->hasRole('Super'))
+                            <li class="menu-item">
+                                <a href="{{route('admin.dashboard.newsletter.index')}}" class="menu-link">
+                                    <span class="menu-icon"><i class="mdi mdi-email-newsletter"></i></span>
+                                    <span class="menu-text"> Newsletter </span>
                                 </a>
                             </li>
                         @endif

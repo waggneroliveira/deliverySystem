@@ -7,35 +7,54 @@ use Illuminate\Support\Facades\Auth;
 
 class UserPermissionRepository
 {
-    public function filterUsersByPermissions($users)
-    {
-        $user = Auth::user();
+public function filterUsersByPermissions($users)
+{
+    $user = Auth::user();
 
-        // Se for Super, vê tudo 
-        if ($user->hasRole('Super')) {
-            return $users->where('id', '<>', 1); 
-        }
+    $permissoes = [
+        'auditoria.visualizar',
+        'email.visualizar',
+        'categorias dos produtos.visualizar',
+        'produtos.visualizar',
+        'locais de atendimentos.visualizar',
+        'newsletter.visualizar',
+        'taxa.visualizar',
+        'stocks.visualizar',
+        'grupo.visualizar',
+        'slides.visualizar',
+        'notificacao.visualizar',
+        'usuario.visualizar',
+    ];
 
-        // Se for Master (tem permissão específica), vê todos menos o Super
-        if ($user->can('usuario.tornar usuario master')) {
-            return $users->whereDoesntHave('roles', function ($q) {
-                $q->where('name', 'Super');
-            })->where('id', '<>', 1);
-        }
-
-        // Se não tem permissão mínima de visualização
-        if (!$user->can('usuario.visualizar')) {
-            return 'forbidden';
-        }
-
-        // Se pode ver outros usuários
-        if ($user->can('usuario.visualizar outros usuarios')) {
-            return $users->where('id', '<>', 1);
-        }
-
-        // Se só pode ver a si mesmo
-        return $users->where('id', $user->id)->where('id', '<>', 1);
+    // Se for Super, vê tudo (menos o próprio Super com id 1)
+    if ($user->hasRole('Super')) {
+        return $users->where('id', '<>', 1);
     }
+
+    // Se for Master, vê tudo menos o Super
+    if ($user->can('usuario.tornar usuario master')) {
+        return $users->whereDoesntHave('roles', function ($q) {
+            $q->where('name', 'Super');
+        })->where('id', '<>', 1);
+    }
+
+    // Se não tem nenhuma permissão de visualização listada
+    $temPermissao = collect($permissoes)->contains(function ($p) use ($user) {
+        return $user->can($p);
+    });
+
+    if (!$temPermissao) {
+        return 'forbidden';
+    }
+
+    // Se pode visualizar outros usuários
+    if ($user->can('usuario.visualizar outros usuarios')) {
+        return $users->where('id', '<>', 1);
+    }
+
+    // Só pode visualizar a si mesmo
+    return $users->where('id', $user->id)->where('id', '<>', 1);
+}
 
     public function usersWithPermissionsForEdit(){
 

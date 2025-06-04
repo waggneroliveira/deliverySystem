@@ -104,7 +104,7 @@ class ProductCategoryController extends Controller
 
     public function destroy(ProductCategory $productCategory)
     {
-        Storage::delete($productCategory->path_image);
+        Storage::delete(isset($productCategory->path_image)?$productCategory->path_image:'');
         $productCategory->delete();
         Session::flash('success',__('dashboard.response_item_delete'));
         return redirect()->back();
