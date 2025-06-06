@@ -9,7 +9,7 @@
                     <h6 class="text-[#E2E3DE] text-[1rem] sm:text-[1.375rem] noto-sans-devanagari-regular">Sitemap</h6>
                     <ul class="flex flex-col gap-2 sm:gap-2 mt-5">
                         <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[0.938rem] noto-sans-devanagari-thin"><a href="https://api.whatsapp.com/send/?phone=%2B351930531500&text&type=phone_number&app_absent=0" target="_blank" rel="nofollow noopener noreferrer">Encomendas personalizadas</a></li>
-                        <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[0.938rem] noto-sans-devanagari-thin"><a>Forneça um feedback</a></li>
+                        <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[0.938rem] noto-sans-devanagari-thin"><a href="https://g.co/kgs/Bngda9j" target="_blank" rel="nofollow noopener noreferrer">Forneça um feedback</a></li>
                         <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[0.938rem] noto-sans-devanagari-thin"><a href="/produtos/">Produtos</a></li>
                         <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[0.938rem] noto-sans-devanagari-thin"><a>Política de Privacidade</a></li>
                     </ul>
@@ -48,8 +48,9 @@
         <div class="copyright mt-[0px] w-full border-t border-[#ffffff57]">
             <div class="flex flex-row justify-between items-center mt-[40px] mb-[40px] m-auto w-[90%] max-w[79.188rem]">
                 <p class="noto-sans-devanagari-thin text-[1rem] text-[#E2E3DE]">Sushitan &copy;{{ currentYear }}. all right reserved</p>
-
-                <img :src="logoFooter" alt="WHI" title="WHI - Web de alta Inspiração" class="w-[88px]">
+                <a href="https://www.whi.dev.br/" target="_blank" rel="noopener noreferrer">
+                    <img :src="logoFooter" alt="WHI" title="WHI - Web de alta Inovação" class="w-[88px]">
+                </a>
             </div>
         </div>
     </div>
@@ -57,13 +58,14 @@
 
 <script>
     export default {
+        
         data() {
             return {
                 currentYear: new Date().getFullYear(),
                 logoPath: '/build/client/images/logo.png',
                 location: '/build/client/images/location.png',            
                 phone: '/build/client/images/phone.png',
-                logoFooter: '/build/client/images/logo-footer.svg',
+                logoFooter: '/build/client/images/whi.svg',
                 local:'/locais-de-atendimentos',
                 atende:'tel:+351930531500',
                 socialMedias: [

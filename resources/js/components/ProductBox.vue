@@ -16,11 +16,15 @@
             :key="item.id"
             class="box-product__content rounded-tl-[0rem] rounded-tr-[0rem] rounded-br-[1.25rem] rounded-bl-[1.25rem] w-100 !max-w-full sm:max-w-[320px] relative pt-[0.5rem] p-[0.75rem] sm:pr-[1.5625rem] pb-[1.296rem] pl-[0.75rem] sm:pl-[1.5625rem] border border-[#CF1E0C] border-solid"
         >
-            <div class="box-product__image relative flex items-center justify-center w-full max-w-[362.89px] m-auto h-[10.625rem] sm:h-[215.68px] overflow-hidden">
+            <div v-if="item.image != null" class="box-product__image relative flex items-center justify-center w-full max-w-[362.89px] m-auto h-[10.625rem] sm:h-[215.68px] overflow-hidden">
                 <div v-if="item.promotion" class="tag z-10 absolute top-[1.125rem] h-[1.563rem] sm:h-[2.125rem] left-0 bg-[#CF1E0C] text-[#FFF] w-[3.600rem] sm:w-[5.063rem] flex justify-center items-center">
                     <i class="w-full h-100 flex items-center justify-center text-[0.75rem] sm:text-[0.938rem] mt-[0.188rem] noto-sans-devanagari-regular">{{ item.tag }}</i>
                 </div>
                 <img :src="item.image" alt="Product Image" class="w-full h-full object-cover transition-transform duration-700 ease-in-out transform hover:scale-110" />
+            </div>
+
+            <div v-else class="box-product__image bg-[#f2f2f2] relative flex items-center justify-center w-full max-w-[362.89px] m-auto h-[10.625rem] sm:h-[215.68px] overflow-hidden">
+
             </div>
 
             <div class="box-product__description flex flex-wrap text-left items-center gap-[0.063rem] sm:gap-[1.514rem] max-w-[362.89px] m-auto">
@@ -38,7 +42,7 @@
                     </div>
                 </div>
                 <div class="box-product__description--text w-100">
-                    <div class="text-[#4C3A36] text-[0.938rem] sm:text-[1.25rem] noto-sans-devanagari-regular" v-html="truncate(stripTags(item.text), 120)"></div>
+                    <div class="text-[#4C3A36] text-[0.938rem] sm:text-[1.25rem] noto-sans-devanagari-regular" v-html="item.text ? truncate(stripTags(item.text), 120) : ''"></div>
                 </div>
             </div>
 

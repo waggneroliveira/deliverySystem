@@ -1,9 +1,14 @@
 <template>
     <div class="box-product-category w-full grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-0">
-        <div class="box-product-category__content relative" v-for="(category, index) in categories" :key="index">
-            <div class="box-product-category__image overflow-hidden">
-                <img :src="category.image" alt="Product Image" class="w-full ">
+        <div class="box-product-category__content relative" v-for="(category, index) in categories" :key="index" :class="!category.image ? 'bg-[#031d40bf]' : ''">
+            <div v-if="category.image != null" class="box-product-category__image overflow-hidden">
+                <img :src="category.image" alt="Product Image" class="w-full h-full object-cover">
             </div>
+
+            <div v-else class="box-product-category__image overflow-hidden bg-[#031d40bf] h-[231.26px] sm:h-[450.46px]">
+
+            </div>
+
             <a :href="`/produtos/${category.slug}`">
                 <div class="box-product-category__description rounded-lg absolute left-1/2 bottom-3 z-10 transform -translate-x-1/2 bg-[#031D40] h-[25px] sm:h-[2.651rem] w-[80%] max-w-[12.688rem] flex text-center items-center">
                     <h4 class="box-product-category__description--title uppercase text-[#FFF] text-[0.5rem] sm:text-[1rem] w-[90%] m-auto ">{{ category.title }}</h4>
