@@ -7,7 +7,6 @@
     <section id="slide">
         <slide-carousel-component></slide-carousel-component>         
     </section>
-    {{-- <App/> --}}
 
     <section id="product__categories" class="flex flex-row flex-wrap content-start xl:justify-center bg-[#f2f2f2]">
         <product-categories-component></product-categories-component>
