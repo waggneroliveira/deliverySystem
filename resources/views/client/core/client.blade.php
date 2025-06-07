@@ -63,6 +63,67 @@
             }
             
         </style>
+
+        <script type=application/ld+json>
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "@id": "https://www.sushitan.com/#organization",
+            "name": "Sushitan",
+            "legalName": "Sushitan",
+            "url": "https://www.sushitan.com",
+            "logo": "https://www.sushitan.com/build/client/images/logo.png",
+            "image": "https://www.sushitan.com/build/client/images/logo.png",
+            "description": "O melhor sushi em Cascais, direto à sua porta.Delivery de sushi em Cascais: combinados frescos, entrega ágil e pedido online simples. Experimente!",
+            "foundingDate": "2025",
+            "email": "jadelima98_@hotmail.com",
+            "telephone": "+351-9-3053-1500",
+            "sameAs": [
+                "https://www.instagram.com/sushitancascais",
+            ],
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "R. Sacadura Cabral",
+                "addressLocality": "Estoril",
+                "addressRegion": "Cascais",
+                "postalCode": "2765-349",
+                "addressCountry": "PT"
+            },
+            "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "+351-9-3053-1500",
+                "contactType": "customer service",
+                "email": "jadelima98_@hotmail.com",
+                "areaServed": "PT",
+                "availableLanguage": ["Portuguese", "English"]
+            },
+            "openingHoursSpecification": {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": [
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                    "Saturday",
+                    "Sunday"
+                ],
+                "opens": "12:00",
+                "closes": "23:00"
+            },
+            "slogan": "Sushitan - O Melhor Sushi em Cascais",
+            "keywords": [
+                "sushi delivery cascais", 
+                "delivery de sushi cascais", 
+                "sushi cascais", 
+                "encomendar sushi cascais", 
+                "restaurante de sushi cascais", 
+                "melhor delivery de sushi em cascais", 
+                "sushi fresco com entrega em cascais", 
+                "onde pedir sushi em cascais"
+            ]
+        }
+        </script>
     </head>
     <body class="font-sans antialiased dark:bg-white dark:text-black/50">
         <main id="app" class="relative">
