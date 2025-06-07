@@ -2,7 +2,7 @@
 
 @section('content')
     {{-- Load de carregamento --}}
-    <load-page-component></load-page-component>
+    <load-component></load-component>
     
     <section id="slide">
         <slide-carousel-component></slide-carousel-component>         
