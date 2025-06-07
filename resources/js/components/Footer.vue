@@ -11,7 +11,7 @@
                         <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[0.938rem] noto-sans-devanagari-thin"><a href="https://api.whatsapp.com/send/?phone=%2B351930531500&text&type=phone_number&app_absent=0" target="_blank" rel="nofollow noopener noreferrer">Encomendas personalizadas</a></li>
                         <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[0.938rem] noto-sans-devanagari-thin"><a href="https://g.co/kgs/Bngda9j" target="_blank" rel="nofollow noopener noreferrer">Forneça um feedback</a></li>
                         <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[0.938rem] noto-sans-devanagari-thin"><a href="/produtos/">Produtos</a></li>
-                        <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[0.938rem] noto-sans-devanagari-thin"><a>Política de Privacidade</a></li>
+                        <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[0.938rem] noto-sans-devanagari-thin"><a href="#" rel="nofollow noopener noreferrer">Política de Privacidade</a></li>
                     </ul>
                 </nav>
             </div>

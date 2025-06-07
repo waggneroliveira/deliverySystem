@@ -11,7 +11,7 @@
           </template>
           
           <template v-else>
-            <img :src="getImage(banner)" :alt="banner.title" class="w-full sm:h-screen h-[100dvh] object-cover"/>
+            <img :src="getImage(banner)" alt="Banner principal" :title="banner.title" class="w-full sm:h-screen h-[100dvh] object-cover"/>
           </template>
 
           <div class="description z-10 absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 text-left w-[90%] max-w-[1140px] h-[100dvh] sm:h-full max-h-[333px] flex flex-col items-start justify-start sm:justify-center gap-[30px] leading-[43px] sm:leading-[52px]">
