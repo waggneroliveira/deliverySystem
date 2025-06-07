@@ -29,9 +29,9 @@
 
             <div class="box-product__description flex flex-wrap text-left items-center gap-[0.063rem] sm:gap-[1.514rem] max-w-[362.89px] m-auto">
                 <div class="box-product__description--content w-full flex flex-wrap justify-between mt-[0.625rem] sm:mt-[1.363rem]">
-                    <h4 class="box-product__description--title uppercase text-[0.75rem] sm:text-[1.25rem] text-[#4C3A36] w-100 noto-sans-devanagari-semibold">
+                    <h2 class="box-product__description--title uppercase text-[0.75rem] sm:text-[1.25rem] text-[#4C3A36] w-100 noto-sans-devanagari-semibold">
                     {{ item.title }}
-                    </h4>
+                    </h2>
                     <div class="box-product__description--content__price flex gap-2">
                         <div v-if="item.oldPrice > 0" class="box-product__description--content__price__old-price text-[#4C3A36] text-[0.75rem] sm:text-[0.938rem] line-through noto-sans-devanagari-light">
                             {{ formatPrice(item.oldPrice) }}
