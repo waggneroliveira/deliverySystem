@@ -4,9 +4,23 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-
+        <meta http-equiv=X-UA-Compatible content="ie=edge">
+        <meta name=theme-color content=#0d0d0d>
+        <meta name=description content="O melhor sushi em Cascais, direto à sua porta.Delivery de sushi em Cascais: combinados frescos, entrega ágil e pedido online simples. Experimente!">
+        <meta name=keywords content="sushi delivery cascais, delivery de sushi cascais, sushi cascais, encomendar sushi cascais, restaurante de sushi cascais, melhor delivery de sushi em cascais, sushi fresco com entrega em cascais, onde pedir sushi em cascais, sushi takeaway cascais, pedido online de sushi cascais, entrega rápida de sushi cascais, sushi em casa cascais, sushi em cascais com entrega gratuita, comida japonesa cascais, sashimi cascais, combinado sushi cascais, restaurante japonês cascais, sushi barato cascais, sushi premium cascais">
         <title>Sushitan</title>
-
+        <meta property=og:url content=https://www.sushitan.com>
+        <meta property=og:type content=website>
+        <meta property=og:title content="Sushitan | O Melhor Sushi em Cascais">
+        <meta property=og:description content="O melhor sushi em Cascais, direto à sua porta.Delivery de sushi em Cascais: combinados frescos, entrega ágil e pedido online simples. Experimente!">
+        <meta name=twitter:card content=summary_large_image>
+        <meta name=twitter:url content=https://www.sushitan.com>
+        <meta name=twitter:title content="Sushitan | O Melhor Sushi em Cascais">
+        <meta name=twitter:description content="O melhor sushi em Cascais, direto à sua porta.Delivery de sushi em Cascais: combinados frescos, entrega ágil e pedido online simples. Experimente!">
+        <meta name=twitter:image content=https://www.sushitan.com/build/client/images/logo.png>
+        <link rel=canonical href=https://www.sushitan.com/produtos/>
+        <meta name=copyright content="Direitos reservados Sushitan">
+        <meta name=author content=WHI>
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
