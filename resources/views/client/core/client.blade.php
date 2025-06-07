@@ -21,6 +21,7 @@
         <link rel=canonical href=https://www.sushitan.com/produtos/>
         <meta name=copyright content="Direitos reservados Sushitan">
         <meta name=author content=WHI>
+        <link rel="shortcut icon" href=https://www.sushitan.com/build/client/images/favicon.png>
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
