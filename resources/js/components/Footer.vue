@@ -2,7 +2,7 @@
     <div class="footer__content flex flex-full flex-col items-center justify-between h-full">
         <div class="grid grid-cols-1 sm:grid-cols-3 sm:items-center md:grid-cols-4 gap-4 items-start m-auto w-[90%] max-w[79.188rem]">
             <div class="footer__content--image w-[90px] !mt-[25px]">
-                <img :src="logoPath" alt="Sushitan">
+                <img loading="lazy" :src="logoPath" alt="Sushitan">
             </div>
             <div class="footer__content--sitemap flex justify-center mt-[25px]">
                 <nav>
@@ -21,13 +21,13 @@
                     <ul class="flex flex-col gap-2 mt-5">
                         <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[0.938rem] noto-sans-devanagari-thin">
                             <a :href="local" class="flex flex-row items-center justify-center gap-4">
-                                <img :src="location" alt="Localização" class="w-[15px]">
+                                <img loading="lazy" :src="location" alt="Localização" class="w-[15px]">
                                 <span>Onde atendemos</span>
                             </a>
                         </li>
                         <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[0.938rem] noto-sans-devanagari-thin">
                             <a :href="atende" class="flex flex-row items-center justify-center gap-4">
-                                <img :src="phone" alt="Telefone" class="w-[10px]">
+                                <img loading="lazy" :src="phone" alt="Telefone" class="w-[10px]">
                                 <span>+351 9 3053-1500</span>
                             </a>
                         </li>
@@ -39,7 +39,7 @@
                     <ul class="flex flex-col gap-5">
                         <li class="text-[#E2E3DE] text-[1.25rem] noto-sans-devanagari-light rounded-full bg-[#9C7831] w-[44px] h-[44px] flex items-center justify-center" 
                         v-for="(icon, index) in socialMedias" :key="index">
-                        <a v-if="icon.link" :href="icon.link" target="_blank" rel="nofollow noopener noreferrer"><img :src="icon.path" :alt="icon.alt" :title="icon.name"></a>
+                        <a v-if="icon.link" :href="icon.link" target="_blank" rel="nofollow noopener noreferrer"><img loading="lazy" :src="icon.path" :alt="icon.alt" :title="icon.name"></a>
                         </li>
                     </ul>
                 </nav>
@@ -49,7 +49,7 @@
             <div class="flex flex-row justify-between items-center mt-[40px] mb-[40px] m-auto w-[90%] max-w[79.188rem]">
                 <p class="noto-sans-devanagari-thin text-[1rem] text-[#E2E3DE]">Sushitan &copy;{{ currentYear }}. all right reserved</p>
                 <a href="https://www.whi.dev.br/" target="_blank" rel="noopener noreferrer">
-                    <img :src="logoFooter" alt="WHI" title="WHI - Web de alta Inovação" class="w-[88px]">
+                    <img loading="lazy" :src="logoFooter" alt="WHI" title="WHI - Web de alta Inovação" class="w-[88px]">
                 </a>
             </div>
         </div>

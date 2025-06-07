@@ -88,7 +88,7 @@
                     :class="{ active: paymentMethod === method.value }"
                     @click="paymentMethod = method.value"
                 >
-                    <img :src="method.image" :alt="method.label">
+                    <img loading="lazy" :src="method.image" :alt="method.label">
                     <span>{{ method.label }}</span>
                 </div>
             </div>

@@ -2,7 +2,7 @@
     <div class="box-product-category w-full grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-0">
         <div class="box-product-category__content relative" v-for="(category, index) in categories" :key="index" :class="!category.image ? 'bg-[#031d40bf]' : ''">
             <div v-if="category.image != null" class="box-product-category__image overflow-hidden">
-                <img :src="category.image" alt="Product Image" class="w-full h-full object-cover">
+                <img loading="lazy" :src="category.image" alt="Product Image" class="w-full h-full object-cover">
             </div>
 
             <div v-else class="box-product-category__image overflow-hidden bg-[#031d40bf] h-[231.26px] sm:h-[450.46px]">

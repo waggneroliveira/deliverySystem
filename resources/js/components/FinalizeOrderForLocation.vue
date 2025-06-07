@@ -92,7 +92,7 @@
                         :class="{ 'ring-2 ring-[#031d40]': paymentMethod === method.value }"
                         @click="paymentMethod = method.value"
                     >
-                        <img :src="method.image" :alt="method.label" class="w-[50px] h-[50px] object-contain mb-2" />
+                        <img loading="lazy" :src="method.image" :alt="method.label" class="w-[50px] h-[50px] object-contain mb-2" />
                         <span class="text-center text-sm font-medium">{{ method.label }}</span>
                     </div>
                 </div>

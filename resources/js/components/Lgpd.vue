@@ -2,7 +2,7 @@
     <div id="mySidenav" class="fixed top-0 left-0 h-full w-0 opacity-0 z-[-1] bg-white overflow-x-hidden transition-all duration-500 pl-14 pt-7 pr-2" :class="{'w-[480px] opacity-100': sidenavOpen}">
         <a href="javascript:void(0)" class="absolute top-0 right-6 text-[36px] ml-12 transition-colors hover:text-[#051920]" @click="closeNav">&times;</a>
         <div class="border-b border-[#18283b38] mb-5 pb-3">
-            <img width="120" :src="'/build/client/images/logo.png'" alt="">
+            <img loading="lazy" width="120" :src="'/build/client/images/logo.png'" alt="">
         </div>
         <div class="overflow-y-scroll h-[654px] mb-0">
             <h3 class="font-bold text-lg mb-2">Política Privacidade</h3>

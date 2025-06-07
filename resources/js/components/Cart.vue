@@ -24,7 +24,7 @@
                     <div v-if="item.promotion" class="tag z-10 absolute top-[1.125rem] h-[1.25rem] sm:h-[2.125rem] left-0 bg-[#CF1E0C] text-[#FFF] w-[3.000rem] sm:w-[5.063rem] flex justify-center items-center">
                         <i class="w-full h-100 flex items-center justify-center text-[0.625rem] sm:text-[0.938rem] mt-[0.188rem] noto-sans-devanagari-regular">{{ item.tag }}</i>
                     </div>
-                    <img :src="item.image" alt="Product Image" class="w-full h-full object-cover transition-transform duration-700 ease-in-out transform hover:scale-110">
+                    <img loading="lazy" :src="item.image" alt="Product Image" class="w-full h-full object-cover transition-transform duration-700 ease-in-out transform hover:scale-110">
                 </div>
                 
                 <div class="flex-1 flex flex-col gap-1 sm:gap-2">
