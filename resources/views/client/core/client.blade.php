@@ -64,7 +64,7 @@
             
         </style>
 
-        <script type=application/ld+json>
+        <script type="application/ld+json">
         {
             "@context": "https://schema.org",
             "@type": "Organization",
@@ -74,12 +74,12 @@
             "url": "https://www.sushitan.com",
             "logo": "https://www.sushitan.com/build/client/images/logo.png",
             "image": "https://www.sushitan.com/build/client/images/logo.png",
-            "description": "O melhor sushi em Cascais, direto à sua porta.Delivery de sushi em Cascais: combinados frescos, entrega ágil e pedido online simples. Experimente!",
+            "description": "O melhor sushi em Cascais, direto à sua porta. Delivery de sushi em Cascais: combinados frescos, entrega ágil e pedido online simples. Experimente!",
             "foundingDate": "2025",
-            "email": "jadelima98_@hotmail.com",
+            "email": "admin@sushitan.com.br",
             "telephone": "+351-9-3053-1500",
             "sameAs": [
-                "https://www.instagram.com/sushitancascais",
+                "https://www.instagram.com/sushitancascais"
             ],
             "address": {
                 "@type": "PostalAddress",
@@ -93,25 +93,20 @@
                 "@type": "ContactPoint",
                 "telephone": "+351-9-3053-1500",
                 "contactType": "customer service",
-                "email": "jadelima98_@hotmail.com",
+                "email": "contato@sushitan.com",
                 "areaServed": "PT",
                 "availableLanguage": ["Portuguese", "English"]
             },
-            "openingHoursSpecification": {
+            "openingHoursSpecification": [{
                 "@type": "OpeningHoursSpecification",
                 "dayOfWeek": [
-                    "Monday",
-                    "Tuesday",
-                    "Wednesday",
-                    "Thursday",
-                    "Friday",
-                    "Saturday",
-                    "Sunday"
+                "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
                 ],
                 "opens": "12:00",
                 "closes": "23:00"
-            },
+            }],
             "slogan": "Sushitan - O Melhor Sushi em Cascais",
+            "priceRange": "$$",
             "keywords": [
                 "sushi delivery cascais", 
                 "delivery de sushi cascais", 
@@ -124,6 +119,7 @@
             ]
         }
         </script>
+
     </head>
     <body class="font-sans antialiased dark:bg-white dark:text-black/50">
         <main id="app" class="relative">
