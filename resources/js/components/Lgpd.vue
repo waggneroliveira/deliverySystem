@@ -40,7 +40,7 @@
             </div>
         </div>
         <div class="flex justify-center mt-6">
-            <button class="button_modal_req_cookie bg-[#b8982c] border border-[#b8982c] rounded-full cursor-pointer px-8 py-2 text-white font-normal text-[15px] font-poppins transition hover:bg-transparent hover:text-[#b8982c]" @click="handlePref">Confirme Minhas Escolhas</button>
+            <button class="button_modal_req_cookie bg-[#cf1e0c] border border-[#cf1e0c] rounded-full cursor-pointer px-8 py-2 text-white font-normal text-[15px] font-poppins transition hover:bg-transparent hover:text-[#cf1e0c]" @click="handlePref">Confirme Minhas Escolhas</button>
         </div>
   </div>
   <div class="cookies-container fixed bottom-0 left-1/2 -translate-x-1/2 w-[95%] sm:w-[calc(100%-220px)] h-auto py-[15px] sm:h-[100px] z-[10000] bg-gradient-to-r from-[#031D40] via-[#0a2c5c] to-[#3a4e6d] flex items-center justify-center">
@@ -49,7 +49,7 @@
             Ao clicar em “Prosseguir”, você concorda com o armazenamento de cookies em seu dispositivo para melhorar a navegação no site, analisar o uso do site e auxiliar nos serviços de marketing. <b><a target="_blank" class="underline" href="https://policies.google.com/technologies/cookies?hl=pt-BR">Aviso de Cookie</a></b>
         </h5>
         <div class="cookies-pref flex items-center">
-            <button class="save_cookie_button bg-[#b8982c] border border-[#b8982c] rounded-full cursor-pointer px-8 py-2 text-white font-normal text-[15px] font-poppins transition hover:bg-transparent hover:text-[#b8982c]" @click="handleSaveAll">PROSSEGUIR</button>
+            <button class="save_cookie_button bg-[#cf1e0c] border border-[#cf1e0c] rounded-full cursor-pointer px-8 py-2 text-white font-normal text-[15px] font-poppins transition hover:bg-transparent hover:text-[#cf1e0c]" @click="handleSaveAll">PROSSEGUIR</button>
         </div>
     </div>
   </div>
