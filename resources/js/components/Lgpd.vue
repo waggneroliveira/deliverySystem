@@ -5,7 +5,7 @@
         &times;
         </button>
         <div class="border-b border-[#18283b38] mb-5 pb-3">
-            <img loading="lazy" width="120" :src="'/build/client/images/logo.png'" alt="">
+            <img loading="lazy" width="120" :src="'/build/client/images/logo.png'" alt="Logo">
         </div>
         <div class="overflow-y-scroll h-[654px] mb-0">
             <h3 class="font-bold text-lg mb-2">Política Privacidade</h3>
