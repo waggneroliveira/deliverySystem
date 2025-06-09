@@ -8,7 +8,7 @@
         <meta name=theme-color content=#0d0d0d>
         <meta name=description content="O melhor sushi em Cascais, direto à sua porta.Delivery de sushi em Cascais: combinados frescos, entrega ágil e pedido online simples. Experimente!">
         <meta name=keywords content="sushi delivery cascais, delivery de sushi cascais, sushi cascais, encomendar sushi cascais, restaurante de sushi cascais, melhor delivery de sushi em cascais, sushi fresco com entrega em cascais, onde pedir sushi em cascais, sushi takeaway cascais, pedido online de sushi cascais, entrega rápida de sushi cascais, sushi em casa cascais, sushi em cascais com entrega gratuita, comida japonesa cascais, sashimi cascais, combinado sushi cascais, restaurante japonês cascais, sushi barato cascais, sushi premium cascais">
-        <title>Sushitan</title>
+        <title>Sushitan - Sushi fresco, sabor único, qualidade sempre</title>
         <meta property=og:url content=https://www.sushitan.com>
         <meta property=og:type content=website>
         <meta property=og:title content="Sushitan | O Melhor Sushi em Cascais">

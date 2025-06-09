@@ -4,8 +4,8 @@
             <div class="flex flex-col justify-center items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full">  
                 <div class="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center">
                     <div class="flex flex-col justify-center items-center">
-                        <img loading="lazy" :src="'/build/client/images/load-mobile.gif'" class="img-mobile object-cover z-0" alt="">
-                        <img loading="lazy" :src="'/build/client/images/logo.png'" class="w-[90px] m-auto z-10" alt="">
+                        <img loading="lazy" :src="'/build/client/images/load-mobile.gif'" class="img-mobile object-cover z-0" alt="Load mobile">
+                        <img loading="lazy" :src="'/build/client/images/logo.png'" class="w-[90px] m-auto z-10" alt="Logo">
                         <div class="load z-20 relative">
                             <span></span>
                             <span></span>

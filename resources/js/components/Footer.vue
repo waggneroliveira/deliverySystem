@@ -28,7 +28,7 @@
                         <li class="text-[#E2E3DE] text-[0.75rem] sm:text-[0.938rem] noto-sans-devanagari-thin">
                             <a :href="atende" class="flex flex-row items-center justify-center gap-4">
                                 <img loading="lazy" :src="phone" alt="Telefone" class="w-[10px]">
-                                <span>+351 9 3053-1500</span>
+                                <span>+351 930 531 500</span>
                             </a>
                         </li>
                     </ul>
