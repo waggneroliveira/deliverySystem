@@ -422,7 +422,7 @@
         } else {
             mensagem = `*Novo pedido*:%0A%0A*Produto(s)*:%0A%0A${produtos}%0A%0A${retirada}%0A${endereco ? endereco + '%0A' : ''}${telefone}%0A${pagamentoMsg}%0A${troco}%0A${referencia}%0A${totalStr}`;
         }
-        const numeroWhatsapp = '71982743414'; // Altere para o número desejado
+        const numeroWhatsapp = '351930531500'; // Altere para o número desejado
         const urlWhatsapp = `https://wa.me/${numeroWhatsapp}?text=${mensagem}`;
 
         // 2. Abrir WhatsApp Web

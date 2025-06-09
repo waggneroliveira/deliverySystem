@@ -1,6 +1,9 @@
 <template>
     <div id="mySidenav" class="fixed top-0 left-0 h-full w-0 opacity-0 z-[-1] bg-white overflow-x-hidden transition-all duration-500 pl-14 pt-7 pr-2" :class="{'w-[480px] opacity-100': sidenavOpen}">
-        <a href="#" rel="nofollow noopener noreferrer" class="absolute top-0 right-6 text-[36px] ml-12 transition-colors hover:text-[#051920]" @click="closeNav">&times;</a>
+        <button type="button" aria-label="Fechar menu" @click="closeNav"
+        class="absolute top-0 right-6 text-[36px] ml-12 transition-colors hover:text-[#051920]">
+        &times;
+        </button>
         <div class="border-b border-[#18283b38] mb-5 pb-3">
             <img loading="lazy" width="120" :src="'/build/client/images/logo.png'" alt="">
         </div>
@@ -45,9 +48,9 @@
   </div>
   <div class="cookies-container fixed bottom-0 left-1/2 -translate-x-1/2 w-[95%] sm:w-[calc(100%-220px)] h-auto py-[15px] sm:h-[100px] z-[10000] bg-gradient-to-r from-[#031D40] via-[#0a2c5c] to-[#3a4e6d] flex items-center justify-center">
     <div class="cookie-content gap-[20px] flex flex-wrap items-center justify-center sm:gap-x-8 h-full w-full">
-        <h5 class="text-white w-[90%] sm:w-[70%] text-[14px] font-medium">
-            Ao clicar em “Prosseguir”, você concorda com o armazenamento de cookies em seu dispositivo para melhorar a navegação no site, analisar o uso do site e auxiliar nos serviços de marketing. <b><a target="_blank" class="underline" href="https://policies.google.com/technologies/cookies?hl=pt-BR">Aviso de Cookie</a></b>
-        </h5>
+        <p class="text-white w-[90%] sm:w-[70%] text-[14px] font-medium">
+            Ao clicar em “Prosseguir”, você concorda com o armazenamento de cookies em seu dispositivo para melhorar a navegação no site, analisar o uso do site e auxiliar nos serviços de marketing. <b><a target="_blank" class="underline" rel="noopener noreferrer" href="https://policies.google.com/technologies/cookies?hl=pt-BR">Aviso de Cookie</a></b>
+        </p>
         <div class="cookies-pref flex items-center">
             <button class="save_cookie_button bg-[#cf1e0c] border border-[#cf1e0c] rounded-full cursor-pointer px-8 py-2 text-white font-normal text-[15px] font-poppins transition hover:bg-transparent hover:text-[#cf1e0c]" @click="handleSaveAll">PROSSEGUIR</button>
         </div>

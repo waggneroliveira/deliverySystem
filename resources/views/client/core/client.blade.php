@@ -25,21 +25,27 @@
         <!-- Fonts -->
         <link rel="preload" as="style" href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" />
         <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montagu+Slab:opsz,wght@16..144,100..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Devanagari:wght@100..900&display=swap" />
-        <link rel="preload" as="style" href="{{ asset('build/client/css/main.css') }}" />
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Montagu+Slab:opsz,wght@16..144,100..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Devanagari:wght@100..900&display=swap" rel="stylesheet">
-       
-        <link href="{{ asset('build/client/css/main.css') }}" rel="stylesheet" type="text/css" />
+        <link rel="preload" as="style" href="{{ asset('build/client/css/main.css') }}" onload="this.rel='stylesheet'">
+        <noscript>
+            <link rel="stylesheet" href="{{ asset('build/client/css/main.css') }}">
+        </noscript>
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+        <!-- Preload (antes dos scripts) -->
+        <link rel="preload" as="script" href="https://code.jquery.com/jquery-3.6.0.min.js">
+        <link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/jquery.mb.ytplayer/dist/jquery.mb.YTPlayer.min.js">
+
         <!-- jQuery -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
         <!-- YTPlayer Plugin -->
-        <script src="https://cdn.jsdelivr.net/npm/jquery.mb.ytplayer/dist/jquery.mb.YTPlayer.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery.mb.ytplayer/dist/jquery.mb.YTPlayer.min.js" defer></script>
+
 
         @if(Route::currentRouteName() !== 'products' || Route::currentRouteName() !== 'finalize-order')
             <style>

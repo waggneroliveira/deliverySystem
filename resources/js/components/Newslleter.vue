@@ -1,5 +1,13 @@
 <template>
-  <div class="m-auto w-[90%] max-w[79.188rem] h-[230px] sm:h-[376px] flex justify-center items-end flex-col">
+  <img
+    :src="'/build/client/images/newslleter.png'"
+    alt="Newsletter Background"
+    class="absolute top-0 left-0 w-full h-full object-cover z-[-1]"
+    loading="lazy"
+    decoding="async"
+  />
+
+  <div class="m-auto w-[90%] max-w[79.188rem] h-[100%] flex justify-center items-end flex-col">
     <h4 class="noto-sans-devanagari-medium text-[1.125rem] sm:text-[2.5rem] text-[#FFF]">Inscreva-se</h4>
     <p class="noto-sans-devanagari-thin text-[0.75rem] sm:text-[1.125rem] text-[#FFF]">Receba novidades e descontos exclusivos </p>
 
@@ -54,12 +62,12 @@ export default {
 
 
 <style>
-    .newlleter{
+    /* .newlleter{
         background-image: url('../../assets/client/images/newslleter.png');
         background-position: center;
         background-size: cover;
         background-repeat: no-repeat;
-    }
+    } */
     .newlleter::after{
         content: '';
         background-image: url('../../assets/client/images/firula-news.png');
