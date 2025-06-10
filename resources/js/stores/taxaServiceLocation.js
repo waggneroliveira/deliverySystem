@@ -6,7 +6,6 @@ export const useTaxaServiceLocation = defineStore('taxa', {
         taxa: 0,
         trocoPara: 0,
         casa: '',
-        rua: '',
         address: '',
         reference: '',
         phone: '',
@@ -17,9 +16,8 @@ export const useTaxaServiceLocation = defineStore('taxa', {
             this.taxa = taxa;
             this.trocoPara = trocoPara;
         },
-        setEndereco({ casa, rua, address, reference, phone }) {
+        setEndereco({ casa, address, reference, phone }) {
             this.casa = casa;
-            this.rua = rua;
             this.address = address;
             this.reference = reference;
             this.phone = phone; 
@@ -29,7 +27,6 @@ export const useTaxaServiceLocation = defineStore('taxa', {
             this.taxa = 0;
             this.trocoPara = 0;
             this.casa = '';
-            this.rua = '';
             this.address = '';
             this.reference = '';
             this.phone = ''; 
