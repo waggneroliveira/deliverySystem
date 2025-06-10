@@ -191,6 +191,13 @@ class SlideController extends Controller
         foreach($request->arrId as $sorting => $id) {
             $slide = Slide::find($id);
     
+            if ($slide) {
+                $slide->sorting = $sorting;
+                $slide->save();
+            } else {
+                \Log::warning("Item com ID $id não encontrado.");
+            }
+
             if($slide) {
                 activity()
                     ->causedBy(Auth::user())

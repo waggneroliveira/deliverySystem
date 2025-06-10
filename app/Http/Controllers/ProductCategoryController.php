@@ -21,7 +21,7 @@ class ProductCategoryController extends Controller
     protected $pathUpload = 'admin/uploads/images/productCategory/';
     public function index(UserPermissionRepository $userPermissionRepository)
     {
-        $productCategories = ProductCategory::get();
+        $productCategories = ProductCategory::sorting()->get();
         $settingTheme = (new SettingThemeRepository())->settingTheme();
         $users = User::excludeSuper()->with('roles');
         $filteredUsers = $userPermissionRepository->filterUsersByPermissions($users);
@@ -150,7 +150,14 @@ class ProductCategoryController extends Controller
     {
         foreach($request->arrId as $sorting => $id) {
             $productCategory = ProductCategory::find($id);
-    
+
+            if ($productCategory) {
+                $productCategory->sorting = $sorting;
+                $productCategory->save();
+            } else {
+                \Log::warning("Item com ID $id não encontrado.");
+            }
+
             if($productCategory) {
                 activity()
                     ->causedBy(Auth::user())
@@ -162,7 +169,7 @@ class ProductCategoryController extends Controller
                             'path_image' => $productCategory->path_image,
                             'title' => $productCategory->title,
                             'slug' => $productCategory->slug,
-                            'sorting' => $productCategory->sorting,
+                            'sorting' => $sorting,
                             'active' => $productCategory->active,
                             'event' => 'order_updated',
                         ]
