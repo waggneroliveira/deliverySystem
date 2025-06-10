@@ -36,19 +36,15 @@
             <!-- Endereço (mostra após seleção de localidade válida) -->
             <div v-if="selectedLocalidade" class="row mt-4 flex-col">
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
-                    <div class="md:col-span-4">
+                    <div class="md:col-span-6">
                         <label for="address">Endereço<span class="text-[red]">*</span></label>
                         <input id="address" type="text" v-model="address" placeholder="Endereço" class="w-full p-2 border rounded-md bg-white">
                     </div>
                     <div class="md:col-span-4">
-                        <label for="rua">Rua<span class="text-[red]">*</span></label>
-                        <input id="rua" type="text" v-model="rua" placeholder="Rua" class="w-full p-2 border rounded-md bg-white">
-                    </div>
-                    <div class="md:col-span-3">
                         <label for="localidade">Localidade<span class="text-[red]">*</span></label>
                         <input id="localidade" type="text" v-model="localidade" readonly class="w-full p-2 border rounded-md bg-gray-100">
                     </div>
-                    <div class="md:col-span-1">
+                    <div class="md:col-span-2">
                         <label for="casa">Número<span class="text-[red]">*</span></label>
                         <input id="casa" type="text" v-model="casa" placeholder="Nº" class="w-full p-2 border rounded-md bg-white">
                     </div>            
@@ -200,7 +196,6 @@
 
         // Entrega ao domicílio: tudo precisa estar preenchido
         const entregaValida = address.value &&
-            rua.value &&
             casa.value &&
             localidade.value &&
             distrito.value &&
@@ -227,7 +222,6 @@
     const pickUpLocation = ref('');
     const selectedLocalidade = ref('');
     const address = ref('');
-    const rua = ref('');
     const casa = ref('');
     const localidade = ref('');
     const distrito = ref('');
@@ -244,7 +238,6 @@
 
     watch(pickUpLocation, (newValue) => {
         if (newValue === 'store') {
-            rua.value = '';
             casa.value = '';
             address.value = '';
             localidade.value = '';
@@ -321,10 +314,9 @@
     });
 
     // Verifica se pode mostrar a forma de pagamento
-    watch([address, rua, casa, localidade, distrito, concelho, designacaoPostal, phone], () => {
+    watch([address, casa, localidade, distrito, concelho, designacaoPostal, phone], () => {
         if (
             address.value &&
-            rua.value &&
             casa.value &&
             localidade.value &&
             distrito.value &&
@@ -339,11 +331,10 @@
     });
 
     watch(
-        [address, rua, casa, phone],
-        ([newAddress, newRua, newCasa, newPhone]) => {
+        [address, casa, phone],
+        ([newAddress, newCasa, newPhone]) => {
             taxaStore.setEndereco({
             address: newAddress,
-            rua: newRua,
             casa: newCasa,
             phone: newPhone,
             reference: taxaStore.reference,
@@ -384,8 +375,8 @@
         const retirada = `${pickUpLocation.value === 'store' ? '🏪 *Local de Retirada*: Retirar na loja' : '🛵 *Local de Retirada*: Entrega ao domicílio'}`;
         // Endereço: só mostra se todos os campos obrigatórios estiverem preenchidos
         let endereco = '';
-        if (address.value && rua.value && casa.value && localidade.value) {
-            endereco = `📍 *Endereço*: ${address.value}, ${rua.value}, *Nº*: ${casa.value} - ${localidade.value}`;
+        if (address.value && casa.value && localidade.value) {
+            endereco = `📍 *Endereço*: ${address.value}, *Nº*: ${casa.value} - ${localidade.value}`;
         }
         let pagamento = '';
         if(pickUpLocation.value === 'delivery'){
@@ -442,7 +433,7 @@
         localStorage.removeItem('cart');
         // Limpar taxa, troco e endereço na store
         taxaStore.setCidadeETaxa('', 0, 0);
-        taxaStore.setEndereco({ address: '', rua: '', casa: '', phone: '', reference: '' });
+        taxaStore.setEndereco({ address: '', casa: '', phone: '', reference: '' });
         // Limpar trocoPara explicitamente
         taxaStore.trocoPara = 0;
         // 5. Refresh na página

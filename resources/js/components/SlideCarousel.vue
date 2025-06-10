@@ -1,7 +1,7 @@
 <template>
   <div class="relative w-full h-[100dvh] sm:h-full top-0">
     <div class="slide relative z-0 w-full">
-      <carousel :wrap-around="true" :autoplay="0" class="h-[100dvh] sm:h-full">
+      <carousel :wrap-around="false" :autoplay="0" class="h-[100dvh] sm:h-full">
         <slide v-for="(banner, index) in banners" :key="index" class="bg-fundo relative">
 
           <template v-if="banner.link_youtube">
