@@ -47,6 +47,7 @@ class HomePageController extends Controller
                     'title' => $category->title,
                     'slug' => $category->slug,
                     'active' => $category->active,
+                    'sorting' => $category->sorting,
                     'image' => $category->path_image ? asset('storage/' . $category->path_image) : null, 
                 ];
             }));

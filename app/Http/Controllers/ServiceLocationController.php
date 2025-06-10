@@ -111,6 +111,13 @@ class ServiceLocationController extends Controller
         foreach($request->arrId as $sorting => $id) {
             $serviceLocation = ServiceLocation::find($id);
     
+            if ($serviceLocation) {
+                $serviceLocation->sorting = $sorting;
+                $serviceLocation->save();
+            } else {
+                \Log::warning("Item com ID $id não encontrado.");
+            }
+
             if($serviceLocation) {
                 activity()
                     ->causedBy(Auth::user())

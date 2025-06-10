@@ -259,14 +259,10 @@ class UserController extends Controller
         foreach($request->arrId as $sorting => $id) {
             $user = User::find($id);
     
-            if($user) {
-                
-                // Log para verificar os dados do usuário
-                \Log::info('Dados do usuário antes da exclusão:', [
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'sorting' => $user->sorting,
-                ]);
+            if($user) {               
+                            
+                $user->sorting = $sorting;
+                $user->save();
 
                 activity()
                     ->causedBy(Auth::user())

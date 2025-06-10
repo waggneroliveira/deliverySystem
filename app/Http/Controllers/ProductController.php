@@ -22,7 +22,7 @@ class ProductController extends Controller
     protected $pathUpload = 'admin/uploads/images/products/';
     public function index(UserPermissionRepository $userPermissionRepository)
     {
-        $products = Product::with('stocks')->get();
+        $products = Product::with('stocks')->sorting()->get();
         $settingTheme = (new SettingThemeRepository())->settingTheme();
         $users = User::excludeSuper()->with('roles');
         $filteredUsers = $userPermissionRepository->filterUsersByPermissions($users);
@@ -163,6 +163,13 @@ class ProductController extends Controller
         foreach($request->arrId as $sorting => $id) {
             $product = Product::find($id);
     
+            if ($product) {
+                $product->sorting = $sorting;
+                $product->save();
+            } else {
+                \Log::warning("Item com ID $id não encontrado.");
+            }
+
             if($product) {
                 activity()
                     ->causedBy(Auth::user())
