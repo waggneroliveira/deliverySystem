@@ -22,6 +22,9 @@
         <meta name=copyright content="Direitos reservados Sushitan">
         <meta name=author content=WHI>
         <link rel="shortcut icon" href=https://www.sushitan.com/build/client/images/favicon.png>
+
+        <link rel="preload" as="image" href="https://www.sushitan.com/build/client/images/newslleter.png">
+
         <!-- Fonts -->
         <!-- Pré-carregamento de estilos -->
         <link rel="preload" as="style" href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" />
