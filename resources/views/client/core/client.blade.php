@@ -23,11 +23,11 @@
         <meta name=author content=WHI>
         <link rel="shortcut icon" href=https://www.sushitan.com/build/client/images/favicon.png>
         <!-- Fonts -->
-        <link rel="preload" as="font" href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" crossorigin/>
-        <link rel="preload" as="font" href="https://fonts.googleapis.com/css2?family=Montagu+Slab:opsz,wght@16..144,100..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Devanagari:wght@100..900&display=swap" crossorigin/>
+        <link rel="preload" as="style" href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" crossorigin/>
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montagu+Slab:opsz,wght@16..144,100..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Devanagari:wght@100..900&display=swap" crossorigin/>
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Montagu+Slab:opsz,wght@16..144,100..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Devanagari:wght@100..900&display=swap" rel="stylesheet">
         <link rel="preload" as="style" href="{{ asset('build/client/css/main.css') }}" onload="this.rel='stylesheet'">
