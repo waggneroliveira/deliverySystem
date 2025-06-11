@@ -1,13 +1,22 @@
-# Força HTTPS + www
+# Ativa reescrita de URLs
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
+  # Força HTTPS e WWW (ajuste para seu domínio)
   RewriteCond %{HTTPS} off [OR]
-  RewriteCond %{HTTP_HOST} !^www\. [NC]
-  RewriteRule ^(.*)$ https://www.sushitan.com/$1 [R=301,L]
+  RewriteCond %{HTTP_HOST} ^sushitan\.com$ [NC]
+  RewriteRule ^ https://www.sushitan.com%{REQUEST_URI} [R=301,L]
 
-  RewriteCond %{REQUEST_FILENAME} !-f
+  # Remove barra final (trailing slash)
   RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+  # Não processa arquivos e diretórios existentes
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Redireciona para index.php
   RewriteRule ^ index.php [L]
 </IfModule>
 
@@ -64,11 +73,19 @@
   Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
   Header always set X-XSS-Protection "1; mode=block"
   Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self';"
 </IfModule>
 
-# Proteção de arquivos e diretórios
+# Preload de fontes
+<IfModule mod_headers.c>
+  SetEnvIf Request_URI "\.(woff2|woff|ttf|otf|eot)$" font_request
+  Header set Link "</%{REQUEST_URI}e>; rel=preload; as=font; crossorigin" env=font_request
+</IfModule>
+
+# Proteção contra listagem de diretórios
 Options -Indexes
 
+# Proteção de arquivos sensíveis
 <FilesMatch "\.(htaccess|htpasswd|env|ini|log|sh|bak|psd)$">
   Order allow,deny
   Deny from all
@@ -77,3 +94,21 @@ Options -Indexes
 # ETag desabilitado
 FileETag None
 Header unset ETag
+
+# Charset padrão
+AddDefaultCharset UTF-8
+
+# Tipos MIME
+AddType application/javascript .mjs
+AddType application/json .json
+
+# Bloqueio de métodos HTTP perigosos
+<LimitExcept GET POST HEAD OPTIONS>
+  Deny from all
+</LimitExcept>
+
+# Anti-hotlink
+RewriteEngine On
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{HTTP_REFERER} !^https://(www\.)?sushitan\.com [NC]
+RewriteRule \.(jpg|jpeg|png|gif|webp)$ - [F]
