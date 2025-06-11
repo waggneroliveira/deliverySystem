@@ -42,9 +42,9 @@
         <link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/jquery.mb.ytplayer/dist/jquery.mb.YTPlayer.min.js">
 
         <!-- jQuery -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <!-- YTPlayer Plugin -->
-        <script src="https://cdn.jsdelivr.net/npm/jquery.mb.ytplayer/dist/jquery.mb.YTPlayer.min.js" defer></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery.mb.ytplayer/dist/jquery.mb.YTPlayer.min.js"></script>
 
 
         @if(Route::currentRouteName() !== 'products' || Route::currentRouteName() !== 'finalize-order')
