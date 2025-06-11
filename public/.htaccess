@@ -2,13 +2,26 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
+  # Redireciona para HTTPS com www
   RewriteCond %{HTTPS} off [OR]
   RewriteCond %{HTTP_HOST} !^www\. [NC]
-  RewriteRule ^(.*)$ https://www.sushitan.com/$1 [R=301,L]
+  RewriteRule ^ https://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
-  RewriteCond %{REQUEST_FILENAME} !-f
+  # Remove barra final (trailing slash)
   RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+  # Não processa arquivos e diretórios existentes
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Se a URL começar com /api ou /admin ou outras rotas Laravel, envia para index.php
+  RewriteCond %{REQUEST_URI} ^/(api|admin|login|logout|sanctum|broadcasting) [NC]
   RewriteRule ^ index.php [L]
+
+  # Senão, trata como rota SPA (Vue): carrega index.html
+  RewriteRule ^ index.html [L]
 </IfModule>
 
 # Compressão GZIP
@@ -35,8 +48,6 @@
   # Fontes
   ExpiresByType font/woff2 "access plus 1 year"
   ExpiresByType font/woff "access plus 1 year"
-  ExpiresByType application/font-woff2 "access plus 1 year"
-  ExpiresByType application/font-woff "access plus 1 year"
 
   # Estilos e scripts
   ExpiresByType text/css "access plus 1 year"
@@ -44,7 +55,7 @@
   ExpiresByType text/javascript "access plus 1 year"
 </IfModule>
 
-# Headers HTTP para cache e segurança
+# Headers HTTP para segurança e cache
 <IfModule mod_headers.c>
   <FilesMatch "\.(html)$">
     Header set Cache-Control "public, max-age=600"
@@ -64,16 +75,44 @@
   Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
   Header always set X-XSS-Protection "1; mode=block"
   Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self';"
 </IfModule>
 
-# Proteção de arquivos e diretórios
-Options -Indexes
+# Preload de fontes
+<IfModule mod_headers.c>
+  <FilesMatch "\.(woff2|woff|ttf|otf|eot)$">
+    Header set Link "<%{REQUEST_URI}e>; rel=preload; as=font; crossorigin"
+    SetEnvIf Request_URI "\.(woff2|woff|ttf|otf|eot)$" REQUEST_URI=$0
+  </FilesMatch>
+</IfModule>
 
+# Desabilita ETag
+FileETag None
+Header unset ETag
+
+# Charset padrão
+AddDefaultCharset UTF-8
+
+# Tipos MIME
+AddType application/javascript .mjs
+AddType application/json .json
+
+# Bloqueio de métodos HTTP perigosos
+<LimitExcept GET POST HEAD OPTIONS>
+  Deny from all
+</LimitExcept>
+
+# Anti-hotlink
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{HTTP_REFERER} !^https://(www\.)?sushitan\.com [NC]
+RewriteRule \.(jpg|jpeg|png|gif|webp)$ - [F]
+
+# Proteção de arquivos sensíveis
 <FilesMatch "\.(htaccess|htpasswd|env|ini|log|sh|bak|psd)$">
   Order allow,deny
   Deny from all
 </FilesMatch>
 
-# ETag desabilitado
-FileETag None
-Header unset ETag
+# Desabilita listagem de diretórios
+Options -Indexes
